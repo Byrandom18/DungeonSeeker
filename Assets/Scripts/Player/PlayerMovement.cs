@@ -10,12 +10,12 @@ public class PlayerMovement : MonoBehaviour
     private InputSystem_Actions inputActions;
     private PlayerStats stats;
     private PlayerVisual visual;
-    
+    private Vector2 inputVector;
 
     public static PlayerMovement Instance { get; private set; }
 
     [Header("Dodge Settings")]
-    [SerializeField] private float dodgePower = 10f; // Сила рывка
+    [SerializeField] private float dodgePower = 10f; // РЎРёР»Р° СЂС‹РІРєР°
     [SerializeField] private float dodgeDuration = 0.2f;
     [SerializeField] private float cooldown = 5f;
 
@@ -50,6 +50,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        inputVector = GetMovementVector();
+    }
+
+    private void FixedUpdate()
+    {
         if (!isDodging)
         {
             Move();
@@ -59,14 +64,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector2 inputVector = GetMovementVector();
+        
 
         if (inputVector != Vector2.zero)
         {
             lastMovementDirection = inputVector;
         }
 
-        rb.linearVelocity = inputVector * speed;
+        rb.MovePosition(rb.position + inputVector * (speed * Time.fixedDeltaTime));
+        //rb.linearVelocity = inputVector * speed;
     }
 
     private void UpdateSpriteDirection()
@@ -96,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator PerformDodge()
     {
-        // Подготовка
+        // РџРѕРґРіРѕС‚РѕРІРєР°
         canDodge = false;
         isDodging = true;
         stats.invulnerability = true;
-        // Определяем направление
+        // РћРїСЂРµРґРµР»СЏРµРј РЅР°РїСЂР°РІР»РµРЅРёРµ
         Vector2 dodgeDirection = GetMovementVector();
         if (dodgeDirection == Vector2.zero)
         {
@@ -108,22 +114,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        // Применяем рывок через velocity
+        // РџСЂРёРјРµРЅСЏРµРј СЂС‹РІРѕРє С‡РµСЂРµР· velocity
         rb.linearVelocity = dodgeDirection * dodgePower;
 
-        // Ждем duration
+        // Р–РґРµРј duration
         yield return new WaitForSeconds(dodgeDuration);
 
-        // Возвращаем обычную скорость (если игрок держит кнопку движения)
-        if (!isDodging) // Дополнительная проверка на случай прерывания
+        // Р’РѕР·РІСЂР°С‰Р°РµРј РѕР±С‹С‡РЅСѓСЋ СЃРєРѕСЂРѕСЃС‚СЊ (РµСЃР»Рё РёРіСЂРѕРє РґРµСЂР¶РёС‚ РєРЅРѕРїРєСѓ РґРІРёР¶РµРЅРёСЏ)
+        if (!isDodging) // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РїСЂРѕРІРµСЂРєР° РЅР° СЃР»СѓС‡Р°Р№ РїСЂРµСЂС‹РІР°РЅРёСЏ
         {
             rb.linearVelocity = GetMovementVector() * speed;
         }
 
-        // Завершение
+        // Р—Р°РІРµСЂС€РµРЅРёРµ
         isDodging = false;
         stats.invulnerability = false;
-        // Перезарядка
+        // РџРµСЂРµР·Р°СЂСЏРґРєР°
         yield return new WaitForSeconds(cooldown);
         canDodge = true;
 

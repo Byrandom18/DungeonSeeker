@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float roamingTime;
     private Vector3 roamPosition;
     private Vector3 startingPosition; // walk around start coordinate
-    
+    private Vector2 originScale;
 
     private NavMeshAgent navMeshAgent;
     [SerializeField] private State state;
@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
     private bool isIdle = false;
     private bool isChasing = false;
     private bool isRoaming = false;
-
+    private bool isFacingRight = true;
 
     private enum State
     {
@@ -43,6 +43,7 @@ public class EnemyAI : MonoBehaviour
     {
         startingPosition = transform.position;
         navMeshAgent.speed = roamSpeed;
+        originScale = transform.localScale;
     }
 
     private void Update()
@@ -74,6 +75,7 @@ public class EnemyAI : MonoBehaviour
                 }
                 break;
         }
+        UpdateFacingDirection();
     }
 
     private void Roaming()
@@ -111,5 +113,32 @@ public class EnemyAI : MonoBehaviour
 
         isIdle = false;
     }
-    
+
+    private void UpdateFacingDirection()
+    {
+        // ѕолучаем текущее направление движени€
+        Vector3 moveDirection = navMeshAgent.velocity.normalized;
+
+        if (moveDirection.magnitude > 0.1f)
+        {
+            // ќпредел€ем, вправо или влево движемс€
+            bool shouldFaceRight = moveDirection.x > 0;
+
+            // –азворачиваем только если направление изменилось
+            if (shouldFaceRight != isFacingRight)
+            {
+                FlipDirection(shouldFaceRight);
+                isFacingRight = shouldFaceRight;
+            }
+        }
+    }
+
+    private void FlipDirection(bool faceRight)
+    {
+        if (faceRight)
+            transform.localScale = new Vector3(originScale.x, originScale.y, 1);
+        else if (!faceRight)
+            transform.localScale = new Vector3(-originScale.x, originScale.y, 1);
+    }
+
 }
