@@ -1023,9 +1023,10 @@ MonoBehaviour:
   roamSpeed: 1.5
   roamingDistanceMax: 7
   roamingDistanceMin: 1
-  roamingTimerMax: 2
+  roamingTimerMax: 10
   idleDuration: 2
   roamingTime: 1
+  canChangeStartPos: 1
   state: 0
 --- !u!195 &1425317280
 NavMeshAgent:

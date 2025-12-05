@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float idleDuration = 5f;
 
     [SerializeField] private float roamingTime;
+    [SerializeField] private bool canChangeStartPos = true;
     private Vector3 roamPosition;
     private Vector3 startingPosition; // walk around start coordinate
     private Vector2 originScale;
@@ -87,6 +88,8 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 GetRoamPosition()
     {
+        if (canChangeStartPos)
+            startingPosition = transform.position;
         return startingPosition + Utils.GetRandomDir() * Random.Range(roamingDistanceMin, roamingDistanceMax);
     }
 
