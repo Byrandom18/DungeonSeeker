@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed = 3f;
     
-    private InputSystem_Actions inputActions;
     private PlayerStats stats;
     private PlayerVisual visual;
     private Vector2 inputVector;
@@ -43,14 +42,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        inputActions = new InputSystem_Actions();
-        inputActions.Enable();
-        inputActions.Player.Dodge.performed += OnDodgeInput;
+        
+        GameInput.Instance.OnPlayerDodge += GameInput_OnPlayerDodge;
+    }
+
+    private void GameInput_OnPlayerDodge(object sender, System.EventArgs e)
+    {
+        if (canDodge && !isDodging)
+        {
+            StartCoroutine(PerformDodge());
+        }
     }
 
     private void Update()
     {
-        inputVector = GetMovementVector();
+        inputVector = GameInput.Instance.GetMovementVector();
     }
 
     private void FixedUpdate()
@@ -87,19 +93,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private Vector2 GetMovementVector()
-    {
-        return inputActions.Player.Move.ReadValue<Vector2>();
-    }
-
-    private void OnDodgeInput(InputAction.CallbackContext context)
-    {
-        if (canDodge && !isDodging)
-        {
-            StartCoroutine(PerformDodge());
-        }
-    }
-
+    
     private IEnumerator PerformDodge()
     {
         // Подготовка
@@ -107,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         isDodging = true;
         stats.invulnerability = true;
         // Определяем направление
-        Vector2 dodgeDirection = GetMovementVector();
+        Vector2 dodgeDirection = GameInput.Instance.GetMovementVector();
         if (dodgeDirection == Vector2.zero)
         {
             dodgeDirection = lastMovementDirection;
@@ -123,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         // Возвращаем обычную скорость (если игрок держит кнопку движения)
         if (!isDodging) // Дополнительная проверка на случай прерывания
         {
-            rb.linearVelocity = GetMovementVector() * speed;
+            rb.linearVelocity = GameInput.Instance.GetMovementVector() * speed;
         }
 
         // Завершение
@@ -135,12 +129,5 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-        if (inputActions != null)
-        {
-            inputActions.Player.Dodge.performed -= OnDodgeInput;
-            inputActions.Disable();
-        }
-    }
+    
 }
