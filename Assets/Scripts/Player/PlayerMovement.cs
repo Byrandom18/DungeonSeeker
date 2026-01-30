@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStats stats;
     private PlayerVisual visual;
     private Vector2 inputVector;
-
+    private Camera _mainCamera;
     public static PlayerMovement Instance { get; private set; }
 
     [Header("Dodge Settings")]
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         Instance = this;
         stats = GetComponent<PlayerStats>();
         visual = GetComponentInChildren<PlayerVisual>();
-
+        _mainCamera = Camera.main;
         if (rb == null)
             Debug.LogError("Rigidbody2D not found on " + gameObject.name);
         if (visual == null)
@@ -129,5 +129,9 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
+    public Vector3 GetPlayerScreenPosition()
+    {
+        Vector3 playerScreenPosition = _mainCamera.WorldToScreenPoint(transform.position);
+        return playerScreenPosition;
+    }
 }

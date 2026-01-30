@@ -20,6 +20,12 @@ public class GameInput : MonoBehaviour
         inputActions.Player.Dodge.started += PlayerDodge_started;
     }
 
+    public Vector2 GetMousePosition()
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        return mousePos;
+    }
+
     public Vector2 GetMovementVector()
     {
         return inputActions.Player.Move.ReadValue<Vector2>();
