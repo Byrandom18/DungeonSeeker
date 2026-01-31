@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166cb990b2269f240b052592bc729f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationEnabled: 1
   sword: {fileID: 2057960419}
 --- !u!1 &394406904
 GameObject:
