@@ -844,10 +844,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1425317276}
+  - component: {fileID: 1425317279}
+  - component: {fileID: 1425317282}
   - component: {fileID: 1425317278}
   - component: {fileID: 1425317277}
   - component: {fileID: 1425317280}
-  - component: {fileID: 1425317279}
   m_Layer: 6
   m_Name: Enemy1
   m_TagString: Untagged
@@ -978,6 +979,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1425317282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425317275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &1567603891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1252,7 @@ MonoBehaviour:
   maxHealth: 0
   healthRegen: 0
   baseAtk: 10
-  atk: 1
+  currentAtk: 1
   atkMod: 0
   damageMod: 0
   luck: 0

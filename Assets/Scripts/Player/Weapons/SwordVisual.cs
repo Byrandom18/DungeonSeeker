@@ -6,10 +6,12 @@ public class SwordVisual : MonoBehaviour
     [SerializeField] private Sword sword;
     [SerializeField] private TrailRenderer trailRenderer;
     private const string ATTACK = "Attack"; //animator trigger
+    
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        
     }
 
     private void Start()
@@ -35,11 +37,18 @@ public class SwordVisual : MonoBehaviour
     private void Sword_OnSwordSwing(object sender, System.EventArgs e)
     {
         animator.SetTrigger(ATTACK);
-        trailRenderer.emitting = true;
+        StartSwing();
     }
 
-    public void StopEmmiting()
+    public void StartSwing()
+    {
+        trailRenderer.emitting = true;
+        sword.StartAttack();
+        
+    }
+    public void StopSwing()
     {
         trailRenderer.emitting = false;
+        sword.EndAttack();
     }
 }

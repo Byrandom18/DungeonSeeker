@@ -23,7 +23,7 @@ public class PlayerStats : MonoBehaviour
     public float maxHealth;
     public float healthRegen;
     public float baseAtk = 10;
-    public float atk = 1;
+    public float currentAtk = 1;
     public float atkMod;
     public float damageMod;
     public float luck;
@@ -78,7 +78,7 @@ public class PlayerStats : MonoBehaviour
 
     private void InitializeStats()
     {
-        atk = baseAtk * (1 + atkMod / 100);
+        currentAtk = baseAtk * (1 + atkMod / 100);
         maxHealth = baseHealth * (1 + healthMod / 100);
         health = maxHealth;
     }
