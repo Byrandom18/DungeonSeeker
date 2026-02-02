@@ -953,9 +953,12 @@ MonoBehaviour:
   roamingDistanceMax: 7
   roamingDistanceMin: 1
   roamingTimerMax: 10
-  idleDuration: 2
-  roamingTime: 1
+  idleDuration: 3
   canChangeStartPos: 1
+  chasingSpeed: 2.5
+  chasingDistance: 5
+  chasingAnimationSpeedMultiplier: 1.5
+  isChasingEnemy: 1
   state: 0
 --- !u!195 &1425317280
 NavMeshAgent:
@@ -1288,7 +1291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058b62bd539cc4b499b6863f34e8ba34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 4
   dodgePower: 10
   dodgeDuration: 0.2
   cooldown: 5
