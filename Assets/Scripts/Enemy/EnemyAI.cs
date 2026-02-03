@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using GameUtils;
+using System;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -23,7 +24,11 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float chasingAnimationSpeedMultiplier = 1.5f;
     [SerializeField] private bool isChasingEnemy = true;
 
-    
+    [Header("Attack settings")]
+    [SerializeField] private bool isAttackingEnemy = true;
+    [SerializeField] private float attackDistance = 1f;
+    [SerializeField] private float attackRate = 3f;
+    private float nextAttackTime = 0f;
     
     
     private Vector2 originScale;
@@ -35,6 +40,8 @@ public class EnemyAI : MonoBehaviour
     //private bool isChasing = false;
     private bool isRoaming = false;
     private bool isFacingRight = true;
+
+    public event EventHandler OnEnemyAttack;
 
     private enum State
     {
@@ -104,6 +111,8 @@ public class EnemyAI : MonoBehaviour
                 CheckCurrentState();
                 break;
             case State.Attacking:
+                AttackingTarget();
+                CheckCurrentState();
                 break;
             case State.Death:
                 break;
@@ -135,6 +144,14 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
+        if (isAttackingEnemy)
+        {
+            if (distanceToPlayer <= attackDistance)
+            {
+                newState = State.Attacking;
+            }
+        }
+
         if (newState != state)
         {
             if (newState == State.Chasing)
@@ -148,8 +165,22 @@ public class EnemyAI : MonoBehaviour
                 navMeshAgent.ResetPath();
                 navMeshAgent.speed = roamSpeed;
             }
+            else if (newState == State.Attacking)
+            {
+                navMeshAgent.ResetPath();
+            }
 
-            state = newState;
+                state = newState;
+        }
+    }
+
+    private void AttackingTarget()
+    {
+        if (Time.time > nextAttackTime)
+        {
+            OnEnemyAttack?.Invoke(this, EventArgs.Empty);
+
+            nextAttackTime = Time.time + attackRate;
         }
     }
 
@@ -170,7 +201,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (canChangeStartPos)
             startingPosition = transform.position;
-        return startingPosition + Utils.GetRandomDir() * Random.Range(roamingDistanceMin, roamingDistanceMax);
+        return startingPosition + Utils.GetRandomDir() * UnityEngine.Random.Range(roamingDistanceMin, roamingDistanceMax);
     }
 
     // shorts path on timeout (for smooth stop)
@@ -188,7 +219,7 @@ public class EnemyAI : MonoBehaviour
     IEnumerator IdleState()
     {
         isIdle = true;
-        yield return new WaitForSeconds(idleDuration + Random.Range(-1f, 1f));
+        yield return new WaitForSeconds(idleDuration + UnityEngine.Random.Range(-1f, 1f));
         state = State.Roaming;
         isIdle = false;
     }
