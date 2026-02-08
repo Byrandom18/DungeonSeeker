@@ -43,6 +43,8 @@ public class EnemyAI : MonoBehaviour
 
     public event EventHandler OnEnemyAttack;
 
+
+
     private enum State
     {
         Idle,
@@ -71,6 +73,20 @@ public class EnemyAI : MonoBehaviour
     {
         StateHandler();
         UpdateFacingDirection();
+    }
+
+
+    public bool IsRunning()
+    {
+        if (navMeshAgent.velocity == Vector3.zero)
+            return false;
+        else
+            return true;
+    }
+
+    public float GetRoamingAnimationSpeed()
+    {
+        return navMeshAgent.speed / roamSpeed;
     }
 
     private void StateHandler()
@@ -119,13 +135,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public bool IsRunning()
-    {
-        if (navMeshAgent.velocity == Vector3.zero)
-            return false;
-        else
-            return true;
-    }
+    
 
     private void CheckCurrentState()
     {

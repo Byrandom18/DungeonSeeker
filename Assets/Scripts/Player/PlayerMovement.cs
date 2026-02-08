@@ -68,6 +68,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    public Vector3 GetPlayerScreenPosition()
+    {
+        Vector3 playerScreenPosition = _mainCamera.WorldToScreenPoint(transform.position);
+        return playerScreenPosition;
+    }
+
+
     private void Move()
     {
         
@@ -83,11 +91,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateSpriteDirection()
     {
-        if (rb.linearVelocity.x < -0.1f)
+        if (lastMovementDirection.x < -0.1f)
         {
             visual.UpdateSpriteDirection(false);
         }
-        else if (rb.linearVelocity.x > 0.1f)
+        else if (lastMovementDirection.x > 0.1f)
         {
             visual.UpdateSpriteDirection(true);
         }
@@ -129,9 +137,5 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public Vector3 GetPlayerScreenPosition()
-    {
-        Vector3 playerScreenPosition = _mainCamera.WorldToScreenPoint(transform.position);
-        return playerScreenPosition;
-    }
+    
 }

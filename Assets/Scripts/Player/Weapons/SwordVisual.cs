@@ -21,6 +21,20 @@ public class SwordVisual : MonoBehaviour
         sword.OnSwordSwing += Sword_OnSwordSwing;
     }
 
+
+    public void StartSwing()
+    {
+        trailRenderer.emitting = true;
+        sword.StartAttack();
+
+    }
+    public void StopSwing()
+    {
+        trailRenderer.emitting = false;
+        sword.EndAttack();
+    }
+
+
     private void CheckAllComponents()
     {
         CheckComponent(animator, "Animator");
@@ -40,15 +54,5 @@ public class SwordVisual : MonoBehaviour
         StartSwing();
     }
 
-    public void StartSwing()
-    {
-        trailRenderer.emitting = true;
-        sword.StartAttack();
-        
-    }
-    public void StopSwing()
-    {
-        trailRenderer.emitting = false;
-        sword.EndAttack();
-    }
+    
 }

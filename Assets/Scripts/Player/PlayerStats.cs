@@ -76,12 +76,7 @@ public class PlayerStats : MonoBehaviour
         OnPlayerSpawned?.Invoke(transform);
     }
 
-    private void InitializeStats()
-    {
-        currentAtk = baseAtk * (1 + atkMod / 100);
-        maxHealth = baseHealth * (1 + healthMod / 100);
-        health = maxHealth;
-    }
+
     public void TakeDamage(float damage)
     {
         if (isDead || invulnerability) return;
@@ -100,6 +95,15 @@ public class PlayerStats : MonoBehaviour
             Die();
         }
     }
+
+
+    private void InitializeStats()
+    {
+        currentAtk = baseAtk * (1 + atkMod / 100);
+        maxHealth = baseHealth * (1 + healthMod / 100);
+        health = maxHealth;
+    }
+    
 
     private void Die()
     {

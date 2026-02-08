@@ -20,6 +20,23 @@ public class Sword : MonoBehaviour
         CheckAllComponents();
     }
 
+
+    public void Attack()
+    {
+        OnSwordSwing?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void StartAttack()
+    {
+        attackBox.enabled = true;
+    }
+
+    public void EndAttack()
+    {
+        attackBox.enabled = false;
+    }
+
+
     private void CheckAllComponents()
     {
         CheckComponent(attackBox, "Attack Collider");
@@ -46,18 +63,5 @@ public class Sword : MonoBehaviour
         return damageMulti / 100 * PlayerStats.Instance.currentAtk;
     }
 
-    public void Attack()
-    {
-        OnSwordSwing?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void StartAttack()
-    {
-        attackBox.enabled = true;
-    }
-
-    public void EndAttack()
-    {
-        attackBox.enabled = false;
-    }
+    
 }
