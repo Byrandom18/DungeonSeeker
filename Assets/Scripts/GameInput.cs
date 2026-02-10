@@ -6,7 +6,7 @@ public class GameInput : MonoBehaviour
 {
     public static GameInput Instance { get; private set; }
 
-    private InputSystem_Actions inputActions;
+    private InputSystem_Actions _inputActions;
 
     public event EventHandler OnPlayerAttack;
     public event EventHandler OnPlayerDodge;
@@ -14,10 +14,10 @@ public class GameInput : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        inputActions = new InputSystem_Actions();
-        inputActions.Enable();
-        inputActions.Player.Attack.started += PlayerAttack_started;
-        inputActions.Player.Dodge.started += PlayerDodge_started;
+        _inputActions = new InputSystem_Actions();
+        _inputActions.Enable();
+        _inputActions.Player.Attack.started += PlayerAttack_started;
+        _inputActions.Player.Dodge.started += PlayerDodge_started;
     }
 
     public Vector2 GetMousePosition()
@@ -28,7 +28,7 @@ public class GameInput : MonoBehaviour
 
     public Vector2 GetMovementVector()
     {
-        return inputActions.Player.Move.ReadValue<Vector2>();
+        return _inputActions.Player.Move.ReadValue<Vector2>();
     }
 
     private void PlayerDodge_started(InputAction.CallbackContext obj)

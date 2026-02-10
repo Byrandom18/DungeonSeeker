@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class KnightGreatswordVisual : MonoBehaviour
 {
-    [SerializeField] private EnemyAI enemyAI;
-    [SerializeField] private EnemyDamage enemyDamage;
+    [SerializeField] private EnemyAI _enemyAI;
+    [SerializeField] private EnemyDamage _enemyDamage;
 
-    private Animator animator;
+    private Animator _animator;
 
     private const string IS_MOVING = "IsMoving";
     private const string CHASING_SPEED_MULTIPLIER = "ChasingSpeedMultiplier";
@@ -14,27 +14,27 @@ public class KnightGreatswordVisual : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        enemyAI.OnEnemyAttack += enemyAI_OnEnemyAttack;
+        _enemyAI.OnEnemyAttack += enemyAI_OnEnemyAttack;
     }
 
     private void Update()
     {
-        animator.SetBool(IS_MOVING, enemyAI.IsRunning());
-        animator.SetFloat(CHASING_SPEED_MULTIPLIER, enemyAI.GetRoamingAnimationSpeed());
+        _animator.SetBool(IS_MOVING, _enemyAI.IsRunning());
+        _animator.SetFloat(CHASING_SPEED_MULTIPLIER, _enemyAI.GetRoamingAnimationSpeed());
     }
 
     private void OnDestroy()
     {
-        enemyAI.OnEnemyAttack -= enemyAI_OnEnemyAttack;
+        _enemyAI.OnEnemyAttack -= enemyAI_OnEnemyAttack;
     }
 
     private void enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
     {
-        animator.SetTrigger(ATTACK);
+        _animator.SetTrigger(ATTACK);
     }
 }

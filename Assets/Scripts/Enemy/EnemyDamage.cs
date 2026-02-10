@@ -3,23 +3,23 @@ using UnityEngine;
 public class EnemyDamage : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float currentHealth;
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _currentHealth;
     
     private void Awake()
     {
-        currentHealth = maxHealth;
+        _currentHealth = _maxHealth;
     }
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        _currentHealth -= damage;
         DetectDeath();
     }
 
     private void DetectDeath()
     {
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             Death();
         }

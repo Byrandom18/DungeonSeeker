@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    private float attackCooldown;
-    private bool canAttack = true;
+    private float _attackCooldown;
+    private bool _canAttack = true;
 
     private void Start()
     {
@@ -13,10 +13,10 @@ public class PlayerCombat : MonoBehaviour
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
     {
-        if (canAttack)
+        if (_canAttack)
         {
             ActiveWeapon.Instance.GetActiveWeapon().Attack();
-            attackCooldown += ActiveWeapon.Instance.GetActiveWeapon().cooldown;
+            _attackCooldown += ActiveWeapon.Instance.GetActiveWeapon().Cooldown;
             StartCoroutine(AttackCD());
         }
         
@@ -24,12 +24,12 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator AttackCD()
     {
-        canAttack = false;
+        _canAttack = false;
         // some weapons needs for freeze rotation on animation
-        ActiveWeapon.Instance.rotationEnabled = ActiveWeapon.Instance.GetActiveWeapon().rotationEnabled;
-        yield return new WaitForSeconds(attackCooldown);
-        ActiveWeapon.Instance.rotationEnabled = true;
-        attackCooldown = 0;
-        canAttack = true;
+        ActiveWeapon.Instance.RotationEnabled = ActiveWeapon.Instance.GetActiveWeapon().RotationEnabled;
+        yield return new WaitForSeconds(_attackCooldown);
+        ActiveWeapon.Instance.RotationEnabled = true;
+        _attackCooldown = 0;
+        _canAttack = true;
     }
 }

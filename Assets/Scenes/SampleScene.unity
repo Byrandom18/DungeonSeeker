@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166cb990b2269f240b052592bc729f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationEnabled: 1
-  sword: {fileID: 2057960419}
+  RotationEnabled: 1
+  _sword: {fileID: 2057960419}
 --- !u!1 &394406904
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +659,7 @@ GameObject:
   - component: {fileID: 1309006176}
   - component: {fileID: 1309006178}
   - component: {fileID: 1309006177}
+  - component: {fileID: 1309006179}
   m_Layer: 0
   m_Name: PlayerVisual
   m_TagString: Untagged
@@ -737,22 +738,71 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1245011521, guid: 0d43694b7af543441adf88d4e582b409, type: 3}
+  m_Sprite: {fileID: 1598990777, guid: d53df8b8f55a6e14fb613439ac2d77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1309006179
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309006175}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 312e991023facba4080f5fd33cc995a0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!96 &1315674877 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 4772975124242399554, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
+  m_PrefabInstance: {fileID: 7947424088537796580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1425317276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6749741710718452566, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
   m_PrefabInstance: {fileID: 1188720736310559595}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1425317280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8765333733158669447, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+  m_PrefabInstance: {fileID: 1188720736310559595}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1425317281 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7829432927615140060, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+  m_PrefabInstance: {fileID: 1188720736310559595}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47db37537a011594b96bb6168461ff23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1567603891
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,8 +966,8 @@ GameObject:
   - component: {fileID: 1952328086}
   - component: {fileID: 1952328085}
   - component: {fileID: 1952328088}
-  - component: {fileID: 1952328084}
   - component: {fileID: 1952328089}
+  - component: {fileID: 1952328084}
   - component: {fileID: 1952328091}
   - component: {fileID: 1952328090}
   m_Layer: 7
@@ -966,40 +1016,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99fb4bf0c6b5c64fa99cfd19394ced5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
-  levelText: {fileID: 0}
-  goldText: {fileID: 0}
-  gemsText: {fileID: 0}
-  health: 100
-  baseHealth: 100
-  healthMod: 0
-  maxHealth: 0
-  healthRegen: 0
-  baseAtk: 10
-  currentAtk: 1
-  atkMod: 0
-  damageMod: 0
-  luck: 0
-  critRate: 5
-  critDamage: 50
-  def: 0
-  speedMod: 0
-  penetrationBoost: 0
-  projectileSpeed: 0
-  durations: 0
-  cdRed: 0
-  addProjectile: 0
-  areaMod: 0
-  defShred: 0
-  invulnerability: 0
-  maxExp: 5
-  exp: 0
-  expIncrease: 10
-  lvl: 1
-  gold: 0
-  gems: 0
-  killCount: 0
-  wavesCompleted: 0
+  Health: 100
+  BaseHealth: 100
+  HealthMod: 0
+  MaxHealth: 0
+  HealthRegen: 0
+  BaseAtk: 10
+  CurrentAtk: 1
+  AtkMod: 0
+  DamageMod: 0
+  Luck: 0
+  CritRate: 5
+  CritDamage: 50
+  Def: 0
+  SpeedMod: 0
+  PenetrationBoost: 0
+  ProjectileSpeed: 0
+  Durations: 0
+  CdRed: 0
+  AddProjectile: 0
+  AreaMod: 0
+  DefShred: 0
+  Invulnerability: 0
+  IsDead: 0
 --- !u!114 &1952328086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,10 +1051,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058b62bd539cc4b499b6863f34e8ba34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  dodgePower: 10
-  dodgeDuration: 0.2
-  cooldown: 5
+  _speed: 3
+  _dodgePower: 10
+  _dodgeDuration: 0.2
+  _cooldown: 5
 --- !u!4 &1952328087
 Transform:
   m_ObjectHideFlags: 0
@@ -1025,7 +1064,7 @@ Transform:
   m_GameObject: {fileID: 1952328082}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.14, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1167,6 +1206,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: KnightGreatsword
       objectReference: {fileID: 0}
+    - target: {fileID: 5678923732420909039, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: _enemyAI
+      value: 
+      objectReference: {fileID: 1425317281}
+    - target: {fileID: 5678923732420909039, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: _enemyDamage
+      value: 
+      objectReference: {fileID: 1425317280}
     - target: {fileID: 6749741710718452566, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.62
@@ -1207,6 +1254,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8765333733158669447, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: _maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1220,6 +1271,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32783984}
     m_Modifications:
+    - target: {fileID: 359072567073944798, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
+      propertyPath: _sword
+      value: 
+      objectReference: {fileID: 2057960419}
+    - target: {fileID: 359072567073944798, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
+      propertyPath: _trailRenderer
+      value: 
+      objectReference: {fileID: 1315674877}
+    - target: {fileID: 966594387381314885, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
+      propertyPath: _damageMulti
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 2043970042521967916, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

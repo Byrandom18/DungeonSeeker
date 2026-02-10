@@ -4,15 +4,15 @@ using System;
 
 public class Sword : MonoBehaviour
 {
-    [SerializeField] private float damageMulti;
+    [SerializeField] private float _damageMulti;
     public event EventHandler OnSwordSwing;
-    private PolygonCollider2D attackBox;
-    public float cooldown = 0.5f;
-    public bool rotationEnabled = false;
+    private PolygonCollider2D _attackBox;
+    public float Cooldown = 0.5f;
+    public bool RotationEnabled = false;
 
     private void Awake()
     {
-        attackBox = GetComponentInChildren<PolygonCollider2D>();
+        _attackBox = GetComponentInChildren<PolygonCollider2D>();
     }
 
     private void Start()
@@ -28,18 +28,18 @@ public class Sword : MonoBehaviour
 
     public void StartAttack()
     {
-        attackBox.enabled = true;
+        _attackBox.enabled = true;
     }
 
     public void EndAttack()
     {
-        attackBox.enabled = false;
+        _attackBox.enabled = false;
     }
 
 
     private void CheckAllComponents()
     {
-        CheckComponent(attackBox, "Attack Collider");
+        CheckComponent(_attackBox, "Attack Collider");
     }
 
     private void CheckComponent<T>(T component, string componentName) where T : Component
@@ -60,7 +60,7 @@ public class Sword : MonoBehaviour
     private float CalculateDamage()
     {
 
-        return damageMulti / 100 * PlayerStats.Instance.currentAtk;
+        return _damageMulti / 100 * PlayerStats.Instance.CurrentAtk;
     }
 
     

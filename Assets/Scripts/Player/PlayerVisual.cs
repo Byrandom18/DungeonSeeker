@@ -2,24 +2,36 @@ using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
 {
-    private SpriteRenderer sprite;
-    private Vector2 originScale;
+    private SpriteRenderer _sprite;
+    private Vector2 _originScale;
+    private Animator _animator;
+
+    private const string IS_MOVING = "IsMoving";
+
 
     void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        originScale = transform.localScale;
+        _sprite = GetComponent<SpriteRenderer>();
+        _originScale = transform.localScale;
+        _animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        _animator.SetBool(IS_MOVING, PlayerMovement.Instance.IsRunning());
     }
 
     public void UpdateSpriteDirection(bool flipRight)
     {
         if (!flipRight)
         {
-            sprite.transform.localScale = new Vector3(-originScale.x, originScale.y, 1);
+            _sprite.transform.localScale = new Vector3(-_originScale.x, _originScale.y, 1);
         }
         else if (flipRight)
         {
-            sprite.transform.localScale = new Vector3(originScale.x, originScale.y, 1);
+            _sprite.transform.localScale = new Vector3(_originScale.x, _originScale.y, 1);
         }
     }
+
+
 }

@@ -5,36 +5,37 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] private float speed = 3f;
-    
-    private PlayerStats stats;
-    private PlayerVisual visual;
-    private Vector2 inputVector;
+    [SerializeField] private float _speed = 3f;
+    private float _minMovingSpeed = 0.1f;
+    private PlayerStats _stats;
+    private PlayerVisual _visual;
+    private Vector2 _inputVector;
     private Camera _mainCamera;
     public static PlayerMovement Instance { get; private set; }
 
     [Header("Dodge Settings")]
-    [SerializeField] private float dodgePower = 10f; // Сила рывка
-    [SerializeField] private float dodgeDuration = 0.2f;
-    [SerializeField] private float cooldown = 5f;
+    [SerializeField] private float _dodgePower = 10f; // Сила рывка
+    [SerializeField] private float _dodgeDuration = 0.2f;
+    [SerializeField] private float _cooldown = 5f;
 
-    private bool isDodging = false;
-    private bool canDodge = true;
-    private Vector2 lastMovementDirection = Vector2.right;
+    private bool _isDodging = false;
+    private bool _canDodge = true;
+    private Vector2 _lastMovementDirection = Vector2.right;
+    private bool _isRunning = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         
         Instance = this;
-        stats = GetComponent<PlayerStats>();
-        visual = GetComponentInChildren<PlayerVisual>();
+        _stats = GetComponent<PlayerStats>();
+        _visual = GetComponentInChildren<PlayerVisual>();
         _mainCamera = Camera.main;
         if (rb == null)
             Debug.LogError("Rigidbody2D not found on " + gameObject.name);
-        if (visual == null)
+        if (_visual == null)
             Debug.LogError("VisualComponent not found on " + gameObject.name);
-        if (stats == null)
+        if (_stats == null)
             Debug.LogError("PlayerStats not found on " + gameObject.name);
         if (Instance == null)
             Debug.LogError("Instance can not be assigned on" + gameObject.name);
@@ -46,22 +47,14 @@ public class PlayerMovement : MonoBehaviour
         GameInput.Instance.OnPlayerDodge += GameInput_OnPlayerDodge;
     }
 
-    private void GameInput_OnPlayerDodge(object sender, System.EventArgs e)
-    {
-        if (canDodge && !isDodging)
-        {
-            StartCoroutine(PerformDodge());
-        }
-    }
-
     private void Update()
     {
-        inputVector = GameInput.Instance.GetMovementVector();
+        _inputVector = GameInput.Instance.GetMovementVector();
     }
 
     private void FixedUpdate()
     {
-        if (!isDodging)
+        if (!_isDodging)
         {
             Move();
             UpdateSpriteDirection();
@@ -75,29 +68,49 @@ public class PlayerMovement : MonoBehaviour
         return playerScreenPosition;
     }
 
+    public bool IsRunning()
+    {
+        return _isRunning;
+    }
+
+    private void GameInput_OnPlayerDodge(object sender, System.EventArgs e)
+    {
+        if (_canDodge && !_isDodging)
+        {
+            StartCoroutine(PerformDodge());
+        }
+    }
 
     private void Move()
     {
         
 
-        if (inputVector != Vector2.zero)
+        if (_inputVector != Vector2.zero)
         {
-            lastMovementDirection = inputVector;
+            _lastMovementDirection = _inputVector;
         }
 
-        rb.MovePosition(rb.position + inputVector * (speed * Time.fixedDeltaTime));
+        rb.MovePosition(rb.position + _inputVector * (_speed * Time.fixedDeltaTime));
+        if (Mathf.Abs(_inputVector.x) > _minMovingSpeed || Mathf.Abs(_inputVector.y) > _minMovingSpeed)
+        {
+            _isRunning = true;
+        }
+        else
+        {
+            _isRunning = false;
+        }
         //rb.linearVelocity = inputVector * speed;
     }
 
     private void UpdateSpriteDirection()
     {
-        if (lastMovementDirection.x < -0.1f)
+        if (_lastMovementDirection.x < -0.1f)
         {
-            visual.UpdateSpriteDirection(false);
+            _visual.UpdateSpriteDirection(false);
         }
-        else if (lastMovementDirection.x > 0.1f)
+        else if (_lastMovementDirection.x > 0.1f)
         {
-            visual.UpdateSpriteDirection(true);
+            _visual.UpdateSpriteDirection(true);
         }
     }
 
@@ -105,35 +118,35 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator PerformDodge()
     {
         // Подготовка
-        canDodge = false;
-        isDodging = true;
-        stats.invulnerability = true;
+        _canDodge = false;
+        _isDodging = true;
+        _stats.Invulnerability = true;
         // Определяем направление
         Vector2 dodgeDirection = GameInput.Instance.GetMovementVector();
         if (dodgeDirection == Vector2.zero)
         {
-            dodgeDirection = lastMovementDirection;
+            dodgeDirection = _lastMovementDirection;
         }
 
 
         // Применяем рывок через velocity
-        rb.linearVelocity = dodgeDirection * dodgePower;
+        rb.linearVelocity = dodgeDirection * _dodgePower;
 
         // Ждем duration
-        yield return new WaitForSeconds(dodgeDuration);
+        yield return new WaitForSeconds(_dodgeDuration);
 
         // Возвращаем обычную скорость (если игрок держит кнопку движения)
-        if (!isDodging) // Дополнительная проверка на случай прерывания
+        if (!_isDodging) // Дополнительная проверка на случай прерывания
         {
-            rb.linearVelocity = GameInput.Instance.GetMovementVector() * speed;
+            rb.linearVelocity = GameInput.Instance.GetMovementVector() * _speed;
         }
 
         // Завершение
-        isDodging = false;
-        stats.invulnerability = false;
+        _isDodging = false;
+        _stats.Invulnerability = false;
         // Перезарядка
-        yield return new WaitForSeconds(cooldown);
-        canDodge = true;
+        yield return new WaitForSeconds(_cooldown);
+        _canDodge = true;
 
     }
 

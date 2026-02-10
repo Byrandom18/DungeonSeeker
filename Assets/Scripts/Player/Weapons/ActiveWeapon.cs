@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ActiveWeapon : MonoBehaviour
 {
-    public bool rotationEnabled = true;
+    public bool RotationEnabled = true;
 
 
     public static ActiveWeapon Instance { get; private set; }
-    [SerializeField] private Sword sword;
+    [SerializeField] private Sword _sword;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class ActiveWeapon : MonoBehaviour
 
     public Sword GetActiveWeapon()
     {
-        return sword;
+        return _sword;
     }
 
     private void FollowMousePosition()
@@ -33,7 +33,7 @@ public class ActiveWeapon : MonoBehaviour
         // Вычисляем угол в радианах и конвертируем в градусы
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         // Поворачиваем объект
-        if (rotationEnabled)
+        if (RotationEnabled) //changing in PlayerCombat
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         
     }
