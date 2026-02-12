@@ -11,6 +11,7 @@ public class KnightGreatswordVisual : MonoBehaviour
     private const string IS_MOVING = "IsMoving";
     private const string CHASING_SPEED_MULTIPLIER = "ChasingSpeedMultiplier";
     private const string ATTACK = "Attack";
+    private const string TAKE_HIT = "TakeHit";
 
     private void Awake()
     {
@@ -19,8 +20,11 @@ public class KnightGreatswordVisual : MonoBehaviour
 
     private void Start()
     {
-        _enemyAI.OnEnemyAttack += enemyAI_OnEnemyAttack;
+        _enemyAI.OnEnemyAttack += _enemyAI_OnEnemyAttack;
+        _enemyDamage.OnTakeHit += _enemyDamage_OnTakeHit;
     }
+
+    
 
     private void Update()
     {
@@ -30,11 +34,17 @@ public class KnightGreatswordVisual : MonoBehaviour
 
     private void OnDestroy()
     {
-        _enemyAI.OnEnemyAttack -= enemyAI_OnEnemyAttack;
+        _enemyAI.OnEnemyAttack -= _enemyAI_OnEnemyAttack;
+        _enemyDamage.OnTakeHit -= _enemyDamage_OnTakeHit;
     }
 
-    private void enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
+    private void _enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(ATTACK);
+    }
+
+    private void _enemyDamage_OnTakeHit(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(TAKE_HIT);
     }
 }

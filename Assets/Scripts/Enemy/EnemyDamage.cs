@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
@@ -5,7 +6,9 @@ public class EnemyDamage : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _currentHealth;
-    
+
+    public event EventHandler OnTakeHit;
+
     private void Awake()
     {
         _currentHealth = _maxHealth;
@@ -14,6 +17,7 @@ public class EnemyDamage : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
+        OnTakeHit?.Invoke(this, EventArgs.Empty);
         DetectDeath();
     }
 

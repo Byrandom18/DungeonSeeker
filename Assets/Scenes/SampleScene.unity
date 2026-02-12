@@ -748,7 +748,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &1309006179
 Animator:
   serializedVersion: 7
@@ -1205,6 +1205,14 @@ PrefabInstance:
     - target: {fileID: 2956780305635371378, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
       propertyPath: m_Name
       value: KnightGreatsword
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940073644087475858, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940073644087475858, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5678923732420909039, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
       propertyPath: _enemyAI

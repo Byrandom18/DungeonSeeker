@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
+[SelectionBase]
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
