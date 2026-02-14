@@ -8,6 +8,7 @@ public class EnemyDamage : MonoBehaviour
     [SerializeField] private float _currentHealth;
 
     public event EventHandler OnTakeHit;
+    public event EventHandler OnDeath;
 
     private void Awake()
     {
@@ -31,6 +32,6 @@ public class EnemyDamage : MonoBehaviour
 
     private void Death()
     {
-        Debug.Log("Enemy dead");
+        OnDeath?.Invoke(this, EventArgs.Empty);
     }
 }

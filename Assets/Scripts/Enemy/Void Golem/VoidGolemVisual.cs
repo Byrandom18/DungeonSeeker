@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 
 
-public class KnightGreatswordVisual : MonoBehaviour
+public class VoidGolemVisual : MonoBehaviour
 {
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private EnemyDamage _enemyDamage;
@@ -12,6 +13,9 @@ public class KnightGreatswordVisual : MonoBehaviour
     private const string CHASING_SPEED_MULTIPLIER = "ChasingSpeedMultiplier";
     private const string ATTACK = "Attack";
     private const string TAKE_HIT = "TakeHit";
+    private const string DEATH = "Death";
+
+    
 
     private void Awake()
     {
@@ -22,6 +26,7 @@ public class KnightGreatswordVisual : MonoBehaviour
     {
         _enemyAI.OnEnemyAttack += _enemyAI_OnEnemyAttack;
         _enemyDamage.OnTakeHit += _enemyDamage_OnTakeHit;
+        _enemyDamage.OnDeath += _enemyDamage_OnDeath;
     }
 
     
@@ -46,5 +51,11 @@ public class KnightGreatswordVisual : MonoBehaviour
     private void _enemyDamage_OnTakeHit(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(TAKE_HIT);
+    }
+
+    private void _enemyDamage_OnDeath(object sender, EventArgs e)
+    {
+        _animator.SetTrigger(DEATH);
+        _enemyAI.SetDeathState();
     }
 }

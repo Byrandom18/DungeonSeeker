@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7063890482848910788}
   - component: {fileID: 8432310950495877961}
   m_Layer: 6
-  m_Name: KnightGreatsword
+  m_Name: Void Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,21 +49,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47db37537a011594b96bb6168461ff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: 0
-  roamSpeed: 1.5
-  roamingDistanceMax: 7
-  roamingDistanceMin: 1
-  roamingTimerMax: 10
-  idleDuration: 3
-  canChangeStartPos: 1
-  chasingSpeed: 2.5
-  chasingDistance: 5
-  chasingAnimationSpeedMultiplier: 1.5
-  isChasingEnemy: 1
-  isAttackingEnemy: 1
-  attackDistance: 1
-  attackRate: 3
-  state: 0
+  _startingState: 0
+  _roamSpeed: 1
+  _roamingDistanceMax: 7
+  _roamingDistanceMin: 1
+  _roamingTimerMax: 2
+  _idleDuration: 5
+  _canChangeStartPos: 1
+  _chasingSpeed: 2
+  _chasingDistance: 5
+  _chasingAnimationSpeedMultiplier: 1.5
+  _isChasingEnemy: 1
+  _isAttackingEnemy: 1
+  _attackDistance: 2
+  _attackRate: 5
+  _state: 0
 --- !u!114 &8765333733158669447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  _maxHealth: 100
+  _currentHealth: 0
 --- !u!70 &4576513958914786750
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 485164813209650819}
   - component: {fileID: 5678923732420909039}
   m_Layer: 0
-  m_Name: KnightVisual
+  m_Name: VoidGolemVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,7 +242,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1883174807458588354, guid: b1558eab8d67e8244b035305d4d0f9ba, type: 3}
+  m_Sprite: {fileID: -1806271022, guid: 313df2e0cba0e4c4f88a243127ccbaf5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -287,5 +287,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08cdaeaec7c6d72468a16ccb4c0f130b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAI: {fileID: 7829432927615140060}
-  enemyDamage: {fileID: 8765333733158669447}
+  _enemyAI: {fileID: 7829432927615140060}
+  _enemyDamage: {fileID: 8765333733158669447}
