@@ -4,14 +4,23 @@ using UnityEngine;
 public class EnemyDamage : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private float _maxHealth;
-    [SerializeField] private float _currentHealth;
+    [SerializeField] private EnemySO _enemySO;
+    private float _maxHealth;
+    private float _currentHealth;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
 
     private void Awake()
     {
+        
+    }
+
+    private void Start()
+    {
+        if (_enemySO == null)
+            Debug.LogError($"EnemySO is missing on {gameObject.name}");
+        _maxHealth = _enemySO.EnemyHealth;
         _currentHealth = _maxHealth;
     }
 
@@ -21,6 +30,8 @@ public class EnemyDamage : MonoBehaviour
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         DetectDeath();
     }
+
+    
 
     private void DetectDeath()
     {
