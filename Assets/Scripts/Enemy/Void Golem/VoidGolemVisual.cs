@@ -46,6 +46,15 @@ public class VoidGolemVisual : MonoBehaviour
     private void _enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(ATTACK);
+        _enemyAI.IsAttacking = true;
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        float animLength = stateInfo.length;  // Длительность в секундах
+        Invoke("AttackFinished", animLength);
+    }
+
+    private void AttackFinished()
+    {
+        _enemyAI.IsAttacking = false;
     }
 
     private void _enemyDamage_OnTakeHit(object sender, System.EventArgs e)
@@ -58,4 +67,6 @@ public class VoidGolemVisual : MonoBehaviour
         _animator.SetTrigger(DEATH);
         _enemyAI.SetDeathState();
     }
+
+    
 }

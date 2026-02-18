@@ -42,7 +42,7 @@ public class EnemyAI : MonoBehaviour
     private bool _isFacingRight = true;
 
     public event EventHandler OnEnemyAttack;
-
+    public bool IsAttacking = false;
 
 
     private enum State
@@ -192,17 +192,18 @@ public class EnemyAI : MonoBehaviour
 
     private void AttackingTarget()
     {
-        if (Time.time > _nextAttackTime)
+        if (Time.time > _nextAttackTime && _navMeshAgent.velocity == Vector3.zero)
         {
             OnEnemyAttack?.Invoke(this, EventArgs.Empty);
-
+            
             _nextAttackTime = Time.time + _attackRate;
         }
     }
 
     private void ChasingTarget()
     {
-        _navMeshAgent.SetDestination(PlayerMovement.Instance.transform.position);
+        if (!IsAttacking)
+            _navMeshAgent.SetDestination(PlayerMovement.Instance.transform.position);
 
     }
 

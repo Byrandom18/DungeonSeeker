@@ -50,7 +50,7 @@ public class PlayerStats : MonoBehaviour
     //public int killCount;
     //public int wavesCompleted;
 
-    public bool IsDead = false;
+    public bool IsAlive = true;
 
     private void Awake()
     {
@@ -79,7 +79,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (IsDead || Invulnerability) return;
+        if (!IsAlive || Invulnerability) return;
 
         damage -= Def;
         //damage = Mathf.Max(1f, damage * (1 - def / (def + 100f))); // Формула уменьшения урона от защиты
@@ -90,7 +90,7 @@ public class PlayerStats : MonoBehaviour
         //UpdateHealthUI();
         //OnHealthChanged?.Invoke();
 
-        if (Health <= 0 && !IsDead)
+        if (Health <= 0 && IsAlive)
         {
             Die();
         }
@@ -107,7 +107,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Die()
     {
-        IsDead = true;
+        IsAlive = false;
 
         //// Останавливаем все корутины
         //if (healthRegenCoroutine != null) StopCoroutine(healthRegenCoroutine);
