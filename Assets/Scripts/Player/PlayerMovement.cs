@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerVisual _visual;
     private Vector2 _inputVector;
     private Camera _mainCamera;
+    private Knockback _knockback;
     public static PlayerMovement Instance { get; private set; }
 
     [Header("Dodge Settings")]
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         _stats = GetComponent<PlayerStats>();
         _visual = GetComponentInChildren<PlayerVisual>();
         _mainCamera = Camera.main;
+        _knockback = GetComponent<Knockback>();
         if (rb == null)
             Debug.LogError("Rigidbody2D not found on " + gameObject.name);
         if (_visual == null)
@@ -40,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("PlayerStats not found on " + gameObject.name);
         if (Instance == null)
             Debug.LogError("Instance can not be assigned on" + gameObject.name);
+        if (_knockback == null)
+            Debug.LogError("Knockback can not be assigned on" + gameObject.name);
     }
 
     private void Start()
@@ -57,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_isDodging)
         {
+            if (_knockback.IsGettingKnockedback)
+                return;
             Move();
             UpdateSpriteDirection();
         }

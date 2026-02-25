@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6749741710718452566}
   - component: {fileID: 7829432927615140060}
   - component: {fileID: 8765333733158669447}
+  - component: {fileID: 7779251396642671771}
   - component: {fileID: 4576513958914786750}
   - component: {fileID: 7063890482848910788}
   - component: {fileID: 8432310950495877961}
@@ -58,12 +59,12 @@ MonoBehaviour:
   _canChangeStartPos: 1
   _chasingSpeed: 2
   _chasingDistance: 5
-  _chasingAnimationSpeedMultiplier: 1.5
   _isChasingEnemy: 1
   _isAttackingEnemy: 1
   _attackDistance: 2
   _attackRate: 5
   _state: 0
+  IsAttacking: 0
 --- !u!114 &8765333733158669447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +77,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _haveTouchDamage: 0
   _enemySO: {fileID: 11400000, guid: db56ace347d08504392e8fe0158e8e16, type: 2}
+  _knockbackMultiplier: 1
+  _knockbackResist: 0
+--- !u!114 &7779251396642671771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2956780305635371378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a2dd47e44f7964fb1c39bb1a72e562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _knockbackForce: 2
+  _knockbackMovingTimerMax: 0.3
 --- !u!70 &4576513958914786750
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

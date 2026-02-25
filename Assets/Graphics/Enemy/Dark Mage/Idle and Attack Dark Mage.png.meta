@@ -149,45 +149,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_idle-Sheet_0
+      name: Idle and Attack Dark Mage_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 28
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 96
+        width: 96
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 75250211812109b90800000000000000
-      internalID: -7237264706608541097
+      spriteID: abf4bc8172ccb4d4c83b34aae84690f7
+      internalID: 677004727
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle-Sheet_1
+      name: Idle and Attack Dark Mage_1
       rect:
         serializedVersion: 2
-        x: 31
-        y: 0
-        width: 29
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 96
+        y: 96
+        width: 96
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 41ff6199d73d453f0800000000000000
-      internalID: -912872288056574188
+      spriteID: db5115fd88b6fe740aeba37ce3818977
+      internalID: 573252839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle and Attack Dark Mage_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80e8dbe48424f6642b0665b26e6a0326
+      internalID: 184622604
       vertices: []
       indices: 
       edges: []
@@ -196,7 +218,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 489354203918ea846bd4cbdae0d11bfb
     internalID: 0
     vertices: []
     indices: 
@@ -206,8 +228,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      player_idle-Sheet_0: -7237264706608541097
-      player_idle-Sheet_1: -912872288056574188
+      Idle and Attack Dark Mage_0: 677004727
+      Idle and Attack Dark Mage_1: 573252839
+      Idle and Attack Dark Mage_2: 184622604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

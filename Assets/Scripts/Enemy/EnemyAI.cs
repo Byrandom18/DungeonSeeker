@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Chase settings")]
     [SerializeField] private float _chasingSpeed = 2.5f;
     [SerializeField] private float _chasingDistance = 5f;
-    [SerializeField] private float _chasingAnimationSpeedMultiplier = 1.5f;
+    //[SerializeField] private float _chasingAnimationSpeedMultiplier = 1.5f;
     [SerializeField] private bool _isChasingEnemy = true;
 
     [Header("Attack settings")]

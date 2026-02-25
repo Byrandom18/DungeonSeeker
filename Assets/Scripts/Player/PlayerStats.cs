@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System;
+
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
     public static event System.Action<Transform> OnPlayerSpawned;
+    private Knockback _knockback;
     //public static event System.Action OnPlayerDeath;
 
     //[Header("UI Elements")]
@@ -39,6 +38,8 @@ public class PlayerStats : MonoBehaviour
     public float AreaMod;
     public float DefShred;
     public bool Invulnerability = false;
+    public float KnockbackResist;
+    public float KnockbackMultiplier = 1;
 
     //[Header("Вспомогательные характеристики")]
     //public float maxExp = 5;
@@ -49,7 +50,7 @@ public class PlayerStats : MonoBehaviour
     //public int gems;
     //public int killCount;
     //public int wavesCompleted;
-
+    //[SerializeField] private float _invulnerabilityDuration = 0.5f;
     public bool IsAlive = true;
 
     private void Awake()
@@ -65,6 +66,7 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("PlayerStats can not assign the Instance on " + gameObject.name);
             return;
         }
+        _knockback = GetComponent<Knockback>();
     }
 
     private void Start()
@@ -77,7 +79,7 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform knockbackSource, float knockbackMultiplier)
     {
         if (!IsAlive || Invulnerability) return;
 
@@ -89,13 +91,16 @@ public class PlayerStats : MonoBehaviour
 
         //UpdateHealthUI();
         //OnHealthChanged?.Invoke();
+        Debug.Log("Player Health = " + Health);
 
         if (Health <= 0 && IsAlive)
         {
             Die();
         }
+        _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, KnockbackResist);
     }
 
+    
 
     private void InitializeStats()
     {
