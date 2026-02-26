@@ -53,11 +53,11 @@ public class Sword : MonoBehaviour
         if (collision.transform.TryGetComponent(out EnemyDamage enemyDamage))
         {
             float damage = CalculateDamage();
-            enemyDamage.TakeDamage(damage, transform, PlayerStats.Instance.KnockbackMultiplier);
+            enemyDamage.TakeDamage(damage, transform, PlayerStats.Instance.KnockbackMultiplier, true);
         }
     }
 
-    private float CalculateDamage()
+    private float CalculateDamage() //потом доработанную сунуть в утилс
     {
 
         return _damageMulti / 100 * PlayerStats.Instance.CurrentAtk;

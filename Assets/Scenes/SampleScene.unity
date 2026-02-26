@@ -364,6 +364,10 @@ PrefabInstance:
       propertyPath: m_SpriteSortPoint
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4576513958914786750, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6749741710718452566, guid: f5b9ca897b76bf2498e63a28da110b63, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.62

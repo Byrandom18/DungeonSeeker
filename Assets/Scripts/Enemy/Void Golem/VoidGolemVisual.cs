@@ -45,10 +45,10 @@ public class VoidGolemVisual : MonoBehaviour
 
     private void _enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK);
+        _animator.SetTrigger(ATTACK); //stagger cancel logic in invoke in EnemyAI
         _enemyAI.IsAttacking = true;
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        float animLength = stateInfo.length;  // Длительность в секундах
+        float animLength = stateInfo.length;
         Invoke("AttackFinished", animLength);
     }
 
@@ -59,7 +59,7 @@ public class VoidGolemVisual : MonoBehaviour
 
     private void _enemyDamage_OnTakeHit(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(TAKE_HIT);
+        if (_enemyDamage.InStagger) _animator.SetTrigger(TAKE_HIT);
     }
 
     private void _enemyDamage_OnDeath(object sender, EventArgs e)

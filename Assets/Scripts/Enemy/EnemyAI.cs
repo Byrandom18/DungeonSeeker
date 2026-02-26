@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour
     private Vector2 _originScale;
 
     private NavMeshAgent _navMeshAgent;
+    private EnemyDamage _enemyDamage;
     [SerializeField] private State _state;
 
     private bool _isIdle = false;
@@ -57,6 +58,7 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _enemyDamage = GetComponent<EnemyDamage>();
         _navMeshAgent.updateRotation = false;
         _navMeshAgent.updateUpAxis = false;
         _state = _startingState;
@@ -64,6 +66,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        if (_enemyDamage == null)
+            Debug.LogError($"EnemyDamage is missing on {gameObject.name}");
         _startingPosition = transform.position;
         _navMeshAgent.speed = _roamSpeed;
         _originScale = transform.localScale;
@@ -192,7 +196,7 @@ public class EnemyAI : MonoBehaviour
 
     private void AttackingTarget()
     {
-        if (Time.time > _nextAttackTime && _navMeshAgent.velocity == Vector3.zero)
+        if (Time.time > _nextAttackTime && _navMeshAgent.velocity == Vector3.zero && !_enemyDamage.InStagger)
         {
             OnEnemyAttack?.Invoke(this, EventArgs.Empty);
             

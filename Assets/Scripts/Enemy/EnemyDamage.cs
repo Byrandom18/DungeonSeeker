@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
@@ -11,12 +12,20 @@ public class EnemyDamage : MonoBehaviour
     private float _currentHealth;
     private float _currentAttack = 1;
 
+    [Header("Stagger settings")]
+    [SerializeField] private bool _staggerImmune = false;
+    public bool InStagger = false;
+    public bool CanReceiveStagger = true;
+    [SerializeField] private float _staggerDuration = 1f;
+    private float _staggerEndTime = 0f;
+
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
     private float _nextAttackTime = 0;
     [SerializeField] private float _knockbackMultiplier = 1;
     private Knockback _knockback;
     [SerializeField] private float _knockbackResist;
+
     private void Awake()
     {
         _knockback = GetComponent<Knockback>();
@@ -44,15 +53,33 @@ public class EnemyDamage : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, Transform knockbackSource, float knockbackMultiplier)
+    public void TakeDamage(float damage, 
+        Transform knockbackSource, float knockbackMultiplier,
+        bool isStaggeringAttack)
     {
         _currentHealth -= damage;
+        if (isStaggeringAttack) ApplyStagger();
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         DetectDeath();
         _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
     }
 
-    
+    private void ApplyStagger()
+    {
+        if (!_staggerImmune && CanReceiveStagger)
+        {
+            
+            StartCoroutine(StaggerCoroutine());
+        }
+    }
+
+    private IEnumerator StaggerCoroutine()
+    {
+        InStagger = true;
+        _staggerEndTime = Time.time + _staggerDuration;
+        yield return new WaitForSeconds(_staggerDuration);
+        if (Time.time >= _staggerEndTime) InStagger = false;
+    }
 
     private void DetectDeath()
     {
