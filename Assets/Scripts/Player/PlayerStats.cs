@@ -1,12 +1,13 @@
+using System;
 using UnityEngine;
 
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
-    public static event System.Action<Transform> OnPlayerSpawned;
+    //public static event System.Action<Transform> OnPlayerSpawned;
     private Knockback _knockback;
-    //public static event System.Action OnPlayerDeath;
+    public event EventHandler OnPlayerDeath;
 
     //[Header("UI Elements")]
     //private Slider _healthBar;
@@ -53,6 +54,9 @@ public class PlayerStats : MonoBehaviour
     //[SerializeField] private float _invulnerabilityDuration = 0.5f;
     public bool IsAlive = true;
 
+    private BoxCollider2D _collisionCollider2D;
+    private CircleCollider2D _hitboxCollider2D;
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,6 +71,8 @@ public class PlayerStats : MonoBehaviour
             return;
         }
         _knockback = GetComponent<Knockback>();
+        _collisionCollider2D = GetComponent<BoxCollider2D>();
+        _hitboxCollider2D = GetComponent<CircleCollider2D>();
     }
 
     private void Start()
@@ -75,7 +81,7 @@ public class PlayerStats : MonoBehaviour
         //StartCoroutines();
         //UpdateAllUI();
 
-        OnPlayerSpawned?.Invoke(transform);
+        //OnPlayerSpawned?.Invoke(transform);
     }
 
 
@@ -113,6 +119,10 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         IsAlive = false;
+        OnPlayerDeath?.Invoke(this, EventArgs.Empty);
+
+        _hitboxCollider2D.enabled = false;
+        _collisionCollider2D.enabled = false;
 
         //// Останавливаем все корутины
         //if (healthRegenCoroutine != null) StopCoroutine(healthRegenCoroutine);
@@ -121,7 +131,7 @@ public class PlayerStats : MonoBehaviour
 
         //// Вызываем событие смерти
         //OnDeath?.Invoke();
-        //OnPlayerDeath?.Invoke(); // <- НОВОЕ событие
+        // // <- НОВОЕ событие
 
         //// Показываем экран смерти
         //if (GameManager.Instance != null)

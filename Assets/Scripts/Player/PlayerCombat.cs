@@ -13,7 +13,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
     {
-        if (_canAttack)
+        if (_canAttack && PlayerStats.Instance.IsAlive)
         {
             ActiveWeapon.Instance.GetActiveWeapon().Attack();
             _attackCooldown += ActiveWeapon.Instance.GetActiveWeapon().Cooldown;

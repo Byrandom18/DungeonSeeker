@@ -24,9 +24,9 @@ public class VoidGolemVisual : MonoBehaviour
 
     private void Start()
     {
-        _enemyAI.OnEnemyAttack += _enemyAI_OnEnemyAttack;
-        _enemyDamage.OnTakeHit += _enemyDamage_OnTakeHit;
-        _enemyDamage.OnDeath += _enemyDamage_OnDeath;
+        _enemyAI.OnEnemyAttack += EnemyAI_OnEnemyAttack;
+        _enemyDamage.OnTakeHit += EnemyDamage_OnTakeHit;
+        _enemyDamage.OnDeath += EnemyDamage_OnDeath;
     }
 
     
@@ -39,11 +39,11 @@ public class VoidGolemVisual : MonoBehaviour
 
     private void OnDestroy()
     {
-        _enemyAI.OnEnemyAttack -= _enemyAI_OnEnemyAttack;
-        _enemyDamage.OnTakeHit -= _enemyDamage_OnTakeHit;
+        _enemyAI.OnEnemyAttack -= EnemyAI_OnEnemyAttack;
+        _enemyDamage.OnTakeHit -= EnemyDamage_OnTakeHit;
     }
 
-    private void _enemyAI_OnEnemyAttack(object sender, System.EventArgs e)
+    private void EnemyAI_OnEnemyAttack(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(ATTACK); //stagger cancel logic in invoke in EnemyAI
         _enemyAI.IsAttacking = true;
@@ -57,15 +57,15 @@ public class VoidGolemVisual : MonoBehaviour
         _enemyAI.IsAttacking = false;
     }
 
-    private void _enemyDamage_OnTakeHit(object sender, System.EventArgs e)
+    private void EnemyDamage_OnTakeHit(object sender, System.EventArgs e)
     {
         if (_enemyDamage.InStagger) _animator.SetTrigger(TAKE_HIT);
     }
 
-    private void _enemyDamage_OnDeath(object sender, EventArgs e)
+    private void EnemyDamage_OnDeath(object sender, EventArgs e)
     {
         _animator.SetTrigger(DEATH);
-        _enemyAI.SetDeathState();
+        //_enemyAI.SetDeathState();
     }
 
     

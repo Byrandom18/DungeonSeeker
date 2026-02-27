@@ -6,8 +6,10 @@ using System;
 
 public class EnemyAI : MonoBehaviour
 {
+    [SerializeField] private EnemySO _enemySO;
     [SerializeField] private State _startingState;
     [Header("Roaming settings")]
+    [SerializeField] private bool _enableRoam = true;
     [SerializeField] private float _roamSpeed = 1.5f;
     [SerializeField] private float _roamingDistanceMax = 7f;
     [SerializeField] private float _roamingDistanceMin = 1f;
@@ -32,7 +34,7 @@ public class EnemyAI : MonoBehaviour
     
     
     private Vector2 _originScale;
-
+    
     private NavMeshAgent _navMeshAgent;
     private EnemyDamage _enemyDamage;
     [SerializeField] private State _state;
@@ -44,7 +46,7 @@ public class EnemyAI : MonoBehaviour
 
     public event EventHandler OnEnemyAttack;
     public bool IsAttacking = false;
-
+    
 
     private enum State
     {
@@ -68,6 +70,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (_enemyDamage == null)
             Debug.LogError($"EnemyDamage is missing on {gameObject.name}");
+        if (_enemySO == null)
+            Debug.LogError($"EnemySO is missing on {gameObject.name}");
+        InitializeStats();
         _startingPosition = transform.position;
         _navMeshAgent.speed = _roamSpeed;
         _originScale = transform.localScale;
@@ -76,7 +81,7 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         StateHandler();
-        UpdateFacingDirection();
+        if (_enemyDamage.IsAlive) UpdateFacingDirection();
     }
 
 
@@ -93,10 +98,23 @@ public class EnemyAI : MonoBehaviour
         return _navMeshAgent.speed / _roamSpeed;
     }
 
-    public void SetDeathState()
+    private void InitializeStats()
     {
-        _navMeshAgent.ResetPath();
-        _state = State.Death;
+        _enableRoam = _enemySO.EnableRoam;
+        _canChangeStartPos = _enemySO.EnableChangeStartPos;
+        _roamSpeed = _enemySO.RoamSpeed;
+        _roamingDistanceMax = _enemySO.RoamingDistanceMax;
+        _roamingDistanceMin = _enemySO.RoamingDistanceMin;
+        _roamingTimerMax = _enemySO.RoamingTimerMax;
+        _idleDuration = _enemySO.IdleDuration;
+
+        _isChasingEnemy = _enemySO.EnableChase;
+        _chasingSpeed = _enemySO.ChasingSpeed;
+        _chasingDistance = _enemySO.ChasingDistance;
+
+        _isAttackingEnemy = _enemySO.EnableAttack;
+        _attackDistance = _enemySO.AttackDistance;
+        _attackRate = _enemySO.AttackRate;
     }
 
     private void StateHandler()
@@ -156,21 +174,26 @@ public class EnemyAI : MonoBehaviour
             newState = State.Idle;
         }
 
-        if (_isChasingEnemy)
+        if (PlayerStats.Instance.IsAlive)
         {
-            if (distanceToPlayer <= _chasingDistance)
+            if (_isChasingEnemy)
             {
-                newState = State.Chasing;
+                if (distanceToPlayer <= _chasingDistance)
+                {
+                    newState = State.Chasing;
+                }
             }
-        }
 
-        if (_isAttackingEnemy)
-        {
-            if (distanceToPlayer <= _attackDistance)
+            if (_isAttackingEnemy)
             {
-                newState = State.Attacking;
+                if (distanceToPlayer <= _attackDistance)
+                {
+                    newState = State.Attacking;
+                }
             }
         }
+        
+        if (!_enemyDamage.IsAlive) newState = State.Death;
 
         if (newState != _state)
         {
@@ -185,12 +208,10 @@ public class EnemyAI : MonoBehaviour
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.speed = _roamSpeed;
             }
-            else if (newState == State.Attacking)
-            {
-                _navMeshAgent.ResetPath();
-            }
+            else if (newState == State.Attacking) _navMeshAgent.ResetPath();
+            else if (newState == State.Death) _navMeshAgent.ResetPath();
 
-                _state = newState;
+            _state = newState;
         }
     }
 

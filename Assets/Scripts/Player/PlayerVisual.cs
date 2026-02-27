@@ -7,13 +7,23 @@ public class PlayerVisual : MonoBehaviour
     private Animator _animator;
 
     private const string IS_MOVING = "IsMoving";
+    private const string DEATH = "Death";
 
-
-    void Awake()
+    private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
         _originScale = transform.localScale;
         _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        PlayerStats.Instance.OnPlayerDeath += PlayerStats_OnPlayerDeath;
+    }
+
+    private void PlayerStats_OnPlayerDeath(object sender, System.EventArgs e)
+    {
+        _animator.SetTrigger(DEATH);
     }
 
     private void Update()

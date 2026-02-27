@@ -20,7 +20,7 @@ public class Knockback : MonoBehaviour
     private void Update()
     {
         _knockbackMovingTimer -= Time.deltaTime;
-        if (_knockbackMovingTimer < 0)
+        if (IsGettingKnockedback && _knockbackMovingTimer < 0)
             StopKnockBackMovement();
     }
 

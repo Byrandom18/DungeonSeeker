@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_isDodging)
+        if (!_isDodging && _stats.IsAlive)
         {
             if (_knockback.IsGettingKnockedback)
                 return;
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GameInput_OnPlayerDodge(object sender, System.EventArgs e)
     {
-        if (_canDodge && !_isDodging)
+        if (_canDodge && !_isDodging && _stats.IsAlive)
         {
             StartCoroutine(PerformDodge());
         }
