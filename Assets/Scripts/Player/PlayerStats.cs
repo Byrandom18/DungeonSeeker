@@ -53,7 +53,7 @@ public class PlayerStats : MonoBehaviour
     //public int wavesCompleted;
     //[SerializeField] private float _invulnerabilityDuration = 0.5f;
     public bool IsAlive = true;
-
+    public event EventHandler OnFlashBlink;
     private BoxCollider2D _collisionCollider2D;
     private CircleCollider2D _hitboxCollider2D;
 
@@ -94,7 +94,7 @@ public class PlayerStats : MonoBehaviour
 
         Health -= damage;
         Health = Mathf.Max(0, Health);
-
+        OnFlashBlink?.Invoke(this, EventArgs.Empty);
         //UpdateHealthUI();
         //OnHealthChanged?.Invoke();
         Debug.Log("Player Health = " + Health);

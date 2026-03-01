@@ -50,7 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47db37537a011594b96bb6168461ff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemySO: {fileID: 11400000, guid: db56ace347d08504392e8fe0158e8e16, type: 2}
   _startingState: 0
+  _enableRoam: 1
   _roamSpeed: 1
   _roamingDistanceMax: 7
   _roamingDistanceMin: 1
@@ -79,8 +81,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _haveTouchDamage: 0
   _enemySO: {fileID: 11400000, guid: db56ace347d08504392e8fe0158e8e16, type: 2}
+  _staggerImmune: 0
+  InStagger: 0
+  CanReceiveStagger: 1
+  _staggerDuration: 1
   _knockbackMultiplier: 1
   _knockbackResist: 0
+  IsAlive: 1
 --- !u!114 &7779251396642671771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +200,7 @@ GameObject:
   - component: {fileID: 3940073644087475858}
   - component: {fileID: 485164813209650819}
   - component: {fileID: 5678923732420909039}
+  - component: {fileID: 5249224997346871055}
   m_Layer: 0
   m_Name: VoidGolemVisual
   m_TagString: Untagged
@@ -306,3 +314,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyAI: {fileID: 7829432927615140060}
   _enemyDamage: {fileID: 8765333733158669447}
+--- !u!114 &5249224997346871055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367423251326572900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c69964d489a3a4e9ff73c75033b198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagableObject: {fileID: 8765333733158669447}
+  _blinkMaterial: {fileID: 2100000, guid: 5d4c33a166644af4b83e91fab9af5096, type: 2}
+  _blinkDuration: 0.1
