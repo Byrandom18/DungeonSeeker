@@ -157,5 +157,8 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
+    private void OnDestroy()
+    {
+        GameInput.Instance.OnPlayerDodge -= GameInput_OnPlayerDodge;
+    }
 }

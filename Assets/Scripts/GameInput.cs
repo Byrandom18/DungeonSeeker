@@ -16,6 +16,11 @@ public class GameInput : MonoBehaviour
         Instance = this;
         _inputActions = new InputSystem_Actions();
         _inputActions.Enable();
+        
+    }
+
+    private void Start()
+    {
         _inputActions.Player.Attack.started += PlayerAttack_started;
         _inputActions.Player.Dodge.started += PlayerDodge_started;
     }
@@ -39,5 +44,11 @@ public class GameInput : MonoBehaviour
     private void PlayerAttack_started(InputAction.CallbackContext obj)
     {
         OnPlayerAttack?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnDestroy()
+    {
+        _inputActions.Player.Attack.started -= PlayerAttack_started;
+        _inputActions.Player.Dodge.started -= PlayerDodge_started;
     }
 }

@@ -21,13 +21,13 @@ public class FlashBlink : MonoBehaviour
 
     private void Start()
     {
-        if (_damagableObject is PlayerStats)
+        if (_damagableObject is PlayerStats player)
         {
-            (_damagableObject as PlayerStats).OnFlashBlink += DamagableObject_OnFlashBlink;
+            player.OnFlashBlink += DamagableObject_OnFlashBlink;
         }
-        if (_damagableObject is EnemyDamage)
+        if (_damagableObject is EnemyDamage enemyDamage)
         {
-            (_damagableObject as EnemyDamage).OnTakeHit += DamagableObject_OnFlashBlink;
+            enemyDamage.OnTakeHit += DamagableObject_OnFlashBlink;
         }
     }
 
@@ -43,6 +43,7 @@ public class FlashBlink : MonoBehaviour
             }
         }
     }
+
     private void DamagableObject_OnFlashBlink(object sender, System.EventArgs e)
     {
         SetBlinkMaterial();
@@ -57,5 +58,17 @@ public class FlashBlink : MonoBehaviour
     private void SetDefaultMaterial()
     {
         _spriteRenderer.material = _defaultMaterial;
+    }
+
+    private void OnDestroy()
+    {
+        if (_damagableObject is PlayerStats player)
+        {
+            player.OnFlashBlink -= DamagableObject_OnFlashBlink;
+        }
+        if (_damagableObject is EnemyDamage enemyDamage)
+        {
+            enemyDamage.OnTakeHit -= DamagableObject_OnFlashBlink;
+        }
     }
 }

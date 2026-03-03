@@ -6,6 +6,9 @@ public class PlayerVisual : MonoBehaviour
     private Vector2 _originScale;
     private Animator _animator;
 
+    private static readonly int DIE = Animator.StringToHash(DEATH);
+    private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
+
     private const string IS_MOVING = "IsMoving";
     private const string DEATH = "Death";
 
@@ -23,12 +26,12 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerStats_OnPlayerDeath(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(DEATH);
+        _animator.SetTrigger(DIE);
     }
 
     private void Update()
     {
-        _animator.SetBool(IS_MOVING, PlayerMovement.Instance.IsRunning());
+        _animator.SetBool(MOVE, PlayerMovement.Instance.IsRunning());
     }
 
     public void UpdateSpriteDirection(bool flipRight)
@@ -43,5 +46,8 @@ public class PlayerVisual : MonoBehaviour
         }
     }
 
-
+    private void OnDestroy()
+    {
+        PlayerStats.Instance.OnPlayerDeath -= PlayerStats_OnPlayerDeath;
+    }
 }

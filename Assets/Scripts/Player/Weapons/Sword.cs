@@ -55,6 +55,10 @@ public class Sword : MonoBehaviour
             float damage = CalculateDamage();
             enemyDamage.TakeDamage(damage, transform, PlayerStats.Instance.KnockbackMultiplier, true);
         }
+        if (collision.TryGetComponent(out DestructibleEnvironment distructibleEnvironment))
+        {
+            distructibleEnvironment.TakeDamage();
+        }
     }
 
     private float CalculateDamage() //потом доработанную сунуть в утилс

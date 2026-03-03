@@ -5,8 +5,8 @@ public class SwordVisual : MonoBehaviour
     private Animator _animator;
     [SerializeField] private Sword _sword;
     [SerializeField] private TrailRenderer _trailRenderer;
-    private const string ATTACK = "Attack"; //animator trigger
-    
+    private const string ATTACK = "Attack";
+    private static readonly int ATTACK_HASH = Animator.StringToHash(ATTACK);
 
     private void Awake()
     {
@@ -50,9 +50,12 @@ public class SwordVisual : MonoBehaviour
 
     private void Sword_OnSwordSwing(object sender, System.EventArgs e)
     {
-        _animator.SetTrigger(ATTACK);
+        _animator.SetTrigger(ATTACK_HASH);
         StartSwing();
     }
 
-    
+    private void OnDestroy()
+    {
+        _sword.OnSwordSwing -= Sword_OnSwordSwing;
+    }
 }

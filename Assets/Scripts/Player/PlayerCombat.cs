@@ -32,4 +32,9 @@ public class PlayerCombat : MonoBehaviour
         _attackCooldown = 0;
         _canAttack = true;
     }
+
+    private void OnDestroy()
+    {
+        GameInput.Instance.OnPlayerAttack -= GameInput_OnPlayerAttack;
+    }
 }
