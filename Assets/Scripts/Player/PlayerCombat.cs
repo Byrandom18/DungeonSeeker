@@ -25,12 +25,14 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator AttackCD()
     {
         _canAttack = false;
+        GameInput.Instance.CanAttack = false;
         // some weapons needs for freeze rotation on animation
         ActiveWeapon.Instance.RotationEnabled = ActiveWeapon.Instance.GetActiveWeapon().RotationEnabled;
         yield return new WaitForSeconds(_attackCooldown);
         ActiveWeapon.Instance.RotationEnabled = true;
         _attackCooldown = 0;
         _canAttack = true;
+        GameInput .Instance.CanAttack = true;
     }
 
     private void OnDestroy()

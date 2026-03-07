@@ -7,7 +7,7 @@ public class GameInput : MonoBehaviour
     public static GameInput Instance { get; private set; }
 
     private InputSystem_Actions _inputActions;
-
+    public bool CanAttack;
     public event EventHandler OnPlayerAttack;
     public event EventHandler OnPlayerDodge;
 
@@ -21,8 +21,17 @@ public class GameInput : MonoBehaviour
 
     private void Start()
     {
-        _inputActions.Player.Attack.started += PlayerAttack_started;
+        //_inputActions.Player.Attack.performed += PlayerAttack_performed;
         _inputActions.Player.Dodge.started += PlayerDodge_started;
+        CanAttack = true;
+    }
+
+    private void Update()
+    {
+        if (_inputActions.Player.Attack.IsPressed() && CanAttack)
+        {
+            OnPlayerAttack?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public Vector2 GetMousePosition()
@@ -41,14 +50,14 @@ public class GameInput : MonoBehaviour
         OnPlayerDodge?.Invoke(this, EventArgs.Empty);
     }
 
-    private void PlayerAttack_started(InputAction.CallbackContext obj)
-    {
-        OnPlayerAttack?.Invoke(this, EventArgs.Empty);
-    }
+    //private void PlayerAttack_performed(InputAction.CallbackContext obj)
+    //{
+    //    OnPlayerAttack?.Invoke(this, EventArgs.Empty);
+    //}
 
     private void OnDestroy()
     {
-        _inputActions.Player.Attack.started -= PlayerAttack_started;
+        //_inputActions.Player.Attack.started -= PlayerAttack_performed;
         _inputActions.Player.Dodge.started -= PlayerDodge_started;
     }
 }
