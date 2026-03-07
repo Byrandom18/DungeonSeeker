@@ -7,7 +7,7 @@ public class FadeEnvironment : MonoBehaviour
     [SerializeField] private float _fadeTime = 0.5f;
     [Range(0f, 1f)]
     [SerializeField] private float _transparencyAmount = 0.6f;
-    private float _originTransparencyAmount = 1f;
+    private readonly float _originTransparencyAmount = 1f;
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
