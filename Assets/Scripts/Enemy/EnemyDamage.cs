@@ -12,7 +12,7 @@ public class EnemyDamage : MonoBehaviour
     private float _maxHealth;
     private float _currentHealth;
     private float _baseAttack = 1;
-    private float _currentAttack = 1;
+    public float CurrentAttack = 1;
 
     [Header("Stagger settings")]
     [SerializeField] private bool _staggerImmune = false;
@@ -24,7 +24,7 @@ public class EnemyDamage : MonoBehaviour
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
     private float _nextAttackTime = 0;
-    [SerializeField] private float _knockbackMultiplier = 1;
+    public float KnockbackMultiplier = 1;
     private Knockback _knockback;
     [SerializeField] private float _knockbackResist;
     public bool IsAlive = true;
@@ -51,7 +51,7 @@ public class EnemyDamage : MonoBehaviour
         {
             if (Time.time > _nextAttackTime && collision.transform.TryGetComponent(out PlayerStats player))
             {
-                player.TakeDamage(_currentAttack, transform, _knockbackMultiplier); //(transform, _currentAttack, ...)
+                player.TakeDamage(CurrentAttack, transform, KnockbackMultiplier); //(transform, _currentAttack, ...)
                 _nextAttackTime = Time.time + 1f;
             }
         }
@@ -78,12 +78,12 @@ public class EnemyDamage : MonoBehaviour
         _currentHealth = _maxHealth;
 
         _baseAttack = _enemySO.EnemyBaseAttack;
-        _currentAttack = _baseAttack; //* _attackModifier ...
+        CurrentAttack = _baseAttack; //* _attackModifier ...
 
         _staggerImmune = _enemySO.StaggerImmune;
         _staggerDuration = _enemySO.StaggerDuration;
 
-        _knockbackMultiplier = _enemySO.KnockbackMultiplier;
+        KnockbackMultiplier = _enemySO.KnockbackMultiplier;
         _knockbackResist = _enemySO.KnockbackResist;
 
         _haveTouchDamage = _enemySO.EnableTouchDamage;

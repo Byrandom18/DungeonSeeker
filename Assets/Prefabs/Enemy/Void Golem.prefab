@@ -81,11 +81,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _haveTouchDamage: 0
   _enemySO: {fileID: 11400000, guid: db56ace347d08504392e8fe0158e8e16, type: 2}
+  CurrentAttack: 1
   _staggerImmune: 0
   InStagger: 0
   CanReceiveStagger: 1
   _staggerDuration: 1
-  _knockbackMultiplier: 1
+  KnockbackMultiplier: 1
   _knockbackResist: 0
   IsAlive: 1
 --- !u!114 &7779251396642671771
@@ -314,6 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyAI: {fileID: 7829432927615140060}
   _enemyDamage: {fileID: 8765333733158669447}
+  _explosionPrefab: {fileID: 4292109623783867667, guid: 245075d39fd28b64582210707695346f, type: 3}
 --- !u!114 &5249224997346871055
 MonoBehaviour:
   m_ObjectHideFlags: 0

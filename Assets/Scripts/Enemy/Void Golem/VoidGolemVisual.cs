@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -6,6 +7,8 @@ public class VoidGolemVisual : MonoBehaviour
 {
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private EnemyDamage _enemyDamage;
+    [SerializeField] private GameObject _explosionPrefab;
+    private Explosion _explosionScript = null;
 
     private Animator _animator;
     private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
@@ -58,14 +61,59 @@ public class VoidGolemVisual : MonoBehaviour
         _enemyAI.IsAttacking = false;
     }
 
+    public void AttackStart()
+    {
+        Vector3 direction = (PlayerMovement.Instance.transform.position - transform.position).normalized;
+        Vector3 targetPosition = transform.position + direction * 1f;
+        GameObject explosion = Instantiate(_explosionPrefab, targetPosition, Quaternion.identity, transform);
+        _explosionScript = explosion.GetComponent<Explosion>();
+        if (_explosionScript)
+        {
+            float explosionTime = GetRemainingAnimationTime();
+            _explosionScript.MaxRadius = 2;
+            _explosionScript.ExplosionTime = explosionTime;
+            _explosionScript.Damage = _enemyDamage.CurrentAttack;
+            _explosionScript.KnockbackMultiplier = _enemyDamage.KnockbackMultiplier;
+        }
+    }
+    private float GetRemainingAnimationTime()
+    {
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.length <= 0) return 0f;
+        if (!stateInfo.loop && stateInfo.normalizedTime >= 1f) return 0f;
+        // Текущее время в секундах
+        float currentTime = (stateInfo.normalizedTime % 1f) * stateInfo.length;
+        // Оставшееся время
+        return stateInfo.length - currentTime;
+    }
+
+    
+
+    public IEnumerator StaggerReturnRoutine()
+    {
+        _enemyDamage.CanReceiveStagger = false;
+        yield return new WaitForSeconds(GetRemainingAnimationTime());
+        _enemyDamage.CanReceiveStagger = true;
+    } 
+
+    public void AttackCancelled()
+    {
+        if (_explosionScript != null) _explosionScript.StopExplosion();
+    }
+
     private void EnemyDamage_OnTakeHit(object sender, System.EventArgs e)
     {
-        if (_enemyDamage.InStagger) _animator.SetTrigger(HIT);
+        if (_enemyDamage.InStagger)
+        {
+            _animator.SetTrigger(HIT);
+            AttackCancelled();
+        } 
     }
 
     private void EnemyDamage_OnDeath(object sender, EventArgs e)
     {
         _animator.SetTrigger(DIE);
+        AttackCancelled();
         //_enemyAI.SetDeathState();
     }
 
