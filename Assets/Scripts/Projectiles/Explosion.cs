@@ -106,10 +106,13 @@ public class Explosion : MonoBehaviour
         }
         else
         {
-            lr.startColor = color;
-            lr.endColor = color;
+            Color transparenColor = new(color.r, color.g, color.b, 0f);
+            lr.startColor = transparenColor;
+            lr.endColor = transparenColor;
             lr.startWidth = LineWidth;
             lr.endWidth = LineWidth;
+            float outerAlpha = color.a;
+            StartCoroutine(OuterLineFadeRoutine(0, outerAlpha));
         }
 
     }
@@ -143,6 +146,7 @@ public class Explosion : MonoBehaviour
     //Fade alpha on destroy
     private IEnumerator FadeOutAndDestroy()
     {
+        transform.SetParent(null);
         float duration = 0.2f;
         float elapsed = 0f;
 
@@ -183,6 +187,20 @@ public class Explosion : MonoBehaviour
         if (_spriteRenderer != null)
         {
             _spriteRenderer.color = CircleColor;
+        }
+    }
+
+    private IEnumerator OuterLineFadeRoutine(float startTransparencyAmount, float targetTransparencyAmount)
+    {
+        float elapsedTime = 0f;
+        float fadeTime = 0.1f;
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startTransparencyAmount, targetTransparencyAmount, elapsedTime / fadeTime);
+            _outerLineRenderer.startColor = new Color(_spriteRenderer.color.r, _spriteRenderer.color.g, _spriteRenderer.color.b, newAlpha);
+            _outerLineRenderer.endColor = new Color(_spriteRenderer.color.r, _spriteRenderer.color.g, _spriteRenderer.color.b, newAlpha);
+            yield return null;
         }
     }
 }

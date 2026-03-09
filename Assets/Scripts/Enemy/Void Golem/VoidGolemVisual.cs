@@ -9,8 +9,11 @@ public class VoidGolemVisual : MonoBehaviour
     [SerializeField] private EnemyDamage _enemyDamage;
     [SerializeField] private GameObject _explosionPrefab;
     private Explosion _explosionScript = null;
-
+    private SpriteRenderer _sprite;
+    private Vector2 _originScale;
     private Animator _animator;
+    private Vector3 _attackPosition;
+
     private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
     private static readonly int SPEED_MULTI = Animator.StringToHash(CHASING_SPEED_MULTIPLIER);
     private static readonly int ATTACK_HASH = Animator.StringToHash(ATTACK);
@@ -28,6 +31,7 @@ public class VoidGolemVisual : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _sprite = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -35,9 +39,14 @@ public class VoidGolemVisual : MonoBehaviour
         _enemyAI.OnEnemyAttack += EnemyAI_OnEnemyAttack;
         _enemyDamage.OnTakeHit += EnemyDamage_OnTakeHit;
         _enemyDamage.OnDeath += EnemyDamage_OnDeath;
+        _enemyAI.OnEnemyUpdateSpriteDirection += EnemyAI_OnEnemyUpdateSpriteDirection;
+        _originScale = _sprite.transform.localScale;
     }
 
-    
+    private void EnemyAI_OnEnemyUpdateSpriteDirection(object sender, EventArgs e)
+    {
+        UpdateSpriteDirection();
+    }
 
     private void Update()
     {
@@ -47,25 +56,29 @@ public class VoidGolemVisual : MonoBehaviour
 
     
 
-    private void EnemyAI_OnEnemyAttack(object sender, System.EventArgs e)
+    private void EnemyAI_OnEnemyAttack(object sender, EventArgs e)
     {
-        _animator.SetTrigger(ATTACK_HASH); //stagger cancel logic in invoke in EnemyAI
+        _animator.SetTrigger(ATTACK_HASH);
         _enemyAI.IsAttacking = true;
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        float animLength = stateInfo.length;
-        Invoke("AttackFinished", animLength);
+        Vector3 direction = (PlayerMovement.Instance.transform.position - transform.position).normalized;
+        _attackPosition = transform.position + direction * 1f;
+        if (direction.x > 0) _enemyAI.IsFacingRight = true;
+        else _enemyAI.IsFacingRight = false;
+        UpdateSpriteDirection();
     }
 
-    private void AttackFinished()
+    private void UpdateSpriteDirection()
     {
-        _enemyAI.IsAttacking = false;
+        if (_enemyAI.IsFacingRight)
+            _sprite.transform.localScale = new Vector3(_originScale.x, _originScale.y, 1);
+        else if (!_enemyAI.IsFacingRight)
+            _sprite.transform.localScale = new Vector3(-_originScale.x, _originScale.y, 1);
     }
 
     public void AttackStart()
     {
-        Vector3 direction = (PlayerMovement.Instance.transform.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + direction * 1f;
-        GameObject explosion = Instantiate(_explosionPrefab, targetPosition, Quaternion.identity, transform);
+        
+        GameObject explosion = Instantiate(_explosionPrefab, _attackPosition, Quaternion.identity, transform);
         _explosionScript = explosion.GetComponent<Explosion>();
         if (_explosionScript)
         {
@@ -87,8 +100,6 @@ public class VoidGolemVisual : MonoBehaviour
         return stateInfo.length - currentTime;
     }
 
-    
-
     public IEnumerator StaggerReturnRoutine()
     {
         _enemyDamage.CanReceiveStagger = false;
@@ -99,9 +110,15 @@ public class VoidGolemVisual : MonoBehaviour
     public void AttackCancelled()
     {
         if (_explosionScript != null) _explosionScript.StopExplosion();
+        _enemyAI.IsAttacking = false;
     }
 
-    private void EnemyDamage_OnTakeHit(object sender, System.EventArgs e)
+    public void AttackEnd()
+    {
+        _enemyAI.IsAttacking = false;
+    }
+
+    private void EnemyDamage_OnTakeHit(object sender, EventArgs e)
     {
         if (_enemyDamage.InStagger)
         {
@@ -122,5 +139,6 @@ public class VoidGolemVisual : MonoBehaviour
         _enemyAI.OnEnemyAttack -= EnemyAI_OnEnemyAttack;
         _enemyDamage.OnTakeHit -= EnemyDamage_OnTakeHit;
         _enemyDamage.OnDeath -= EnemyDamage_OnDeath;
+        _enemyAI.OnEnemyUpdateSpriteDirection -= EnemyAI_OnEnemyUpdateSpriteDirection;
     }
 }

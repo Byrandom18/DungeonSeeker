@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7063890482848910788}
   - component: {fileID: 8432310950495877961}
   m_Layer: 6
-  m_Name: Void Golem
+  m_Name: Slam Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _haveTouchDamage: 0
+  _haveTouchDamage: 1
   _enemySO: {fileID: 11400000, guid: db56ace347d08504392e8fe0158e8e16, type: 2}
   CurrentAttack: 1
   _staggerImmune: 0
@@ -137,7 +137,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.5}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
 --- !u!50 &7063890482848910788
@@ -176,7 +176,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2956780305635371378}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 5678923732420909039}
   - component: {fileID: 5249224997346871055}
   m_Layer: 0
-  m_Name: VoidGolemVisual
+  m_Name: SlamEnemyVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,7 +278,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &485164813209650819
 Animator:
   serializedVersion: 7

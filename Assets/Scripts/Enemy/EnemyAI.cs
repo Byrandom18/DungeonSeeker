@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections;
 using GameUtils;
 using System;
+using Unity.VisualScripting;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -31,10 +32,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _attackDistance = 1f;
     [SerializeField] private float _attackRate = 3f;
     private float _nextAttackTime = 0f;
-    
-    
-    private Vector2 _originScale;
-    
+
     private NavMeshAgent _navMeshAgent;
     private EnemyDamage _enemyDamage;
     [SerializeField] private State _state;
@@ -42,9 +40,10 @@ public class EnemyAI : MonoBehaviour
     private bool _isIdle = false;
     //private bool isChasing = false;
     private bool _isRoaming = false;
-    private bool _isFacingRight = true;
+    public bool IsFacingRight = true;
 
     public event EventHandler OnEnemyAttack;
+    public event EventHandler OnEnemyUpdateSpriteDirection;
     public bool IsAttacking = false;
     
 
@@ -75,7 +74,6 @@ public class EnemyAI : MonoBehaviour
         InitializeStats();
         _startingPosition = transform.position;
         _navMeshAgent.speed = _roamSpeed;
-        _originScale = transform.localScale;
     }
 
     private void Update()
@@ -220,8 +218,9 @@ public class EnemyAI : MonoBehaviour
         if (Time.time > _nextAttackTime && _navMeshAgent.velocity == Vector3.zero && !_enemyDamage.InStagger)
         {
             OnEnemyAttack?.Invoke(this, EventArgs.Empty);
-            
+            IsAttacking = true;
             _nextAttackTime = Time.time + _attackRate;
+            _navMeshAgent.ResetPath();
         }
     }
 
@@ -234,9 +233,12 @@ public class EnemyAI : MonoBehaviour
 
     private void Roaming()
     {
-        _isRoaming = true;
-        _roamPosition = GetRoamPosition();
-        _navMeshAgent.SetDestination(_roamPosition);
+        if (!IsAttacking)
+        {
+            _isRoaming = true;
+            _roamPosition = GetRoamPosition();
+            _navMeshAgent.SetDestination(_roamPosition);
+        }
     }
 
     private Vector3 GetRoamPosition()
@@ -277,20 +279,13 @@ public class EnemyAI : MonoBehaviour
             bool shouldFaceRight = moveDirection.x > 0;
 
             // Разворачиваем только если направление изменилось
-            if (shouldFaceRight != _isFacingRight)
+            if (shouldFaceRight != IsFacingRight)
             {
-                FlipDirection(shouldFaceRight);
-                _isFacingRight = shouldFaceRight;
+                IsFacingRight = shouldFaceRight;
+                OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
             }
         }
     }
 
-    private void FlipDirection(bool faceRight)
-    {
-        if (faceRight)
-            transform.localScale = new Vector3(_originScale.x, _originScale.y, 1);
-        else if (!faceRight)
-            transform.localScale = new Vector3(-_originScale.x, _originScale.y, 1);
-    }
-
+    
 }
