@@ -53,6 +53,7 @@ public class EnemyDamage : MonoBehaviour
             {
                 player.TakeDamage(CurrentAttack, transform, KnockbackMultiplier); //(transform, _currentAttack, ...)
                 _nextAttackTime = Time.time + 1f;
+                _knockback.GetKnockedBack(collision.transform, 1f, _knockbackResist);
             }
         }
     }
@@ -85,6 +86,8 @@ public class EnemyDamage : MonoBehaviour
 
         KnockbackMultiplier = _enemySO.KnockbackMultiplier;
         _knockbackResist = _enemySO.KnockbackResist;
+        _knockback.KnockbackForce = _enemySO.KnockbackSelfForce;
+        _knockback.KnockbackMovingTimerMax = _enemySO.KnockbackDuration;
 
         _haveTouchDamage = _enemySO.EnableTouchDamage;
     }

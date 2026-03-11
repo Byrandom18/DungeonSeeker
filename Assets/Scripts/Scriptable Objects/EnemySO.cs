@@ -37,6 +37,8 @@ public class EnemySO : ScriptableObject
 
     [Header("Knockback settings")]
     public bool EnableKnockback = true;
-    public float KnockbackMultiplier = 1;
-    public float KnockbackResist = 0;
+    public float KnockbackMultiplier = 1f;
+    public float KnockbackResist = 0f;
+    public float KnockbackSelfForce = 2f;
+    public float KnockbackDuration = 0.3f;
 }

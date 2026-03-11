@@ -63,7 +63,7 @@ public class Explosion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent(out PlayerStats player))
+        if (collision.CompareTag("Player") && collision.transform.TryGetComponent(out PlayerStats player))
         {
             player.TakeDamage(Damage, transform, KnockbackMultiplier);
         }

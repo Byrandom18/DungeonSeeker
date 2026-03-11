@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2654895725980606884
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1218495228056247004, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: _enemySO
+      value: 
+      objectReference: {fileID: 11400000, guid: dd58ed423f1b9b545a09fc16c182efb5, type: 2}
+    - target: {fileID: 1257132027651446878, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 17c32038cc29ec74e9c0c972ec9ae993, type: 2}
+    - target: {fileID: 1409067990645469605, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_Name
+      value: Dark Mage Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 1580109368771830838, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: _enemySO
+      value: 
+      objectReference: {fileID: 11400000, guid: dd58ed423f1b9b545a09fc16c182efb5, type: 2}
+    - target: {fileID: 1714525529075657319, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 677004727, guid: 7e54c17eac981934ea310f6a52f2d35a, type: 3}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267373375929859351, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_Name
+      value: Dark Mage
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5267373375929859351, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 7900328459039562990}
+    - targetCorrespondingSourceObject: {fileID: 1409067990645469605, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4093012339997745137}
+  m_SourcePrefab: {fileID: 100100000, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+--- !u!114 &3545943149726631314 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1580109368771830838, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 2654895725980606884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908723048241487027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57ea1e55fcb6c447950ab1ed60928d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3760755744166378360 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1218495228056247004, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 2654895725980606884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908723048241487027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47db37537a011594b96bb6168461ff23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3987399016429981697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1409067990645469605, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 2654895725980606884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4093012339997745137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987399016429981697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94e55c6f879ff6b4ab64f171aab5f179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyAI: {fileID: 3760755744166378360}
+  _enemyDamage: {fileID: 3545943149726631314}
+  _enemyCombat: {fileID: 7900328459039562990}
+--- !u!1 &7908723048241487027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5267373375929859351, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 2654895725980606884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7900328459039562990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908723048241487027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3224acb7d8aeb4c884cd44d54b9f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectilePrefab: {fileID: 38135900533770816, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+  _damageMultiplier: 1
+  _baseProjectileSpeed: 8
+  _baseProjectileLifetime: 3
+  _sizeMultiplier: 1

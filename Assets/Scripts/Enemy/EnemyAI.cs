@@ -5,6 +5,7 @@ using GameUtils;
 using System;
 using Unity.VisualScripting;
 
+[SelectionBase]
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private EnemySO _enemySO;
