@@ -85,7 +85,7 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage, Transform knockbackSource, float knockbackMultiplier)
+    public void TakeDamage(float damage, Vector3 knockbackSource, float knockbackMultiplier)
     {
         if (!IsAlive || Invulnerability) return;
 

@@ -25,7 +25,7 @@ public class DarkMageCombat : MonoBehaviour
             projectileScript.Lifetime = _baseProjectileLifetime;
             projectileScript.Damage = _damageMultiplier * damage;
             projectileScript.EnemyLaunch = true;
-            projectileScript.SetDirection(direction, transform);
+            projectileScript.SetDirection(direction, transform.position);
         }
 
 

@@ -51,15 +51,15 @@ public class EnemyDamage : MonoBehaviour
         {
             if (Time.time > _nextAttackTime && collision.transform.TryGetComponent(out PlayerStats player))
             {
-                player.TakeDamage(CurrentAttack, transform, KnockbackMultiplier); //(transform, _currentAttack, ...)
+                player.TakeDamage(CurrentAttack, transform.position, KnockbackMultiplier); //(transform, _currentAttack, ...)
                 _nextAttackTime = Time.time + 1f;
-                _knockback.GetKnockedBack(collision.transform, 1f, _knockbackResist);
+                _knockback.GetKnockedBack(collision.transform.position, 1f, _knockbackResist);
             }
         }
     }
 
     public void TakeDamage(float damage, 
-        Transform knockbackSource, float knockbackMultiplier,
+        Vector3 knockbackSource, float knockbackMultiplier,
         bool isStaggeringAttack)
     {
         if (IsAlive)

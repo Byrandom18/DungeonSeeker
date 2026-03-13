@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Void Golem
       objectReference: {fileID: 0}
+    - target: {fileID: 3534423962336530266, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4315614045414868383, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.9935255
@@ -1106,6 +1110,10 @@ PrefabInstance:
     - target: {fileID: 2155290474657029657, guid: 1bf230f3ac1391849a5c8a6a6a7fad4d, type: 3}
       propertyPath: m_Name
       value: Green Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155290474657029657, guid: 1bf230f3ac1391849a5c8a6a6a7fad4d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -65,7 +65,7 @@ public class Explosion : MonoBehaviour
     {
         if (collision.CompareTag("Player") && collision.transform.TryGetComponent(out PlayerStats player))
         {
-            player.TakeDamage(Damage, transform, KnockbackMultiplier);
+            player.TakeDamage(Damage, transform.position, KnockbackMultiplier);
         }
     }
 

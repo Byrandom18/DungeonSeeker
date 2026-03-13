@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 
 [RequireComponent (typeof(Rigidbody2D))]
@@ -14,7 +15,7 @@ public class Projectile : MonoBehaviour
     
     public bool EnemyLaunch = false;
 
-    private Transform _startPosition;
+    private Vector2 _startPosition;
     private Vector2 direction;
     private Rigidbody2D rb;
 
@@ -28,7 +29,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, Lifetime);
     }
 
-    public void SetDirection(Vector2 dir, Transform startPosition)
+    public void SetDirection(Vector2 dir, Vector3 startPosition)
     {
         direction = dir.normalized;
         _startPosition = startPosition;
