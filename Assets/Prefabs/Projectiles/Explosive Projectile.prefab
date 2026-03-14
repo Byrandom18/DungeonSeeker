@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1720814868546875470
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 38135900533770816, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_Name
+      value: Explosive Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 38135900533770816, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 1582719974308157770}
+  m_SourcePrefab: {fileID: 100100000, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+--- !u!1 &1686295038552914446 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 38135900533770816, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+  m_PrefabInstance: {fileID: 1720814868546875470}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1582719974308157770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686295038552914446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a8b7a56a47644e4aa92bbdda5a6868d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 2914150585437473331}
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _environmentLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  _deathVFXPrefab: {fileID: 3577658362219106299, guid: 1c8230e6135c71e4ca0dfd28e3e0ce33, type: 3}
+  _areaMulti: 1
+  _radius: 0.75
+--- !u!114 &2914150585437473331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4580359308403620477, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+  m_PrefabInstance: {fileID: 1720814868546875470}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686295038552914446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccc4b894038fbc4f833a218d98218d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

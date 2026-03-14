@@ -251,8 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfcfe7f499396f498a5c137ded06416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sword: {fileID: 966594387381314885}
-  trailRenderer: {fileID: 4772975124242399554}
+  _sword: {fileID: 966594387381314885}
+  _trailRenderer: {fileID: 4772975124242399554}
 --- !u!95 &2665408255270401579
 Animator:
   serializedVersion: 7
@@ -374,9 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d92c310af558d46940af8b79b497b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMulti: 150
-  cooldown: 0.5
-  rotationEnabled: 0
+  Cooldown: 0.5
+  RotationEnabled: 1
+  _damageMulti: 1.5
 --- !u!50 &1509616577759093202
 Rigidbody2D:
   serializedVersion: 5

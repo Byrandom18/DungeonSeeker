@@ -2,13 +2,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class Sword : MonoBehaviour
+public class Sword : WeaponBase
 {
-    [SerializeField] private float _damageMulti;
     public event EventHandler OnSwordSwing;
     private PolygonCollider2D _attackBox;
-    public float Cooldown = 0.5f;
-    public bool RotationEnabled = false;
+    //public float Cooldown = 0.5f;
+    //public bool RotationEnabled = false;
 
     private void Awake()
     {
@@ -21,7 +20,7 @@ public class Sword : MonoBehaviour
     }
 
 
-    public void Attack()
+    public override void Attack()
     {
         OnSwordSwing?.Invoke(this, EventArgs.Empty);
     }
@@ -61,10 +60,10 @@ public class Sword : MonoBehaviour
         }
     }
 
-    private float CalculateDamage() //потом доработанную сунуть в утилс
+    private float CalculateDamage() 
     {
 
-        return _damageMulti / 100 * PlayerStats.Instance.CurrentAtk;
+        return DamageMulti * PlayerStats.Instance.CurrentAtk;
     }
 
     
