@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6fa5c1ae41fc9394e881518863e1dc62
+guid: e713327eb08f5224fa89ddbeca4cf503
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -149,45 +149,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_idle-Sheet_0
+      name: UI Metallic Item_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 28
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 6, y: 6, z: 6, w: 6}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 75250211812109b90800000000000000
-      internalID: -7237264706608541097
+      spriteID: e21c25f35a4cf9c438a3e618d372f90c
+      internalID: 1320070009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle-Sheet_1
+      name: UI Metallic Item_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 64
         y: 0
-        width: 29
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 41ff6199d73d453f0800000000000000
-      internalID: -912872288056574188
+      spriteID: af4cdb20444ec4943af4414fa989adac
+      internalID: -2129834717
       vertices: []
       indices: 
       edges: []
@@ -196,7 +196,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b132c9847bc4dc74fb129ea4de80d123
     internalID: 0
     vertices: []
     indices: 
@@ -206,8 +206,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      player_idle-Sheet_0: -7237264706608541097
-      player_idle-Sheet_1: -912872288056574188
+      UI Metallic Item_0: 1320070009
+      UI Metallic Item_1: -2129834717
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
