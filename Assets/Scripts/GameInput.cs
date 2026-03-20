@@ -10,6 +10,7 @@ public class GameInput : MonoBehaviour
     public bool CanAttack;
     public event EventHandler OnPlayerAttack;
     public event EventHandler OnPlayerDodge;
+    public event EventHandler OnInventoryButton;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class GameInput : MonoBehaviour
     {
         //_inputActions.Player.Attack.performed += PlayerAttack_performed;
         _inputActions.Player.Dodge.started += PlayerDodge_started;
+        _inputActions.UI.Inventory.started += Inventory_started;
         CanAttack = true;
     }
 
@@ -43,6 +45,11 @@ public class GameInput : MonoBehaviour
     public Vector2 GetMovementVector()
     {
         return _inputActions.Player.Move.ReadValue<Vector2>();
+    }
+
+    private void Inventory_started(InputAction.CallbackContext obj)
+    {
+        OnInventoryButton?.Invoke(this, EventArgs.Empty);
     }
 
     private void PlayerDodge_started(InputAction.CallbackContext obj)
