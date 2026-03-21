@@ -16,7 +16,25 @@ public class InventoryPageUI : MonoBehaviour
             InventoryItemUI uiItem = Instantiate(_itemPrefab, Vector3.zero, Quaternion.identity);
             uiItem.transform.SetParent(_contentPanel, false);
             _listOfItemsUI.Add(uiItem);
+            uiItem.OnItemClick += UiItem_OnItemClick;
+            uiItem.OnItemHovered += UiItem_OnItemHovered;
+            uiItem.OnItemUnhovered += UiItem_OnItemUnhovered;
         }
+    }
+
+    private void UiItem_OnItemUnhovered(InventoryItemUI obj)
+    {
+        Debug.Log("2");
+    }
+
+    private void UiItem_OnItemHovered(InventoryItemUI obj)
+    {
+        Debug.Log("1");
+    }
+
+    private void UiItem_OnItemClick(InventoryItemUI obj)
+    {
+        Debug.Log("123");
     }
 
     public void ShowInventoryUI()
