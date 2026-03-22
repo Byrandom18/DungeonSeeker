@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [SerializeField] private InventoryPageUI _inventoryPage;
+    [SerializeField] private InventoryPage _inventoryPage;
 
     [SerializeField] private int _inventorySize = 20;
 
@@ -21,11 +21,11 @@ public class InventoryController : MonoBehaviour
     {
         if (!_inventoryPage.isActiveAndEnabled)
         {
-            _inventoryPage.ShowInventoryUI();
+            _inventoryPage.ShowInventory();
         }
         else
         {
-            _inventoryPage.HideInventoryUI();
+            _inventoryPage.HideInventory();
         }
     }
 }

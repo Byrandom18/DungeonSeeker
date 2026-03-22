@@ -1733,7 +1733,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 966594387381314885, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
       propertyPath: RotationEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2043970042521967916, guid: fd362334cb8d6cf40ae3f3a4d0c6deed, type: 3}
       propertyPath: m_LocalPosition.x

@@ -5,15 +5,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image _itemImage;
     [SerializeField] private TMP_Text _quantityText;
-
     [SerializeField] private Image _borderImage;
 
+    public Sprite Sprite;
+    public int Quantity = 1;
+    public string Name = "Item name";
+    public string Description = "Item Description";
 
-    public event Action<InventoryItemUI> OnItemClick, OnItemHovered, OnItemUnhovered;
+    public event Action<InventoryItem> OnItemClick, OnItemHovered, OnItemUnhovered;
 
     private void Awake()
     {
@@ -49,7 +52,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         _borderImage.enabled = false;
     }
 
-    private void SetData(Sprite sprite, int quantity)
+    public void SetData(Sprite sprite, int quantity)
     {
         _itemImage.sprite = sprite;
         _quantityText.text = quantity.ToString();
