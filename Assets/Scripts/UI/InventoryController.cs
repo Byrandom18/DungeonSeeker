@@ -4,20 +4,18 @@ public class InventoryController : MonoBehaviour
 {
     [SerializeField] private InventoryPage _inventoryPage;
 
-    [SerializeField] private int _inventorySize = 20;
 
     private void Start()
     {
         GameInput.Instance.OnInventoryButton += GameInput_OnInventoryButton;
-        _inventoryPage.InitializeInventoryUI(_inventorySize);
     }
 
     private void GameInput_OnInventoryButton(object sender, System.EventArgs e)
     {
-        InventorySwitch();
+        ToggleInventory();
     }
 
-    private void InventorySwitch()
+    private void ToggleInventory()
     {
         if (!_inventoryPage.isActiveAndEnabled)
         {
@@ -27,5 +25,11 @@ public class InventoryController : MonoBehaviour
         {
             _inventoryPage.HideInventory();
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameInput.Instance != null)
+            GameInput.Instance.OnInventoryButton -= GameInput_OnInventoryButton;
     }
 }

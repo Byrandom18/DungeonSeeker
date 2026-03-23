@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2cc76e2ad5a3644a8dda16b2a04833, type: 3}
+  m_Name: InventorySO
+  m_EditorClassIdentifier: 
+  _items:
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 5
+    UpgradeLevel: 1
+    IsEquipped: 0
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
+    Quantity: 0
+    UpgradeLevel: 0
+    IsEquipped: 1
+  - Item: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
+    Quantity: 15
+    UpgradeLevel: 0
+    IsEquipped: 0
+  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+    Quantity: 52
+    UpgradeLevel: 5
+    IsEquipped: 0
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 0
+    UpgradeLevel: 0
+    IsEquipped: 0
