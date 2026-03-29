@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,7 +11,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField] private TMP_Text _quantityText;
     [SerializeField] private Image _rarityGradientImage;
     [SerializeField] private Image _selectionBorderImage;
-    [SerializeField] private GameObject _equippedBadge;    // "E" label or checkmark overlay
+    [SerializeField] private GameObject _equippedBadge;   
 
     public InventoryItemData ItemData { get; private set; }
     public int InventoryIndex { get; private set; }
@@ -37,7 +36,6 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         Deselect();
     }
 
-    /// <summary>Bind data to this UI cell.</summary>
     public void SetData(InventoryItemData data, int index)
     {
         ItemData = data;
@@ -46,7 +44,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         _itemImage.sprite = data.Item.Sprite;
         _itemImage.gameObject.SetActive(data.Item.Sprite != null);
 
-        // Quantity — only for stackable resources
+        // Quantity only for stackable resources
         bool showQty = data.Item.ItemType == ItemType.Resource && data.Quantity > 1;
         _quantityText.gameObject.SetActive(showQty);
         if (showQty) _quantityText.text = data.Quantity.ToString();
@@ -55,7 +53,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         int rarityIndex = Mathf.Clamp((int)data.Item.Rarity, 1, RarityColors.Length - 1);
         _rarityGradientImage.color = RarityColors[rarityIndex];
 
-        // Equipment-only fields
+        // Equipment only fields
         bool isEquip = data.Item.ItemType == ItemType.Equipment;
         if (isEquip) _quantityText.text = $"+{data.UpgradeLevel}";
         //if (_upgradeLevelText != null)

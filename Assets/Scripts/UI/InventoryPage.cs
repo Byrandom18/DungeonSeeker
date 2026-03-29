@@ -21,8 +21,12 @@ public class InventoryPage : MonoBehaviour
 
     [Header("Equipment Sub-filter")]
     [SerializeField] private GameObject _subFilterPanel;          // parent containing slot buttons
-    [SerializeField] private Button _allEquipmentButton;
-    [SerializeField] private Button[] _slotFilterButtons;         // order matches EquipmentSlot enum (skip None)
+    //[SerializeField] private Button _allEquipmentButton;
+    //[SerializeField] private Button[] _slotFilterButtons;         // order matches EquipmentSlot enum (skip None)
+
+    [Header("Action Buttons")]
+    [SerializeField] private Button _equipButton;
+    [SerializeField] private Button _upgradeButton;
 
     // Internal state
     private readonly List<InventoryItem> _spawnedItems = new List<InventoryItem>();
@@ -32,21 +36,24 @@ public class InventoryPage : MonoBehaviour
     private InventoryItem _selectedItem;
 
     private enum Tab { Resources, Equipment }
-    private Tab _activeTab = Tab.Resources;
+    private Tab _activeTab = Tab.Equipment;
     private EquipmentSlot? _activeSlotFilter = null; // null = all equipment
 
     private void Awake()
     {
         HideInventory();
         _itemDescription.ResetDescription();
+        SetActionButtonsVisible(false);
         BindTabButtons();
-        BindSlotButtons();
+        //BindSlotButtons();
     }
 
     private void OnEnable()
     {
         if (_inventorySO != null)
             _inventorySO.OnInventoryChanged += RefreshCurrentView;
+
+        _inventorySO?.RebuildEquippedDictionary();
     }
 
     private void OnDisable()
@@ -68,18 +75,28 @@ public class InventoryPage : MonoBehaviour
     private void SwitchTab(Tab tab)
     {
         _activeTab = tab;
-
+        _activeSlotFilter = null;
         bool isEquip = tab == Tab.Equipment;
         if (_subFilterPanel) _subFilterPanel.SetActive(isEquip);
-
-        if (!isEquip) _activeSlotFilter = null;
-
+        _selectedItem?.Deselect();
+        _selectedItem = null;
         RefreshCurrentView();
     }
 
     private void SwitchSlotFilter(EquipmentSlot? slot)
     {
+        DeselectCurrent();
         _activeSlotFilter = slot;
+        RefreshCurrentView();
+    }
+
+    public void SwitchToEquipmentSlot(EquipmentSlot slot)
+    {
+        _activeTab = Tab.Equipment;
+        if (_subFilterPanel) _subFilterPanel.SetActive(true);
+        _activeSlotFilter = slot;
+        _selectedItem?.Deselect();
+        _selectedItem = null;
         RefreshCurrentView();
     }
 
@@ -142,34 +159,54 @@ public class InventoryPage : MonoBehaviour
             }
         }
 
+        if (_currentView.Count == 0) return;
+
         // Refresh selection highlight
-        if (_selectedItem != null)
+        bool selectedStillValid = _selectedItem != null
+        && _spawnedItems.IndexOf(_selectedItem) is int idx
+        && idx >= 0 && idx < _currentView.Count;
+
+        if (!selectedStillValid)
         {
-            bool stillVisible = _spawnedItems.Contains(_selectedItem) && _selectedItem.gameObject.activeSelf;
-            if (!stillVisible)
-            {
-                _selectedItem = null;
-                _itemDescription.ResetDescription();
-            }
+            _selectedItem?.Deselect();
+            _selectedItem = null;
         }
+
+        if (_selectedItem == null)
+            SelectItem(FindEquippedCellOrFirst());
     }
 
-    private void HandleItemClicked(InventoryItem item)
+    private void HandleItemClicked(InventoryItem item) => SelectItem(item);
+
+    private void SelectItem(InventoryItem item)
     {
-        // Deselect previous
         _selectedItem?.Deselect();
         _selectedItem = item;
         item.Select();
 
+        bool isEquip = item.ItemData.Item.ItemType == ItemType.Equipment;
+        SetActionButtonsVisible(isEquip);
+
         _itemDescription.SetDescription(
             item.ItemData,
-            () => HandleEquipButtonClicked(item)
+            isEquip ? () => HandleEquipButtonClicked(item) : (System.Action)null
         );
+    }
+
+    private void DeselectCurrent()
+    {
+        _selectedItem?.Deselect();
+        _selectedItem = null;
+        _itemDescription.ResetDescription();
+        SetActionButtonsVisible(false);
     }
 
     private void HandleEquipButtonClicked(InventoryItem item)
     {
+        if (item == null) return;
+
         int sourceIdx = item.InventoryIndex;
+        if (sourceIdx < 0 || sourceIdx >= _inventorySO.Items.Count) return;
         InventoryItemData data = _inventorySO.Items[sourceIdx];
 
         if (data.IsEquipped)
@@ -192,6 +229,12 @@ public class InventoryPage : MonoBehaviour
     private void HandleItemHovered(InventoryItem item) { /* Optional: tooltip */ }
     private void HandleItemUnhovered(InventoryItem item) { /* Optional: hide tooltip */ }
 
+    private void SetActionButtonsVisible(bool visible)
+    {
+        if (_equipButton != null) _equipButton.gameObject.SetActive(visible);
+        if (_upgradeButton != null) _upgradeButton.gameObject.SetActive(visible);
+    }
+
 
     private void BindTabButtons()
     {
@@ -199,21 +242,31 @@ public class InventoryPage : MonoBehaviour
         _equipmentTabButton?.onClick.AddListener(() => SwitchTab(Tab.Equipment));
     }
 
-    private void BindSlotButtons()
+    private InventoryItem FindEquippedCellOrFirst()
     {
-        _allEquipmentButton?.onClick.AddListener(() => SwitchSlotFilter(null));
-
-        // EquipmentSlot enum 
-        EquipmentSlot[] slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
-        for (int i = 0; i < _slotFilterButtons.Length; i++)
+        for (int i = 0; i < _currentView.Count; i++)
         {
-            if (_slotFilterButtons[i] == null) continue;
-            EquipmentSlot slot = i + 1 < slots.Length ? slots[i + 1] : EquipmentSlot.None;
-            if (slot == EquipmentSlot.None) continue;
-            int captured = i;
-            _slotFilterButtons[captured].onClick.AddListener(() => SwitchSlotFilter(slots[captured + 1]));
+            if (_currentView[i].IsEquipped)
+                return _spawnedItems[i];
         }
+        return _spawnedItems[0];
     }
+
+    //private void BindSlotButtons()
+    //{
+    //    //_allEquipmentButton?.onClick.AddListener(() => SwitchSlotFilter(null));
+
+    //    // EquipmentSlot enum 
+    //    EquipmentSlot[] slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
+    //    for (int i = 0; i < _slotFilterButtons.Length; i++)
+    //    {
+    //        if (_slotFilterButtons[i] == null) continue;
+    //        EquipmentSlot slot = i + 1 < slots.Length ? slots[i + 1] : EquipmentSlot.None;
+    //        if (slot == EquipmentSlot.None) continue;
+    //        int captured = i;
+    //        _slotFilterButtons[captured].onClick.AddListener(() => SwitchSlotFilter(slots[captured + 1]));
+    //    }
+    //}
 
     private void OnDestroy()
     {

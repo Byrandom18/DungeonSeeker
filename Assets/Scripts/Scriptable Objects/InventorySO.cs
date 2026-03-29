@@ -15,6 +15,25 @@ public class InventorySO : ScriptableObject
 
     public IReadOnlyList<InventoryItemData> Items => _items;
 
+    public void RebuildEquippedDictionary()
+    {
+        _equippedItems.Clear();
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (_items[i].IsEquipped && _items[i].Item != null)
+            {
+                EquipmentSlot slot = _items[i].Item.EquipmentSlot;
+                // Если в одном слоте несколько помеченных — оставляем первый
+                if (!_equippedItems.ContainsKey(slot))
+                    _equippedItems[slot] = i;
+                else
+                {
+                    // Снять лишний флаг
+                    _items[i] = _items[i].SetEquipped(false);
+                }
+            }
+        }
+    }
 
     public bool IsEquipped(int itemIndex) =>
         itemIndex >= 0 && itemIndex < _items.Count && _items[itemIndex].IsEquipped;

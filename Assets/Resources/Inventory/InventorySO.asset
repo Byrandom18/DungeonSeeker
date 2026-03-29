@@ -16,11 +16,11 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
     Quantity: 5
     UpgradeLevel: 1
-    IsEquipped: 0
+    IsEquipped: 1
   - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 0
     UpgradeLevel: 0
-    IsEquipped: 1
+    IsEquipped: 0
   - Item: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
     Quantity: 15
     UpgradeLevel: 0
@@ -28,8 +28,8 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
     Quantity: 52
     UpgradeLevel: 5
-    IsEquipped: 0
+    IsEquipped: 1
   - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 0
     UpgradeLevel: 0
-    IsEquipped: 0
+    IsEquipped: 1

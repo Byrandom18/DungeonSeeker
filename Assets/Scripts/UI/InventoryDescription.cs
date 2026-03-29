@@ -22,9 +22,6 @@ public class InventoryDescription : MonoBehaviour
     [SerializeField] private Button _equipButton;
     [SerializeField] private TMP_Text _equipButtonText;
 
-    [Header("Resource only")]
-    [SerializeField] private GameObject _resourcePanel;
-    [SerializeField] private TMP_Text _quantityText;
 
     private static readonly Color[] RarityColors =
     {
@@ -84,22 +81,24 @@ public class InventoryDescription : MonoBehaviour
 
     private void FillResourcePanel(InventoryItemData data)
     {
-        _quantityText.text = $"x{data.Quantity}";
+        if (_equipmentPanel) _equipmentPanel.SetActive(false);
+        if (_upgradeLevelText)
+        {
+            _upgradeLevelText.gameObject.SetActive(true);
+            _upgradeLevelText.text = $"x{data.Quantity}";
+        }
+        if (_slotText) _slotText.text = ItemType.Resource.ToString();
         _onEquipClicked = null;
     }
 
     private void SetPanelsActive(ItemType type, bool hasData)
     {
         if (_equipmentPanel) _equipmentPanel.SetActive(hasData && type == ItemType.Equipment);
-        if (_resourcePanel) _resourcePanel.SetActive(hasData && type == ItemType.Resource);
+        if (_upgradeLevelText) _upgradeLevelText.gameObject.SetActive(hasData);
     }
 
     private void FillEquipmentPanel(ItemSO item, InventoryItemData data, System.Action onEquipClicked)
     {
-        _slotText.text = item.EquipmentSlot.ToString();
-
-        int lvl = data.UpgradeLevel;
-        // mult = 1f + lvl * 0.1f;
 
         //_attackText.text = item.BaseAttack > 0
         //    ? $"ATK  {Mathf.RoundToInt(item.BaseAttack * mult)}" : "";
@@ -108,10 +107,16 @@ public class InventoryDescription : MonoBehaviour
         //_healthText.text = item.BaseHealth > 0
         //    ? $"HP   {Mathf.RoundToInt(item.BaseHealth * mult)}" : "";
 
-        _upgradeLevelText.text = "+" + lvl;
+        if (_equipmentPanel) _equipmentPanel.SetActive(true);
+        //if (_quantityText) _quantityText.gameObject.SetActive(false);
+
+        if (_slotText) _slotText.text = item.EquipmentSlot.ToString();
+
+        if (_upgradeLevelText) _upgradeLevelText.text = $"+{data.UpgradeLevel}";
 
         bool isEquipped = data.IsEquipped;
-        _equipButtonText.text = isEquipped ? "Unequip" : "Equip";
+        if (_equipButtonText) _equipButtonText.text = isEquipped ? "Unequip" : "Equip";
+
         _onEquipClicked = onEquipClicked;
     }
 }
