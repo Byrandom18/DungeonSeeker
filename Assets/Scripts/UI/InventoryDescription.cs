@@ -15,10 +15,11 @@ public class InventoryDescription : MonoBehaviour
     [Header("Equipment only")]
     [SerializeField] private GameObject _equipmentPanel;
     [SerializeField] private TMP_Text _slotText;
-    //[SerializeField] private TMP_Text _attackText;
-    //[SerializeField] private TMP_Text _defenseText;
-    //[SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _upgradeLevelText;
+    [SerializeField] private TMP_Text _mainStatsText;
+    [SerializeField] private TMP_Text _bonusStatsText;
+    [SerializeField] private GameObject _bonusStatsHeader;
+
     [SerializeField] private Button _equipButton;
     [SerializeField] private TMP_Text _equipButtonText;
 

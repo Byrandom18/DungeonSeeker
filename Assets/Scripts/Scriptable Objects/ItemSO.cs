@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemRarity
@@ -43,4 +44,29 @@ public class ItemSO : ScriptableObject
 
     [field: SerializeField] public EquipmentSlot EquipmentSlot { get; private set; }
     [field: SerializeField] public int MaxUpgradeLevel { get; private set; } = 6;
+
+    [Header("Main Stats")]
+    [SerializeField] private List<MainStatDefinition> _mainStats = new List<MainStatDefinition>();
+    public IReadOnlyList<MainStatDefinition> MainStats => _mainStats;
+
+    [Header("Bonus Stat Pool")]
+    [SerializeField] private List<BonusStatDefinition> _bonusStatPool = new List<BonusStatDefinition>();
+    public IReadOnlyList<BonusStatDefinition> BonusStatPool => _bonusStatPool;
+
+    [Header("Upgrade Settings")]
+    [SerializeField] private int _firstBonusAtLevel = 1;
+    [SerializeField] private int _bonusEveryNLevels = 1;
+    public int FirstBonusAtLevel => _firstBonusAtLevel;
+    public int BonusEveryNLevels => _bonusEveryNLevels;
+
+    [Tooltip("Рецепт улучшения с требуемыми ресурсами. Можно переиспользовать один рецепт для нескольких предметов")]
+    [SerializeField] private UpgradeRecipeSO _upgradeRecipe;
+    public UpgradeRecipeSO UpgradeRecipe => _upgradeRecipe;
+
+    public int ExpectedBonusCountAtLevel(int level)
+    {
+        if (level < _firstBonusAtLevel || _bonusEveryNLevels <= 0) return 0;
+        int count = 1 + (level - _firstBonusAtLevel) / _bonusEveryNLevels;
+        return Mathf.Min(count, 6);
+    }
 }

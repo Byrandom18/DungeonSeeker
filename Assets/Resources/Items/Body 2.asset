@@ -20,3 +20,8 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 0
   <EquipmentSlot>k__BackingField: 2
   <MaxUpgradeLevel>k__BackingField: 4
+  _mainStats: []
+  _bonusStatPool: []
+  _firstBonusAtLevel: 1
+  _bonusEveryNLevels: 1
+  _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}

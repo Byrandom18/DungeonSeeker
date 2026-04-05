@@ -15,6 +15,7 @@ public class InventorySO : ScriptableObject
 
     public IReadOnlyList<InventoryItemData> Items => _items;
 
+    //initialize
     public void RebuildEquippedDictionary()
     {
         _equippedItems.Clear();
@@ -23,12 +24,10 @@ public class InventorySO : ScriptableObject
             if (_items[i].IsEquipped && _items[i].Item != null)
             {
                 EquipmentSlot slot = _items[i].Item.EquipmentSlot;
-                // ≈сли в одном слоте несколько помеченных Ч оставл€ем первый
                 if (!_equippedItems.ContainsKey(slot))
                     _equippedItems[slot] = i;
                 else
                 {
-                    // —н€ть лишний флаг
                     _items[i] = _items[i].SetEquipped(false);
                 }
             }
@@ -54,7 +53,8 @@ public class InventorySO : ScriptableObject
             }
         }
 
-        _items.Add(new InventoryItemData(item, quantity));
+        var newData = new InventoryItemData(item, quantity);
+        _items.Add(newData);
         OnInventoryChanged?.Invoke();
     }
 
@@ -116,7 +116,11 @@ public class InventorySO : ScriptableObject
         return true;
     }
 
-    public bool UpgradeItem(int itemIndex)
+
+    //upgrade
+
+
+    public bool CanUpgradeItem(int itemIndex)
     {
         if (itemIndex < 0 || itemIndex >= _items.Count) return false;
 
@@ -124,11 +128,86 @@ public class InventorySO : ScriptableObject
         if (data.Item.ItemType != ItemType.Equipment) return false;
         if (data.UpgradeLevel >= data.Item.MaxUpgradeLevel) return false;
 
-        _items[itemIndex] = data.ChangeUpgradeLevel(data.UpgradeLevel + 1);
+        UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
+        if (recipe == null) return true; // free upgrade if no recipe
+
+        return recipe.CanUpgrade(data.UpgradeLevel + 1, _items);
+    }
+
+    public bool UpgradeItem(int itemIndex)
+    {
+        if (!CanUpgradeItem(itemIndex)) return false;
+
+        InventoryItemData data = _items[itemIndex];
+        int newLevel = data.UpgradeLevel + 1;
+
+        // —писать ресурсы
+        UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
+        if (recipe != null)
+        {
+            var ingredients = recipe.GetIngredientsForLevel(newLevel);
+            if (ingredients != null)
+            {
+                foreach (var ingredient in ingredients)
+                {
+                    if (ingredient.Resource == null) continue;
+                    ConsumeResource(ingredient.Resource, ingredient.Quantity);
+                }
+            }
+        }
+
+        // ѕересчитать основные характеристики
+        var newMainStats = RecalculateMainStats(data.Item, newLevel);
+
+        // ƒобавить доп. характеристику если нужно
+        var newBonusStats = new List<BonusStatInstance>(data.BonusStats);
+        int expectedBonus = data.Item.ExpectedBonusCountAtLevel(newLevel);
+        if (newBonusStats.Count < expectedBonus)
+            TryAddBonusStat(data.Item, newBonusStats);
+
+        _items[itemIndex] = data.WithUpgrade(newLevel, newMainStats, newBonusStats);
         OnInventoryChanged?.Invoke();
         return true;
     }
 
+    private void ConsumeResource(ItemSO resource, int quantity)
+    {
+        int index = _items.FindIndex(i => i.Item == resource);
+        if (index < 0) return;
+
+        int newQty = _items[index].Quantity - quantity;
+        if (newQty <= 0)
+            _items.RemoveAt(index);
+        else
+            _items[index] = _items[index].ChangeQuantity(newQty);
+    }
+
+    private List<float> RecalculateMainStats(ItemSO item, int level)
+    {
+        var result = new List<float>();
+        foreach (var def in item.MainStats)
+            result.Add(def.BaseValue + def.BaseValue * def.ValueScalePerLevel * level);
+        return result;
+    }
+
+    private void TryAddBonusStat(ItemSO item, List<BonusStatInstance> current)
+    {
+        if (item.BonusStatPool.Count == 0) return;
+
+        // »сключить уже выпавшие типы
+        var available = item.BonusStatPool
+            .Where(b => current.All(c => c.Type != b.Type))
+            .ToList();
+
+        if (available.Count == 0) return;
+
+        var chosen = available[UnityEngine.Random.Range(0, available.Count)];
+        float value = UnityEngine.Random.Range(chosen.MinValue, chosen.MaxValue);
+        current.Add(new BonusStatInstance(chosen.Type, value));
+    }
+
+
+    // Sorting
     /// <summary>Returns items sorted by Rarity descending.</summary>
     public List<InventoryItemData> GetSortedItems() =>
         _items.OrderByDescending(i => (int)i.Item.Rarity).ToList();
@@ -164,20 +243,86 @@ public struct InventoryItemData
     public int UpgradeLevel;
     public bool IsEquipped;
 
+    // “екущие значени€ основных характеристик (индекс совпадает с Item.MainStats)
+    [SerializeField] private List<float> _mainStatValues;
+    public IReadOnlyList<float> MainStatValues => _mainStatValues ?? (_mainStatValues = new List<float>());
+
+    // ¬ыпавшие дополнительные характеристики
+    [SerializeField] private List<BonusStatInstance> _bonusStats;
+    public IReadOnlyList<BonusStatInstance> BonusStats => _bonusStats ?? (_bonusStats = new List<BonusStatInstance>());
+
     public InventoryItemData(ItemSO item, int quantity)
     {
         Item = item;
         Quantity = quantity;
         UpgradeLevel = 0;
         IsEquipped = false;
+
+        // »нициализировать основные характеристики базовыми значени€ми
+        _mainStatValues = new List<float>();
+        foreach (var def in item.MainStats)
+            _mainStatValues.Add(def.BaseValue);
+
+        _bonusStats = new List<BonusStatInstance>();
     }
 
-    public InventoryItemData ChangeQuantity(int newQty) =>
-        new InventoryItemData { Item = Item, Quantity = newQty, UpgradeLevel = UpgradeLevel, IsEquipped = IsEquipped };
+    // ¬спомогательные методы создани€ копии структуры
 
-    public InventoryItemData ChangeUpgradeLevel(int level) =>
-        new InventoryItemData { Item = Item, Quantity = Quantity, UpgradeLevel = level, IsEquipped = IsEquipped };
+    public InventoryItemData ChangeQuantity(int newQty) =>
+        new InventoryItemData
+        {
+            Item = Item,
+            Quantity = newQty,
+            UpgradeLevel = UpgradeLevel,
+            IsEquipped = IsEquipped,
+            _mainStatValues = _mainStatValues,
+            _bonusStats = _bonusStats
+        };
 
     public InventoryItemData SetEquipped(bool equipped) =>
-        new InventoryItemData { Item = Item, Quantity = Quantity, UpgradeLevel = UpgradeLevel, IsEquipped = equipped };
+        new InventoryItemData
+        {
+            Item = Item,
+            Quantity = Quantity,
+            UpgradeLevel = UpgradeLevel,
+            IsEquipped = equipped,
+            _mainStatValues = _mainStatValues,
+            _bonusStats = _bonusStats
+        };
+
+    public InventoryItemData ChangeUpgradeLevel(int level) =>
+        new InventoryItemData
+        {
+            Item = Item,
+            Quantity = Quantity,
+            UpgradeLevel = level,
+            IsEquipped = IsEquipped,
+            _mainStatValues = _mainStatValues,
+            _bonusStats = _bonusStats
+        };
+
+    /// <summary>—оздаЄт копию с новым уровнем, пересчитанными основными и новыми доп. характеристиками.</summary>
+    public InventoryItemData WithUpgrade(int newLevel, List<float> newMainStats, List<BonusStatInstance> newBonusStats) =>
+        new InventoryItemData
+        {
+            Item = Item,
+            Quantity = Quantity,
+            UpgradeLevel = newLevel,
+            IsEquipped = IsEquipped,
+            _mainStatValues = newMainStats,
+            _bonusStats = newBonusStats
+        };
+
+    /// <summary>¬озвращает текущее значение основной характеристики по типу, или 0 если не найдена.</summary>
+    public float GetMainStat(StatType type)
+    {
+        if (Item == null) return 0f;
+        for (int i = 0; i < Item.MainStats.Count; i++)
+        {
+            if (Item.MainStats[i].Type == type)
+                return _mainStatValues != null && i < _mainStatValues.Count
+                    ? _mainStatValues[i] : Item.MainStats[i].BaseValue;
+        }
+        return 0f;
+    }
 }

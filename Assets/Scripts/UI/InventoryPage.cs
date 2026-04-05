@@ -62,6 +62,8 @@ public class InventoryPage : MonoBehaviour
             _inventorySO.OnInventoryChanged -= RefreshCurrentView;
     }
 
+    //Show/hide
+
     public void ShowInventory()
     {
         gameObject.SetActive(true);
@@ -71,6 +73,8 @@ public class InventoryPage : MonoBehaviour
     }
 
     public void HideInventory() => gameObject.SetActive(false);
+
+    //Tab & filter
 
     private void SwitchTab(Tab tab)
     {
@@ -95,10 +99,12 @@ public class InventoryPage : MonoBehaviour
         _activeTab = Tab.Equipment;
         if (_subFilterPanel) _subFilterPanel.SetActive(true);
         _activeSlotFilter = slot;
-        _selectedItem?.Deselect();
-        _selectedItem = null;
+        //_selectedItem?.Deselect();
+        //_selectedItem = null;
         RefreshCurrentView();
     }
+
+    //Refresh data
 
     private void RefreshCurrentView()
     {
@@ -162,19 +168,19 @@ public class InventoryPage : MonoBehaviour
         if (_currentView.Count == 0) return;
 
         // Refresh selection highlight
-        bool selectedStillValid = _selectedItem != null
-        && _spawnedItems.IndexOf(_selectedItem) is int idx
-        && idx >= 0 && idx < _currentView.Count;
-
-        if (!selectedStillValid)
+        if (_selectedItem != null)
         {
-            _selectedItem?.Deselect();
-            _selectedItem = null;
+            bool stillVisible = _spawnedItems.Contains(_selectedItem)
+                                && _selectedItem.gameObject.activeSelf;
+            if (!stillVisible)
+                DeselectCurrent();
         }
 
         if (_selectedItem == null)
             SelectItem(FindEquippedCellOrFirst());
     }
+
+    //Selection
 
     private void HandleItemClicked(InventoryItem item) => SelectItem(item);
 
@@ -200,6 +206,8 @@ public class InventoryPage : MonoBehaviour
         _itemDescription.ResetDescription();
         SetActionButtonsVisible(false);
     }
+
+    //Equip
 
     private void HandleEquipButtonClicked(InventoryItem item)
     {
@@ -235,11 +243,19 @@ public class InventoryPage : MonoBehaviour
         if (_upgradeButton != null) _upgradeButton.gameObject.SetActive(visible);
     }
 
+    private void RefreshUpgradeButton()
+    {
+        if (_upgradeButton == null || _selectedItem == null) return;
+
+        int sourceIdx = _selectedItem.InventoryIndex;
+        _upgradeButton.interactable = _inventorySO.CanUpgradeItem(sourceIdx);
+    }
 
     private void BindTabButtons()
     {
         _resourceTabButton?.onClick.AddListener(() => SwitchTab(Tab.Resources));
         _equipmentTabButton?.onClick.AddListener(() => SwitchTab(Tab.Equipment));
+        _upgradeButton?.onClick.AddListener(HandleUpgradeButtonClicked);
     }
 
     private InventoryItem FindEquippedCellOrFirst()
@@ -252,21 +268,21 @@ public class InventoryPage : MonoBehaviour
         return _spawnedItems[0];
     }
 
-    //private void BindSlotButtons()
-    //{
-    //    //_allEquipmentButton?.onClick.AddListener(() => SwitchSlotFilter(null));
 
-    //    // EquipmentSlot enum 
-    //    EquipmentSlot[] slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
-    //    for (int i = 0; i < _slotFilterButtons.Length; i++)
-    //    {
-    //        if (_slotFilterButtons[i] == null) continue;
-    //        EquipmentSlot slot = i + 1 < slots.Length ? slots[i + 1] : EquipmentSlot.None;
-    //        if (slot == EquipmentSlot.None) continue;
-    //        int captured = i;
-    //        _slotFilterButtons[captured].onClick.AddListener(() => SwitchSlotFilter(slots[captured + 1]));
-    //    }
-    //}
+    private void HandleUpgradeButtonClicked()
+    {
+        if (_selectedItem == null) return;
+
+        int sourceIdx = _selectedItem.InventoryIndex;
+        if (!_inventorySO.UpgradeItem(sourceIdx)) return;
+
+        // Немедленно обновить описание и состояние кнопки
+        _itemDescription.SetDescription(
+            _inventorySO.Items[sourceIdx],
+            () => HandleEquipButtonClicked(_selectedItem)
+        );
+        RefreshUpgradeButton();
+    }
 
     private void OnDestroy()
     {
