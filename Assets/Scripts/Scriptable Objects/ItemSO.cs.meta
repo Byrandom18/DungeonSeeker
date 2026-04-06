@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 88186f58a84c8eb42b8a6dbfb3de5838
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <Sprite>k__BackingField: {instanceID: 0}
+  - _mainStatPool: {fileID: 11400000, guid: 16267304d521a1946bf3679d63510306, type: 2}
+  - _bonusStatPool: {fileID: 11400000, guid: f9b58a24cf73da541a5b8efad5b2a0b6, type: 2}
+  - _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

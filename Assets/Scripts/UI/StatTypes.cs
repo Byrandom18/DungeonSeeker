@@ -22,22 +22,34 @@ public enum StatType
     Luck
 }
 
-/// <summary>The main item stat: type + base value + level scale.</summary>
 [Serializable]
-public struct MainStatDefinition
+public struct MainStatEntry
 {
     public StatType Type;
     public float BaseValue;
-    public float ValueScalePerLevel;   // прибавляется каждый уровень улучшения
+    //public float MinBaseValue;
+    //public float MaxBaseValue;
+    public float ValueScalePerLevel;
+    public float Weight;
 }
 
-/// <summary>pool in ItemSO.</summary>
 [Serializable]
-public struct BonusStatDefinition
+public struct BonusStatEntry
 {
     public StatType Type;
-    public float MinValue;        // минимальное значение при выпадении
-    public float MaxValue;        // максимальное значение при выпадении
+    public float MinValue;
+    public float MaxValue;
+    public float Weight;
+}
+
+[Serializable]
+public struct MainStatInstance
+{
+    public StatType Type;
+    public float BaseValue;
+    public float ValueScalePerLevel;
+
+    public float GetValue(int upgradeLevel) => BaseValue + BaseValue * ValueScalePerLevel * upgradeLevel;
 }
 
 /// <summary>exited stat storing in InventoryItemData.</summary>

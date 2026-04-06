@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ public class InventoryDescription : MonoBehaviour
     [SerializeField] private TMP_Text _descriptionText;
     [SerializeField] private Image _rarityGradient;           // decorative bar colored by rarity
 
-    [Header("Equipment only")]
+    [Header("Equipment")]
     [SerializeField] private GameObject _equipmentPanel;
     [SerializeField] private TMP_Text _slotText;
     [SerializeField] private TMP_Text _upgradeLevelText;
@@ -54,6 +55,7 @@ public class InventoryDescription : MonoBehaviour
         _descriptionText.text = "";
         if (_rarityGradient) _rarityGradient.color = Color.clear;
         SetPanelsActive(ItemType.Resource, false);
+        _onEquipClicked = null;
     }
 
     public void SetDescription(InventoryItemData data, System.Action onEquipClicked)
@@ -100,24 +102,62 @@ public class InventoryDescription : MonoBehaviour
 
     private void FillEquipmentPanel(ItemSO item, InventoryItemData data, System.Action onEquipClicked)
     {
-
-        //_attackText.text = item.BaseAttack > 0
-        //    ? $"ATK  {Mathf.RoundToInt(item.BaseAttack * mult)}" : "";
-        //_defenseText.text = item.BaseDefense > 0
-        //    ? $"DEF  {Mathf.RoundToInt(item.BaseDefense * mult)}" : "";
-        //_healthText.text = item.BaseHealth > 0
-        //    ? $"HP   {Mathf.RoundToInt(item.BaseHealth * mult)}" : "";
-
         if (_equipmentPanel) _equipmentPanel.SetActive(true);
-        //if (_quantityText) _quantityText.gameObject.SetActive(false);
-
         if (_slotText) _slotText.text = item.EquipmentSlot.ToString();
-
         if (_upgradeLevelText) _upgradeLevelText.text = $"+{data.UpgradeLevel}";
+
+        // Основная характеристика
+        if (_mainStatsText != null)
+        {
+            MainStatInstance main = data.MainStat;
+            float currentValue = main.GetValue(data.UpgradeLevel);
+            _mainStatsText.text = $"{StatLabel(main.Type)}  {FormatValue(currentValue)}";
+        }
+
+        // Дополнительные характеристики
+        bool hasBonus = data.BonusStats.Count > 0;
+        if (_bonusStatsHeader) _bonusStatsHeader.SetActive(hasBonus);
+        if (_bonusStatsText != null)
+        {
+            _bonusStatsText.gameObject.SetActive(hasBonus);
+            if (hasBonus)
+            {
+                var sb = new StringBuilder();
+                foreach (var bonus in data.BonusStats)
+                    sb.AppendLine($"{StatLabel(bonus.Type)}  +{FormatValue(bonus.Value)}");
+                _bonusStatsText.text = sb.ToString().TrimEnd();
+            }
+        }
 
         bool isEquipped = data.IsEquipped;
         if (_equipButtonText) _equipButtonText.text = isEquipped ? "Unequip" : "Equip";
-
         _onEquipClicked = onEquipClicked;
     }
+
+    private static string StatLabel(StatType type) => type switch
+    {
+        StatType.AttackMod           => "ATK%",
+        StatType.AttackFlat          => "ATK",
+        StatType.HealthMod           => "HP%",
+        StatType.HealthFlat          => "HP",
+        StatType.DefenceMod          => "DEF%",
+        StatType.DefenceFlat         => "DEF",
+        StatType.Resistance          => "Resist",
+        StatType.CritChance          => "Crit. Rate",
+        StatType.CritDamage          => "Crit. DMG",
+        StatType.SizeMod             => "AOE",
+        StatType.ManaFlat            => "Mana",
+        StatType.ManaRegenMod        => "Mana Regen.",
+        StatType.SpellDamageMod      => "Spell DMG",
+        StatType.BaseAttackDamageMod => "Attack DMG",
+        StatType.BaseAttackSpeedMod  => "Attack Speed",
+        StatType.CooldownReduction   => "CD Red.",
+        StatType.Luck                => "Luck",
+            _ => type.ToString()
+    };
+
+    private static string FormatValue(float value) =>
+        value == Mathf.Floor(value)
+            ? ((int)value).ToString()
+            : value.ToString("F1"); //round to 1 decimal
 }

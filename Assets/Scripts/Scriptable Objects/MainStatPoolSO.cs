@@ -1,0 +1,51 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "MainStatPoolSO", menuName = "Scriptable Objects/MainStatPoolSO")]
+public class MainStatPoolSO : ScriptableObject
+{
+    [SerializeField] private List<MainStatEntry> _entries = new List<MainStatEntry>();
+    public IReadOnlyList<MainStatEntry> Entries => _entries;
+
+    /// <summary>
+    /// ¬ыбирает случайную основную характеристику с учЄтом весов
+    /// и возвращает готовый экземпл€р со случайным базовым значением.
+    /// </summary>
+    public MainStatInstance Roll()
+    {
+        if (_entries == null || _entries.Count == 0)
+        {
+            Debug.LogWarning($"[MainStatPoolSO] {name}: пул пуст.");
+            return default;
+        }
+
+        float totalWeight = 0f;
+        foreach (var e in _entries) totalWeight += Mathf.Max(e.Weight, 0f);
+
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        foreach (var e in _entries)
+        {
+            cumulative += Mathf.Max(e.Weight, 0f);
+            if (roll <= cumulative)
+            {
+                return new MainStatInstance
+                {
+                    Type = e.Type,
+                    BaseValue = e.BaseValue,
+                    ValueScalePerLevel = e.ValueScalePerLevel
+                };
+            }
+        }
+
+        // Fallback Ч первый элемент
+        var first = _entries[0];
+        return new MainStatInstance
+        {
+            Type = first.Type,
+            BaseValue = first.BaseValue,
+            ValueScalePerLevel = first.ValueScalePerLevel
+        };
+    }
+}

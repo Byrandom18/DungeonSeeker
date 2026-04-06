@@ -45,13 +45,13 @@ public class ItemSO : ScriptableObject
     [field: SerializeField] public EquipmentSlot EquipmentSlot { get; private set; }
     [field: SerializeField] public int MaxUpgradeLevel { get; private set; } = 6;
 
-    [Header("Main Stats")]
-    [SerializeField] private List<MainStatDefinition> _mainStats = new List<MainStatDefinition>();
-    public IReadOnlyList<MainStatDefinition> MainStats => _mainStats;
-
-    [Header("Bonus Stat Pool")]
-    [SerializeField] private List<BonusStatDefinition> _bonusStatPool = new List<BonusStatDefinition>();
-    public IReadOnlyList<BonusStatDefinition> BonusStatPool => _bonusStatPool;
+    [Header("Stat Pools")]
+    [Tooltip("Пул основных характеристик. При создании предмета случайно выбирается одна.")]
+    [SerializeField] private MainStatPoolSO _mainStatPool;
+    public MainStatPoolSO MainStatPool => _mainStatPool;
+    [Tooltip("Пул дополнительных характеристик. Выбираются при улучшении.")]
+    [SerializeField] private BonusStatPoolSO _bonusStatPool;
+    public BonusStatPoolSO BonusStatPool => _bonusStatPool;
 
     [Header("Upgrade Settings")]
     [SerializeField] private int _firstBonusAtLevel = 1;

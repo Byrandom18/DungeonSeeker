@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea8a2bc9ece9484fbffb9890ef6b385, type: 3}
+  m_Name: AllMainStatPoolSO
+  m_EditorClassIdentifier: 
+  _entries:
+  - Type: 0
+    BaseValue: 15
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 2
+    BaseValue: 30
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 4
+    BaseValue: 15
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 7
+    BaseValue: 10
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 8
+    BaseValue: 20
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 10
+    BaseValue: 50
+    ValueScalePerLevel: 0.1
+    Weight: 1
+  - Type: 16
+    BaseValue: 20
+    ValueScalePerLevel: 0
+    Weight: 0

@@ -17,32 +17,67 @@ MonoBehaviour:
     Quantity: 5
     UpgradeLevel: 1
     IsEquipped: 0
-    _mainStatValues: []
-    _bonusStats: []
+    _mainStat:
+      Type: 4
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 11
+      Value: 21.045301
   - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 0
-    UpgradeLevel: 3
+    UpgradeLevel: 1
     IsEquipped: 1
-    _mainStatValues:
-    - 0
+    _mainStat:
+      Type: 2
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
     _bonusStats:
-    - Type: 0
-      Value: 0
+    - Type: 2
+      Value: 15.185636
   - Item: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-    Quantity: 6
+    Quantity: 2
     UpgradeLevel: 0
     IsEquipped: 0
-    _mainStatValues: []
+    _mainStat:
+      Type: 0
+      BaseValue: 0
+      ValueScalePerLevel: 0
     _bonusStats: []
   - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
     Quantity: 52
-    UpgradeLevel: 5
+    UpgradeLevel: 1
     IsEquipped: 1
-    _mainStatValues: []
-    _bonusStats: []
+    _mainStat:
+      Type: 7
+      BaseValue: 10
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 2
+      Value: 19.853546
   - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 0
-    UpgradeLevel: 0
+    UpgradeLevel: 3
     IsEquipped: 1
-    _mainStatValues: []
-    _bonusStats: []
+    _mainStat:
+      Type: 0
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 14
+      Value: 7.60235
+    - Type: 8
+      Value: 12.727926
+    - Type: 3
+      Value: 67.228355
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+    Quantity: 0
+    UpgradeLevel: 1
+    IsEquipped: 0
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 10
+      Value: 24.898977

@@ -156,16 +156,25 @@ public class InventorySO : ScriptableObject
             }
         }
 
-        // ѕересчитать основные характеристики
-        var newMainStats = RecalculateMainStats(data.Item, newLevel);
+        // ѕересчитать основную характеристику
+        var newMain = data.MainStat;
+        newMain = new MainStatInstance
+        {
+            Type = newMain.Type,
+            BaseValue = newMain.BaseValue,
+            ValueScalePerLevel = newMain.ValueScalePerLevel
+        };
 
         // ƒобавить доп. характеристику если нужно
-        var newBonusStats = new List<BonusStatInstance>(data.BonusStats);
+        var newBonus = new List<BonusStatInstance>(data.BonusStats);
         int expectedBonus = data.Item.ExpectedBonusCountAtLevel(newLevel);
-        if (newBonusStats.Count < expectedBonus)
-            TryAddBonusStat(data.Item, newBonusStats);
+        if (newBonus.Count < expectedBonus && data.Item.BonusStatPool != null)
+        {
+            if (data.Item.BonusStatPool.TryRoll(newBonus, out var rolled))
+                newBonus.Add(rolled);
+        }
 
-        _items[itemIndex] = data.WithUpgrade(newLevel, newMainStats, newBonusStats);
+        _items[itemIndex] = data.WithUpgrade(newLevel, newMain, newBonus);
         OnInventoryChanged?.Invoke();
         return true;
     }
@@ -182,29 +191,29 @@ public class InventorySO : ScriptableObject
             _items[index] = _items[index].ChangeQuantity(newQty);
     }
 
-    private List<float> RecalculateMainStats(ItemSO item, int level)
-    {
-        var result = new List<float>();
-        foreach (var def in item.MainStats)
-            result.Add(def.BaseValue + def.BaseValue * def.ValueScalePerLevel * level);
-        return result;
-    }
+    //private List<float> RecalculateMainStats(ItemSO item, int level)
+    //{
+    //    var result = new List<float>();
+    //    foreach (var def in item.MainStats)
+    //        result.Add(def.BaseValue + def.BaseValue * def.ValueScalePerLevel * level);
+    //    return result;
+    //}
 
-    private void TryAddBonusStat(ItemSO item, List<BonusStatInstance> current)
-    {
-        if (item.BonusStatPool.Count == 0) return;
+    //private void TryAddBonusStat(ItemSO item, List<BonusStatInstance> current)
+    //{
+    //    if (item.BonusStatPool.Count == 0) return;
 
-        // »сключить уже выпавшие типы
-        var available = item.BonusStatPool
-            .Where(b => current.All(c => c.Type != b.Type))
-            .ToList();
+    //    // »сключить уже выпавшие типы
+    //    var available = item.BonusStatPool
+    //        .Where(b => current.All(c => c.Type != b.Type))
+    //        .ToList();
 
-        if (available.Count == 0) return;
+    //    if (available.Count == 0) return;
 
-        var chosen = available[UnityEngine.Random.Range(0, available.Count)];
-        float value = UnityEngine.Random.Range(chosen.MinValue, chosen.MaxValue);
-        current.Add(new BonusStatInstance(chosen.Type, value));
-    }
+    //    var chosen = available[UnityEngine.Random.Range(0, available.Count)];
+    //    float value = UnityEngine.Random.Range(chosen.MinValue, chosen.MaxValue);
+    //    current.Add(new BonusStatInstance(chosen.Type, value));
+    //}
 
 
     // Sorting
@@ -243,13 +252,14 @@ public struct InventoryItemData
     public int UpgradeLevel;
     public bool IsEquipped;
 
-    // “екущие значени€ основных характеристик (индекс совпадает с Item.MainStats)
-    [SerializeField] private List<float> _mainStatValues;
-    public IReadOnlyList<float> MainStatValues => _mainStatValues ?? (_mainStatValues = new List<float>());
+    // ќдна выпавша€ основна€ характеристика
+    [SerializeField] private MainStatInstance _mainStat;
+    public MainStatInstance MainStat => _mainStat;
 
     // ¬ыпавшие дополнительные характеристики
     [SerializeField] private List<BonusStatInstance> _bonusStats;
-    public IReadOnlyList<BonusStatInstance> BonusStats => _bonusStats ?? (_bonusStats = new List<BonusStatInstance>());
+    public IReadOnlyList<BonusStatInstance> BonusStats =>
+        _bonusStats ?? (_bonusStats = new List<BonusStatInstance>());
 
     public InventoryItemData(ItemSO item, int quantity)
     {
@@ -257,13 +267,12 @@ public struct InventoryItemData
         Quantity = quantity;
         UpgradeLevel = 0;
         IsEquipped = false;
-
-        // »нициализировать основные характеристики базовыми значени€ми
-        _mainStatValues = new List<float>();
-        foreach (var def in item.MainStats)
-            _mainStatValues.Add(def.BaseValue);
-
         _bonusStats = new List<BonusStatInstance>();
+
+        // Ѕросить основную характеристику из пула
+        _mainStat = item.MainStatPool != null
+            ? item.MainStatPool.Roll()
+            : default;
     }
 
     // ¬спомогательные методы создани€ копии структуры
@@ -275,7 +284,7 @@ public struct InventoryItemData
             Quantity = newQty,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = IsEquipped,
-            _mainStatValues = _mainStatValues,
+            _mainStat = _mainStat,
             _bonusStats = _bonusStats
         };
 
@@ -286,43 +295,18 @@ public struct InventoryItemData
             Quantity = Quantity,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = equipped,
-            _mainStatValues = _mainStatValues,
+            _mainStat = _mainStat,
             _bonusStats = _bonusStats
         };
 
-    public InventoryItemData ChangeUpgradeLevel(int level) =>
-        new InventoryItemData
-        {
-            Item = Item,
-            Quantity = Quantity,
-            UpgradeLevel = level,
-            IsEquipped = IsEquipped,
-            _mainStatValues = _mainStatValues,
-            _bonusStats = _bonusStats
-        };
-
-    /// <summary>—оздаЄт копию с новым уровнем, пересчитанными основными и новыми доп. характеристиками.</summary>
-    public InventoryItemData WithUpgrade(int newLevel, List<float> newMainStats, List<BonusStatInstance> newBonusStats) =>
+    public InventoryItemData WithUpgrade(int newLevel, MainStatInstance newMain, List<BonusStatInstance> newBonus) =>
         new InventoryItemData
         {
             Item = Item,
             Quantity = Quantity,
             UpgradeLevel = newLevel,
             IsEquipped = IsEquipped,
-            _mainStatValues = newMainStats,
-            _bonusStats = newBonusStats
+            _mainStat = newMain,
+            _bonusStats = newBonus
         };
-
-    /// <summary>¬озвращает текущее значение основной характеристики по типу, или 0 если не найдена.</summary>
-    public float GetMainStat(StatType type)
-    {
-        if (Item == null) return 0f;
-        for (int i = 0; i < Item.MainStats.Count; i++)
-        {
-            if (Item.MainStats[i].Type == type)
-                return _mainStatValues != null && i < _mainStatValues.Count
-                    ? _mainStatValues[i] : Item.MainStats[i].BaseValue;
-        }
-        return 0f;
-    }
 }
