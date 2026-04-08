@@ -46,10 +46,8 @@ public class ItemSO : ScriptableObject
     [field: SerializeField] public int MaxUpgradeLevel { get; private set; } = 6;
 
     [Header("Stat Pools")]
-    [Tooltip("Пул основных характеристик. При создании предмета случайно выбирается одна.")]
     [SerializeField] private MainStatPoolSO _mainStatPool;
     public MainStatPoolSO MainStatPool => _mainStatPool;
-    [Tooltip("Пул дополнительных характеристик. Выбираются при улучшении.")]
     [SerializeField] private BonusStatPoolSO _bonusStatPool;
     public BonusStatPoolSO BonusStatPool => _bonusStatPool;
 
@@ -59,7 +57,6 @@ public class ItemSO : ScriptableObject
     public int FirstBonusAtLevel => _firstBonusAtLevel;
     public int BonusEveryNLevels => _bonusEveryNLevels;
 
-    [Tooltip("Рецепт улучшения с требуемыми ресурсами. Можно переиспользовать один рецепт для нескольких предметов")]
     [SerializeField] private UpgradeRecipeSO _upgradeRecipe;
     public UpgradeRecipeSO UpgradeRecipe => _upgradeRecipe;
 

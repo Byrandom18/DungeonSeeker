@@ -7,15 +7,11 @@ public class MainStatPoolSO : ScriptableObject
     [SerializeField] private List<MainStatEntry> _entries = new List<MainStatEntry>();
     public IReadOnlyList<MainStatEntry> Entries => _entries;
 
-    /// <summary>
-    /// ¬ыбирает случайную основную характеристику с учЄтом весов
-    /// и возвращает готовый экземпл€р со случайным базовым значением.
-    /// </summary>
     public MainStatInstance Roll()
     {
         if (_entries == null || _entries.Count == 0)
         {
-            Debug.LogWarning($"[MainStatPoolSO] {name}: пул пуст.");
+            Debug.LogWarning($"[MainStatPoolSO] {name}: pool empty.");
             return default;
         }
 
@@ -39,7 +35,6 @@ public class MainStatPoolSO : ScriptableObject
             }
         }
 
-        // Fallback Ч первый элемент
         var first = _entries[0];
         return new MainStatInstance
         {

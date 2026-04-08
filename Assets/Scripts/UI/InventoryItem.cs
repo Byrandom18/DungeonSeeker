@@ -44,24 +44,20 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         _itemImage.sprite = data.Item.Sprite;
         _itemImage.gameObject.SetActive(data.Item.Sprite != null);
 
-        // Quantity only for stackable resources
-        bool showQty = data.Item.ItemType == ItemType.Resource && data.Quantity > 1;
-        _quantityText.gameObject.SetActive(showQty);
-        if (showQty) _quantityText.text = data.Quantity.ToString();
+        bool isEquip = data.Item.ItemType == ItemType.Equipment;
+        _quantityText.gameObject.SetActive(true);
+        if (isEquip)
+        {
+            _quantityText.text = $"+{data.UpgradeLevel}";
+        }
+        else
+        {
+            _quantityText.text = data.Quantity.ToString();
+        }
 
         // Rarity Gradient
-        int rarityIndex = Mathf.Clamp((int)data.Item.Rarity, 1, RarityColors.Length - 1);
+        int rarityIndex = Mathf.Clamp((int)data.Rarity, 1, RarityColors.Length - 1);
         _rarityGradientImage.color = RarityColors[rarityIndex];
-
-        // Equipment only fields
-        bool isEquip = data.Item.ItemType == ItemType.Equipment;
-        if (isEquip) _quantityText.text = $"+{data.UpgradeLevel}";
-        //if (_upgradeLevelText != null)
-        //{
-        //    _upgradeLevelText.gameObject.SetActive(isEquip && data.UpgradeLevel > 0);
-        //    if (isEquip && data.UpgradeLevel > 0)
-        //        _upgradeLevelText.text = $"+{data.UpgradeLevel}";
-        //}
 
         // Equipped badge
         if (_equippedBadge != null)

@@ -86,7 +86,7 @@ public class EquipmentSlotCell : MonoBehaviour
 
         if (_rarityGradient != null)
         {
-            int ri = Mathf.Clamp((int)data.Item.Rarity, 1, _rarityColors.Length - 1);
+            int ri = Mathf.Clamp((int)data.Rarity, 1, _rarityColors.Length - 1);
             _rarityGradient.color = _rarityColors[ri];
         }
 

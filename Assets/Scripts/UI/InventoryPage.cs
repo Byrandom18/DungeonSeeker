@@ -21,9 +21,7 @@ public class InventoryPage : MonoBehaviour
 
     [Header("Equipment Sub-filter")]
     [SerializeField] private GameObject _subFilterPanel;          // parent containing slot buttons
-    //[SerializeField] private Button _allEquipmentButton;
-    //[SerializeField] private Button[] _slotFilterButtons;         // order matches EquipmentSlot enum (skip None)
-
+    
     [Header("Action Buttons")]
     [SerializeField] private Button _equipButton;
     [SerializeField] private Button _upgradeButton;
@@ -45,13 +43,15 @@ public class InventoryPage : MonoBehaviour
         _itemDescription.ResetDescription();
         SetActionButtonsVisible(false);
         BindTabButtons();
-        //BindSlotButtons();
     }
 
     private void OnEnable()
     {
         if (_inventorySO != null)
+        {
             _inventorySO.OnInventoryChanged += RefreshCurrentView;
+            _inventorySO.OnInventoryChanged += RefreshUpgradeButton;
+        }
 
         _inventorySO?.RebuildEquippedDictionary();
     }
@@ -59,7 +59,10 @@ public class InventoryPage : MonoBehaviour
     private void OnDisable()
     {
         if (_inventorySO != null)
+        {
             _inventorySO.OnInventoryChanged -= RefreshCurrentView;
+            _inventorySO.OnInventoryChanged -= RefreshUpgradeButton;
+        }
     }
 
     //Show/hide
@@ -74,7 +77,7 @@ public class InventoryPage : MonoBehaviour
 
     public void HideInventory() => gameObject.SetActive(false);
 
-    //Tab & filter
+    //Tab & filter =================================================================
 
     private void SwitchTab(Tab tab)
     {
@@ -99,12 +102,12 @@ public class InventoryPage : MonoBehaviour
         _activeTab = Tab.Equipment;
         if (_subFilterPanel) _subFilterPanel.SetActive(true);
         _activeSlotFilter = slot;
-        //_selectedItem?.Deselect();
-        //_selectedItem = null;
+        _selectedItem?.Deselect();
+        _selectedItem = null;
         RefreshCurrentView();
     }
 
-    //Refresh data
+    //Refresh data ================================================================
 
     private void RefreshCurrentView()
     {
@@ -168,19 +171,24 @@ public class InventoryPage : MonoBehaviour
         if (_currentView.Count == 0) return;
 
         // Refresh selection highlight
+        bool selectedStillValid = false;
         if (_selectedItem != null)
         {
-            bool stillVisible = _spawnedItems.Contains(_selectedItem)
-                                && _selectedItem.gameObject.activeSelf;
-            if (!stillVisible)
-                DeselectCurrent();
+            int idx = _spawnedItems.IndexOf(_selectedItem);
+            selectedStillValid = idx >= 0 && idx < _currentView.Count;
+        }
+
+        if (!selectedStillValid)
+        {
+            _selectedItem?.Deselect();
+            _selectedItem = null;
         }
 
         if (_selectedItem == null)
             SelectItem(FindEquippedCellOrFirst());
     }
 
-    //Selection
+    //Selection =======================================================================
 
     private void HandleItemClicked(InventoryItem item) => SelectItem(item);
 
@@ -192,6 +200,8 @@ public class InventoryPage : MonoBehaviour
 
         bool isEquip = item.ItemData.Item.ItemType == ItemType.Equipment;
         SetActionButtonsVisible(isEquip);
+
+        RefreshUpgradeButton();
 
         _itemDescription.SetDescription(
             item.ItemData,
@@ -207,7 +217,7 @@ public class InventoryPage : MonoBehaviour
         SetActionButtonsVisible(false);
     }
 
-    //Equip
+    //Equip ===================================================================================
 
     private void HandleEquipButtonClicked(InventoryItem item)
     {
@@ -245,8 +255,12 @@ public class InventoryPage : MonoBehaviour
 
     private void RefreshUpgradeButton()
     {
-        if (_upgradeButton == null || _selectedItem == null) return;
-
+        if (_upgradeButton == null) return;
+        if (_selectedItem == null)
+        {
+            _upgradeButton.interactable = false;
+            return;
+        }
         int sourceIdx = _selectedItem.InventoryIndex;
         _upgradeButton.interactable = _inventorySO.CanUpgradeItem(sourceIdx);
     }
@@ -274,11 +288,13 @@ public class InventoryPage : MonoBehaviour
         if (_selectedItem == null) return;
 
         int sourceIdx = _selectedItem.InventoryIndex;
+
         if (!_inventorySO.UpgradeItem(sourceIdx)) return;
 
-        // Немедленно обновить описание и состояние кнопки
+        int updatedIdx = _selectedItem.InventoryIndex;
+
         _itemDescription.SetDescription(
-            _inventorySO.Items[sourceIdx],
+            _inventorySO.Items[updatedIdx],
             () => HandleEquipButtonClicked(_selectedItem)
         );
         RefreshUpgradeButton();

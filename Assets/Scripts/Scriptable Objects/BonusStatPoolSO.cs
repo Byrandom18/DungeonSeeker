@@ -8,10 +8,6 @@ public class BonusStatPoolSO : ScriptableObject
     [SerializeField] private List<BonusStatEntry> _entries = new List<BonusStatEntry>();
     public IReadOnlyList<BonusStatEntry> Entries => _entries;
 
-    /// <summary>
-    /// Случайно выбирает одну характеристику из пула (с учётом весов),
-    /// исключая уже выпавшие типы. Возвращает false если добавить нечего.
-    /// </summary>
     public bool TryRoll(IReadOnlyList<BonusStatInstance> existing, out BonusStatInstance result)
     {
         result = default;

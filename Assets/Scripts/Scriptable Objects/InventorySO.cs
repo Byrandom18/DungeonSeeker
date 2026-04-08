@@ -40,6 +40,32 @@ public class InventorySO : ScriptableObject
     public int? GetEquippedIndex(EquipmentSlot slot) =>
         _equippedItems.TryGetValue(slot, out int idx) ? idx : (int?)null;
 
+
+    //======== Drop System ====================================================================
+    public void AddDroppedItem(InventoryItemData droppedData)
+    {
+        _items.Add(droppedData);
+        NotifyInventoryChanged();
+    }
+
+    public void DropItem(ItemSO itemTemplate, float playerLuck)
+    {
+        ItemRarity rarity = GameUtils.Utils.RollRarity(playerLuck);
+        int maxLevel = (int)rarity;
+
+        int quantity = itemTemplate.ItemType == ItemType.Resource
+            ? UnityEngine.Random.Range(1, 4)                     //base
+            : 1;
+
+        if (itemTemplate.ItemType == ItemType.Resource)
+            quantity = Mathf.Max(1, Mathf.RoundToInt(quantity * (1f + playerLuck / 50f)));
+
+        var data = new InventoryItemData(itemTemplate, quantity, rarity, maxLevel);
+        AddDroppedItem(data);
+    }
+    //=========================================================================================
+
+
     public void AddItem(ItemSO item, int quantity = 1)
     {
         if (item.IsStackable)
@@ -48,14 +74,14 @@ public class InventorySO : ScriptableObject
             if (index >= 0)
             {
                 _items[index] = _items[index].ChangeQuantity(_items[index].Quantity + quantity);
-                OnInventoryChanged?.Invoke();
+                NotifyInventoryChanged();
                 return;
             }
         }
 
         var newData = new InventoryItemData(item, quantity);
         _items.Add(newData);
-        OnInventoryChanged?.Invoke();
+        NotifyInventoryChanged();
     }
 
     public bool RemoveItem(ItemSO item, int quantity = 1)
@@ -66,7 +92,6 @@ public class InventorySO : ScriptableObject
         int newQuantity = _items[index].Quantity - quantity;
         if (newQuantity <= 0)
         {
-            // Unequip if currently equipped
             UnequipIfNeeded(index);
             _items.RemoveAt(index);
         }
@@ -75,7 +100,7 @@ public class InventorySO : ScriptableObject
             _items[index] = _items[index].ChangeQuantity(newQuantity);
         }
 
-        OnInventoryChanged?.Invoke();
+        NotifyInventoryChanged();
         return true;
     }
 
@@ -89,7 +114,6 @@ public class InventorySO : ScriptableObject
 
         EquipmentSlot slot = data.Item.EquipmentSlot;
 
-        // Unequip whatever is currently in this slot
         if (_equippedItems.TryGetValue(slot, out int prevIndex) && prevIndex != itemIndex)
         {
             if (prevIndex < _items.Count)
@@ -99,7 +123,7 @@ public class InventorySO : ScriptableObject
         _equippedItems[slot] = itemIndex;
         _items[itemIndex] = _items[itemIndex].SetEquipped(true);
 
-        OnInventoryChanged?.Invoke();
+        NotifyInventoryChanged();
         return true;
     }
 
@@ -112,12 +136,12 @@ public class InventorySO : ScriptableObject
             _items[index] = _items[index].SetEquipped(false);
 
         _equippedItems.Remove(slot);
-        OnInventoryChanged?.Invoke();
+        NotifyInventoryChanged(); 
         return true;
     }
 
 
-    //upgrade
+    //upgrade ======================================================================
 
 
     public bool CanUpgradeItem(int itemIndex)
@@ -126,10 +150,14 @@ public class InventorySO : ScriptableObject
 
         InventoryItemData data = _items[itemIndex];
         if (data.Item.ItemType != ItemType.Equipment) return false;
-        if (data.UpgradeLevel >= data.Item.MaxUpgradeLevel) return false;
+        if (data.UpgradeLevel >= data.MaxUpgradeLevel) return false;
 
         UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
-        if (recipe == null) return true; // free upgrade if no recipe
+        if (recipe == null)
+        {
+            Debug.LogError($"{data.Item.name} has no recipe");
+            return false;
+        }
 
         return recipe.CanUpgrade(data.UpgradeLevel + 1, _items);
     }
@@ -141,7 +169,24 @@ public class InventorySO : ScriptableObject
         InventoryItemData data = _items[itemIndex];
         int newLevel = data.UpgradeLevel + 1;
 
-        // Списать ресурсы
+        var newMain = data.MainStat;
+        newMain = new MainStatInstance
+        {
+            Type = newMain.Type,
+            BaseValue = newMain.BaseValue,
+            ValueScalePerLevel = newMain.ValueScalePerLevel
+        };
+
+        var newBonus = new List<BonusStatInstance>(data.BonusStats);
+        int expectedBonus = data.Item.ExpectedBonusCountAtLevel(newLevel);
+        if (newBonus.Count < expectedBonus && data.Item.BonusStatPool != null)
+        {
+            if (data.Item.BonusStatPool.TryRoll(newBonus, out var rolled))
+                newBonus.Add(rolled);
+        }
+
+        _items[itemIndex] = data.WithUpgrade(newLevel, newMain, newBonus);
+
         UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
         if (recipe != null)
         {
@@ -156,64 +201,11 @@ public class InventorySO : ScriptableObject
             }
         }
 
-        // Пересчитать основную характеристику
-        var newMain = data.MainStat;
-        newMain = new MainStatInstance
-        {
-            Type = newMain.Type,
-            BaseValue = newMain.BaseValue,
-            ValueScalePerLevel = newMain.ValueScalePerLevel
-        };
-
-        // Добавить доп. характеристику если нужно
-        var newBonus = new List<BonusStatInstance>(data.BonusStats);
-        int expectedBonus = data.Item.ExpectedBonusCountAtLevel(newLevel);
-        if (newBonus.Count < expectedBonus && data.Item.BonusStatPool != null)
-        {
-            if (data.Item.BonusStatPool.TryRoll(newBonus, out var rolled))
-                newBonus.Add(rolled);
-        }
-
-        _items[itemIndex] = data.WithUpgrade(newLevel, newMain, newBonus);
-        OnInventoryChanged?.Invoke();
+        NotifyInventoryChanged();
         return true;
     }
 
-    private void ConsumeResource(ItemSO resource, int quantity)
-    {
-        int index = _items.FindIndex(i => i.Item == resource);
-        if (index < 0) return;
-
-        int newQty = _items[index].Quantity - quantity;
-        if (newQty <= 0)
-            _items.RemoveAt(index);
-        else
-            _items[index] = _items[index].ChangeQuantity(newQty);
-    }
-
-    //private List<float> RecalculateMainStats(ItemSO item, int level)
-    //{
-    //    var result = new List<float>();
-    //    foreach (var def in item.MainStats)
-    //        result.Add(def.BaseValue + def.BaseValue * def.ValueScalePerLevel * level);
-    //    return result;
-    //}
-
-    //private void TryAddBonusStat(ItemSO item, List<BonusStatInstance> current)
-    //{
-    //    if (item.BonusStatPool.Count == 0) return;
-
-    //    // Исключить уже выпавшие типы
-    //    var available = item.BonusStatPool
-    //        .Where(b => current.All(c => c.Type != b.Type))
-    //        .ToList();
-
-    //    if (available.Count == 0) return;
-
-    //    var chosen = available[UnityEngine.Random.Range(0, available.Count)];
-    //    float value = UnityEngine.Random.Range(chosen.MinValue, chosen.MaxValue);
-    //    current.Add(new BonusStatInstance(chosen.Type, value));
-    //}
+    
 
 
     // Sorting
@@ -229,6 +221,25 @@ public class InventorySO : ScriptableObject
         _items.Where(i => i.Item.ItemType == ItemType.Equipment &&
                           (filterSlot == null || i.Item.EquipmentSlot == filterSlot))
               .OrderByDescending(i => (int)i.Item.Rarity).ToList();
+
+    private void ConsumeResource(ItemSO resource, int quantity)
+    {
+        int index = _items.FindIndex(i => i.Item == resource);
+        if (index < 0) return;
+
+        int newQty = _items[index].Quantity - quantity;
+        if (newQty <= 0)
+            _items.RemoveAt(index);
+        else
+            _items[index] = _items[index].ChangeQuantity(newQty);
+    }
+
+
+    private void NotifyInventoryChanged()
+    {
+        RebuildEquippedDictionary();
+        OnInventoryChanged?.Invoke();
+    }
 
     private void UnequipIfNeeded(int index)
     {
@@ -251,31 +262,32 @@ public struct InventoryItemData
     public int Quantity;
     public int UpgradeLevel;
     public bool IsEquipped;
+    public ItemRarity Rarity;
+    public int MaxUpgradeLevel;
 
-    // Одна выпавшая основная характеристика
     [SerializeField] private MainStatInstance _mainStat;
     public MainStatInstance MainStat => _mainStat;
 
-    // Выпавшие дополнительные характеристики
     [SerializeField] private List<BonusStatInstance> _bonusStats;
     public IReadOnlyList<BonusStatInstance> BonusStats =>
         _bonusStats ?? (_bonusStats = new List<BonusStatInstance>());
 
-    public InventoryItemData(ItemSO item, int quantity)
+    public InventoryItemData(ItemSO item, int quantity, ItemRarity rarity = ItemRarity.Common, int maxUpgradeLevel = 1)
     {
         Item = item;
         Quantity = quantity;
         UpgradeLevel = 0;
         IsEquipped = false;
+        Rarity = rarity;
+        MaxUpgradeLevel = maxUpgradeLevel;
+
         _bonusStats = new List<BonusStatInstance>();
 
-        // Бросить основную характеристику из пула
         _mainStat = item.MainStatPool != null
             ? item.MainStatPool.Roll()
             : default;
     }
 
-    // Вспомогательные методы создания копии структуры
 
     public InventoryItemData ChangeQuantity(int newQty) =>
         new InventoryItemData
@@ -284,6 +296,8 @@ public struct InventoryItemData
             Quantity = newQty,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = IsEquipped,
+            Rarity = Rarity,
+            MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = _mainStat,
             _bonusStats = _bonusStats
         };
@@ -295,6 +309,8 @@ public struct InventoryItemData
             Quantity = Quantity,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = equipped,
+            Rarity = Rarity,
+            MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = _mainStat,
             _bonusStats = _bonusStats
         };
@@ -306,6 +322,8 @@ public struct InventoryItemData
             Quantity = Quantity,
             UpgradeLevel = newLevel,
             IsEquipped = IsEquipped,
+            Rarity = Rarity,
+            MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = newMain,
             _bonusStats = newBonus
         };

@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     //private Text _gemsText;
     //public ExpBar expBar;
 
-    [Header("Боевые характеристики")]
+    [Header("Combat Stats")]
     public float Health = 100;
     public float BaseHealth = 100;
     public float HealthMod;
@@ -42,16 +42,6 @@ public class PlayerStats : MonoBehaviour
     public float KnockbackResist;
     public float KnockbackMultiplier = 1;
 
-    //[Header("Вспомогательные характеристики")]
-    //public float maxExp = 5;
-    //public float exp;
-    //public float expIncrease = 10;
-    //public int lvl = 1;
-    //public float gold;
-    //public int gems;
-    //public int killCount;
-    //public int wavesCompleted;
-    //[SerializeField] private float _invulnerabilityDuration = 0.5f;
     public bool IsAlive = true;
     public event EventHandler OnFlashBlink;
     private BoxCollider2D _collisionCollider2D;
@@ -62,7 +52,6 @@ public class PlayerStats : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -78,10 +67,6 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         InitializeStats();
-        //StartCoroutines();
-        //UpdateAllUI();
-
-        //OnPlayerSpawned?.Invoke(transform);
     }
 
 
@@ -90,20 +75,18 @@ public class PlayerStats : MonoBehaviour
         if (!IsAlive || Invulnerability) return;
 
         damage -= Def;
-        //damage = Mathf.Max(1f, damage * (1 - def / (def + 100f))); // Формула уменьшения урона от защиты
+        //damage = Mathf.Max(1f, damage * (1 - def / (def + 100f)));
 
         Health -= damage;
         Health = Mathf.Max(0, Health);
         OnFlashBlink?.Invoke(this, EventArgs.Empty);
-        //UpdateHealthUI();
-        //OnHealthChanged?.Invoke();
         Debug.Log("Player Health = " + Health);
 
         if (Health <= 0 && IsAlive)
         {
             Die();
         }
-        _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, KnockbackResist);
+        if (IsAlive) _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, KnockbackResist);
     }
 
     
@@ -124,19 +107,5 @@ public class PlayerStats : MonoBehaviour
         _hitboxCollider2D.enabled = false;
         _collisionCollider2D.enabled = false;
 
-        //// Останавливаем все корутины
-        //if (healthRegenCoroutine != null) StopCoroutine(healthRegenCoroutine);
-        //if (difficultyCoroutine != null) StopCoroutine(difficultyCoroutine);
-        //if (survivalTimerCoroutine != null) StopCoroutine(survivalTimerCoroutine);
-
-        //// Вызываем событие смерти
-        //OnDeath?.Invoke();
-        // // <- НОВОЕ событие
-
-        //// Показываем экран смерти
-        //if (GameManager.Instance != null)
-        //{
-        //    GameManager.Instance.ShowDeathScreen();
-        //}
     }
 }

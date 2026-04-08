@@ -68,7 +68,7 @@ public class InventoryDescription : MonoBehaviour
         _nameText.text = item.Name;
         _descriptionText.text = item.Description;
 
-        int rarityIdx = Mathf.Clamp((int)item.Rarity, 1, RarityColors.Length - 1);
+        int rarityIdx = Mathf.Clamp((int)data.Rarity, 1, RarityColors.Length - 1);
         Color rarityColor = RarityColors[rarityIdx];
         _rarityText.text = RarityLabels[rarityIdx];
         _rarityText.color = rarityColor;
@@ -105,8 +105,7 @@ public class InventoryDescription : MonoBehaviour
         if (_equipmentPanel) _equipmentPanel.SetActive(true);
         if (_slotText) _slotText.text = item.EquipmentSlot.ToString();
         if (_upgradeLevelText) _upgradeLevelText.text = $"+{data.UpgradeLevel}";
-
-        // Основная характеристика
+        // main stat
         if (_mainStatsText != null)
         {
             MainStatInstance main = data.MainStat;
@@ -114,7 +113,7 @@ public class InventoryDescription : MonoBehaviour
             _mainStatsText.text = $"{StatLabel(main.Type)}  {FormatValue(currentValue)}";
         }
 
-        // Дополнительные характеристики
+        // additional stat
         bool hasBonus = data.BonusStats.Count > 0;
         if (_bonusStatsHeader) _bonusStatsHeader.SetActive(hasBonus);
         if (_bonusStatsText != null)

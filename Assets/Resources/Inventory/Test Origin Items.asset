@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea2cc76e2ad5a3644a8dda16b2a04833, type: 3}
-  m_Name: InventorySO
+  m_Name: Test Origin Items
   m_EditorClassIdentifier: 
   _items:
   - Item: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-    Quantity: 10
+    Quantity: 15
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
@@ -26,23 +24,17 @@ MonoBehaviour:
     _bonusStats: []
   - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
     Quantity: 0
-    UpgradeLevel: 1
+    UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
       ValueScalePerLevel: 0
-    _bonusStats:
-    - Type: 0
-      Value: 9.117835
+    _bonusStats: []
   - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 0
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
@@ -52,8 +44,6 @@ MonoBehaviour:
     Quantity: 0
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
@@ -61,25 +51,17 @@ MonoBehaviour:
     _bonusStats: []
   - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
     Quantity: 0
-    UpgradeLevel: 2
+    UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
       ValueScalePerLevel: 0
-    _bonusStats:
-    - Type: 4
-      Value: 5.8717895
-    - Type: 11
-      Value: 29.692627
+    _bonusStats: []
   - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 0
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 0
-    MaxUpgradeLevel: 0
     _mainStat:
       Type: 0
       BaseValue: 0
