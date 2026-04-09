@@ -10,8 +10,9 @@ public class DropTableSO : ScriptableObject
     public struct DropEntry
     {
         public ItemSO Item;
-        [Range(0f, 100f)] public float Weight;
-        public int MinQuantity;   // для ресурсов
+        public float Weight;
+        [Header("Resorces")]
+        public int MinQuantity;
         public int MaxQuantity;
     }
 
