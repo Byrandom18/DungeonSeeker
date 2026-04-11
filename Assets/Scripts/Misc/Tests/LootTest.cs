@@ -9,7 +9,9 @@ public class LootTest : MonoBehaviour
 
     [SerializeField] private TMP_Text text1;
     [SerializeField] private TMP_Text text2;
-
+    private static readonly float[] _baseWeights = { 3125f, 625f, 125f, 25f, 5f, 1f };
+    private static readonly float[] _baseMods = { 0.1f, 0.2f, 0.35f, 0.5f, 0.75f, 1f };
+    private static readonly float[] _baseMaxMulti = { 1f, 5f, 25f, 125f, 625f, Mathf.Infinity };
     [Header("Base Weights")]
     [SerializeField] private float baseWeight1 = 10000f;
     [SerializeField] private float baseWeight2 = 10000f;
@@ -32,7 +34,7 @@ public class LootTest : MonoBehaviour
     [SerializeField] private float power3 = 10000f;
     [SerializeField] private float power4 = 10000f;
     [SerializeField] private float power5 = 10000f;
-    [SerializeField] private float power6 = 10000f;
+    //[SerializeField] private float power6 = 10000f;
 
 
     public void Roll()
@@ -46,7 +48,7 @@ public class LootTest : MonoBehaviour
         Debug.Log(GameUtils.Utils.RollRarity(Rarity));
     }
 
-    public void RollRarity(float rarity, bool debug = false)
+    private void RollRarity(float rarity, bool debug = false)
     {
         float bonus = Mathf.Max(0, rarity - 1);
         text1.text = text2.text;
@@ -76,7 +78,8 @@ public class LootTest : MonoBehaviour
         //weights[4] = baseWeight4 * Mathf.Pow(1 + mod4, Mathf.Min(bonus, power4));
         //weights[5] = baseWeight5 * Mathf.Pow(1 + mod5, Mathf.Min(bonus, power5));
         //weights[6] = baseWeight6 * Mathf.Pow(1 + mod6, Mathf.Min(bonus, power6));
-
+        //for (int i = 0; i <= 5; i++)
+        //    weights[i + 1] = _baseWeights[i] * GetValue(bonus, _baseMods[i], _baseMaxMulti[i]);
 
         float total = weights.Sum();
         text2.text = ($"Rarity bonus: {bonus * 100}%\n" +

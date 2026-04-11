@@ -20,12 +20,8 @@ namespace GameUtils
         {
             float bonusRarity = Mathf.Max(0, rarity - 1);
             float[] weights = new float[7];
-            weights[1] = _baseWeights[0] * GetValue(bonusRarity, _baseMods[0], _baseMaxMulti[0]);                 // Common
-            weights[2] = _baseWeights[1] * GetValue(bonusRarity, _baseMods[1], _baseMaxMulti[1]);                 // Uncommon 
-            weights[3] = _baseWeights[2] * GetValue(bonusRarity, _baseMods[2], _baseMaxMulti[2]);                 // Rare 
-            weights[4] = _baseWeights[3] * GetValue(bonusRarity, _baseMods[3], _baseMaxMulti[3]);                 // Epic 
-            weights[5] = _baseWeights[4] * GetValue(bonusRarity, _baseMods[4], _baseMaxMulti[4]);                 // Legendary 
-            weights[6] = _baseWeights[5] * GetValue(bonusRarity, _baseMods[5], _baseMaxMulti[5]);                 // Unique 
+            for (int i = 0; i <= 5; i++)
+                weights[i+1] = _baseWeights[i] * GetValue(bonusRarity, _baseMods[i], _baseMaxMulti[i]);
 
             float total = 0f;
             for (int i = 1; i <= 6; i++) total += weights[i];

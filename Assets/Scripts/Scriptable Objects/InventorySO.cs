@@ -15,7 +15,7 @@ public class InventorySO : ScriptableObject
 
     public IReadOnlyList<InventoryItemData> Items => _items;
 
-    //initialize
+    // ========== initialize ================================================
     public void RebuildEquippedDictionary()
     {
         _equippedItems.Clear();
@@ -42,29 +42,25 @@ public class InventorySO : ScriptableObject
 
 
     //======== Drop System ====================================================================
-    public void AddDroppedItem(InventoryItemData droppedData)
+    public void AddDroppedItem(InventoryItemData droppedData) // Using:  _dropTable.RollMultipleDrops(playerLuck, droppedData => { _inventorySO.AddDroppedItem(droppedData); } );
     {
+        if (droppedData.Item.IsStackable && droppedData.Item.ItemType == ItemType.Resource)
+        {
+            int index = _items.FindIndex(i => i.Item == droppedData.Item);
+            if (index >= 0)
+            {
+                int newQty = _items[index].Quantity + droppedData.Quantity;
+                _items[index] = _items[index].ChangeQuantity(newQty);
+                NotifyInventoryChanged();
+                return;
+            }
+        }
+
         _items.Add(droppedData);
         NotifyInventoryChanged();
     }
 
-    public void DropItem(ItemSO itemTemplate, float playerLuck)
-    {
-        ItemRarity rarity = GameUtils.Utils.RollRarity(playerLuck);
-        int maxLevel = (int)rarity;
-
-        int quantity = itemTemplate.ItemType == ItemType.Resource
-            ? UnityEngine.Random.Range(1, 4)                     //base
-            : 1;
-
-        if (itemTemplate.ItemType == ItemType.Resource)
-            quantity = Mathf.Max(1, Mathf.RoundToInt(quantity * (1f + playerLuck / 50f)));
-
-        var data = new InventoryItemData(itemTemplate, quantity, rarity, maxLevel);
-        AddDroppedItem(data);
-    }
-    //=========================================================================================
-
+    //======== Manual adding (shop/quest...) =====================================================
 
     public void AddItem(ItemSO item, int quantity = 1)
     {
@@ -104,6 +100,7 @@ public class InventorySO : ScriptableObject
         return true;
     }
 
+    //=========== Equip ====================================================================
 
     public bool EquipItem(int itemIndex)
     {
@@ -141,7 +138,7 @@ public class InventorySO : ScriptableObject
     }
 
 
-    //upgrade ======================================================================
+    //========== Upgrade ======================================================================
 
 
     public bool CanUpgradeItem(int itemIndex)
@@ -208,8 +205,8 @@ public class InventorySO : ScriptableObject
     
 
 
-    // Sorting
-    /// <summary>Returns items sorted by Rarity descending.</summary>
+    // ============ Sorting ==============================================================
+    // Returns items sorted by Rarity descending
     public List<InventoryItemData> GetSortedItems() =>
         _items.OrderByDescending(i => (int)i.Item.Rarity).ToList();
 
@@ -221,6 +218,8 @@ public class InventorySO : ScriptableObject
         _items.Where(i => i.Item.ItemType == ItemType.Equipment &&
                           (filterSlot == null || i.Item.EquipmentSlot == filterSlot))
               .OrderByDescending(i => (int)i.Item.Rarity).ToList();
+
+    // ========= Mix ======================================================================
 
     private void ConsumeResource(ItemSO resource, int quantity)
     {
