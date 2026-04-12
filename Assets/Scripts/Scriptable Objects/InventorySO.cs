@@ -12,6 +12,8 @@ public class InventorySO : ScriptableObject
     private Dictionary<EquipmentSlot, int> _equippedItems = new Dictionary<EquipmentSlot, int>();
 
     public event Action OnInventoryChanged;
+    public event Action OnItemAdded;
+    public event Action<int> OnItemRemovedAt;
 
     public IReadOnlyList<InventoryItemData> Items => _items;
 
@@ -58,6 +60,7 @@ public class InventorySO : ScriptableObject
 
         _items.Add(droppedData);
         NotifyInventoryChanged();
+        OnItemAdded?.Invoke();
     }
 
     //======== Manual adding (shop/quest...) =====================================================
@@ -78,6 +81,7 @@ public class InventorySO : ScriptableObject
         var newData = new InventoryItemData(item, quantity);
         _items.Add(newData);
         NotifyInventoryChanged();
+        OnItemAdded?.Invoke();
     }
 
     public bool RemoveItem(ItemSO item, int quantity = 1)
@@ -90,6 +94,7 @@ public class InventorySO : ScriptableObject
         {
             UnequipIfNeeded(index);
             _items.RemoveAt(index);
+            OnItemRemovedAt?.Invoke(index);
         }
         else
         {
@@ -133,7 +138,7 @@ public class InventorySO : ScriptableObject
             _items[index] = _items[index].SetEquipped(false);
 
         _equippedItems.Remove(slot);
-        NotifyInventoryChanged(); 
+        NotifyInventoryChanged();
         return true;
     }
 
@@ -202,7 +207,7 @@ public class InventorySO : ScriptableObject
         return true;
     }
 
-    
+
 
 
     // ============ Sorting ==============================================================
@@ -212,12 +217,12 @@ public class InventorySO : ScriptableObject
 
     public List<InventoryItemData> GetResourcesSorted() =>
         _items.Where(i => i.Item.ItemType == ItemType.Resource)
-              .OrderByDescending(i => (int)i.Item.Rarity).ToList();
+              .OrderByDescending(i => (int)i.Rarity).ToList();
 
     public List<InventoryItemData> GetEquipmentSorted(EquipmentSlot? filterSlot = null) =>
         _items.Where(i => i.Item.ItemType == ItemType.Equipment &&
                           (filterSlot == null || i.Item.EquipmentSlot == filterSlot))
-              .OrderByDescending(i => (int)i.Item.Rarity).ToList();
+              .OrderByDescending(i => (int)i.Rarity).ToList();
 
     // ========= Mix ======================================================================
 
@@ -228,9 +233,14 @@ public class InventorySO : ScriptableObject
 
         int newQty = _items[index].Quantity - quantity;
         if (newQty <= 0)
+        {
             _items.RemoveAt(index);
+            OnItemRemovedAt?.Invoke(index);
+        }
         else
+        {
             _items[index] = _items[index].ChangeQuantity(newQty);
+        }
     }
 
 

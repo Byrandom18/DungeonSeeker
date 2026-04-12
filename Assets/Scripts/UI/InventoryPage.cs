@@ -21,7 +21,7 @@ public class InventoryPage : MonoBehaviour
 
     [Header("Equipment Sub-filter")]
     [SerializeField] private GameObject _subFilterPanel;          // parent containing slot buttons
-    
+
     [Header("Action Buttons")]
     [SerializeField] private Button _equipButton;
     [SerializeField] private Button _upgradeButton;
@@ -51,6 +51,8 @@ public class InventoryPage : MonoBehaviour
         {
             _inventorySO.OnInventoryChanged += RefreshCurrentView;
             _inventorySO.OnInventoryChanged += RefreshUpgradeButton;
+            _inventorySO.OnItemAdded += OnItemAdded;
+            _inventorySO.OnItemRemovedAt += OnItemRemovedAt;
         }
 
         _inventorySO?.RebuildEquippedDictionary();
@@ -62,6 +64,28 @@ public class InventoryPage : MonoBehaviour
         {
             _inventorySO.OnInventoryChanged -= RefreshCurrentView;
             _inventorySO.OnInventoryChanged -= RefreshUpgradeButton;
+            _inventorySO.OnItemAdded -= OnItemAdded;
+            _inventorySO.OnItemRemovedAt -= OnItemRemovedAt;
+        }
+    }
+
+
+    private void OnItemAdded() => ReSortAndRefresh();
+
+
+    private void OnItemRemovedAt(int removedIndex)
+    {
+        for (int i = _currentViewSourceIndices.Count - 1; i >= 0; i--)
+        {
+            if (_currentViewSourceIndices[i] == removedIndex)
+            {
+                _currentView.RemoveAt(i);
+                _currentViewSourceIndices.RemoveAt(i);
+            }
+            else if (_currentViewSourceIndices[i] > removedIndex)
+            {
+                _currentViewSourceIndices[i]--;
+            }
         }
     }
 
@@ -87,14 +111,14 @@ public class InventoryPage : MonoBehaviour
         if (_subFilterPanel) _subFilterPanel.SetActive(isEquip);
         _selectedItem?.Deselect();
         _selectedItem = null;
-        RefreshCurrentView();
+        ReSortAndRefresh();
     }
 
     private void SwitchSlotFilter(EquipmentSlot? slot)
     {
         DeselectCurrent();
         _activeSlotFilter = slot;
-        RefreshCurrentView();
+        ReSortAndRefresh();
     }
 
     public void SwitchToEquipmentSlot(EquipmentSlot slot)
@@ -104,38 +128,66 @@ public class InventoryPage : MonoBehaviour
         _activeSlotFilter = slot;
         _selectedItem?.Deselect();
         _selectedItem = null;
-        RefreshCurrentView();
+        ReSortAndRefresh();
     }
 
     //Refresh data ================================================================
+
+    private void ReSortAndRefresh()
+    {
+        if (_inventorySO == null) return;
+
+        _currentView.Clear();
+        _currentViewSourceIndices.Clear();
+
+        IReadOnlyList<InventoryItemData> source = _inventorySO.Items;
+        var indexed = new List<(int sourceIdx, InventoryItemData data)>();
+
+        for (int i = 0; i < source.Count; i++)
+        {
+            var data = source[i];
+            if (_activeTab == Tab.Resources && data.Item.ItemType != ItemType.Resource) continue;
+            if (_activeTab == Tab.Equipment && data.Item.ItemType != ItemType.Equipment) continue;
+            if (_activeTab == Tab.Equipment && _activeSlotFilter.HasValue
+                && data.Item.EquipmentSlot != _activeSlotFilter.Value) continue;
+            indexed.Add((i, data));
+        }
+
+        // 1. Equipped
+        // 2. Rarity
+        // 3. Level
+        // 4. ItemSO id
+        indexed.Sort((a, b) =>
+        {
+            int eq = b.data.IsEquipped.CompareTo(a.data.IsEquipped);
+            if (eq != 0) return eq;
+
+            int rar = ((int)b.data.Rarity).CompareTo((int)a.data.Rarity);
+            if (rar != 0) return rar;
+
+            int lvl = b.data.UpgradeLevel.CompareTo(a.data.UpgradeLevel);
+            if (lvl != 0) return lvl;
+
+            return a.data.Item.GetInstanceID().CompareTo(b.data.Item.GetInstanceID());
+        });
+
+        foreach (var (sourceIdx, data) in indexed)
+        {
+            _currentView.Add(data);
+            _currentViewSourceIndices.Add(sourceIdx);
+        }
+
+        RepopulateGrid();
+    }
 
     private void RefreshCurrentView()
     {
         if (_inventorySO == null) return;
 
-        // Build view list with original indices
-        _currentView.Clear();
-        _currentViewSourceIndices.Clear();
-
-        List<InventoryItemData> sorted = _activeTab == Tab.Resources
-            ? _inventorySO.GetResourcesSorted()
-            : _inventorySO.GetEquipmentSorted(_activeSlotFilter);
-
-        // Map back to source indices for equip calls
         IReadOnlyList<InventoryItemData> source = _inventorySO.Items;
-        foreach (var data in sorted)
-        {
-            // Find first matching index in source
-            for (int i = 0; i < source.Count; i++)
-            {
-                if (source[i].Item == data.Item && source[i].UpgradeLevel == data.UpgradeLevel)
-                {
-                    _currentView.Add(data);
-                    _currentViewSourceIndices.Add(i);
-                    break;
-                }
-            }
-        }
+
+        for (int i = 0; i < _currentViewSourceIndices.Count; i++)
+            _currentView[i] = source[_currentViewSourceIndices[i]];
 
         RepopulateGrid();
     }
