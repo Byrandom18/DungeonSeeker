@@ -5896,6 +5896,10 @@ PrefabInstance:
       propertyPath: _inventorySO
       value: 
       objectReference: {fileID: 11400000, guid: 39e56d36cb0e0a14383b9a78fe20d849, type: 2}
+    - target: {fileID: 3724888652588315362, guid: 74734e7af6494204f859ccfc2bbfdb74, type: 3}
+      propertyPath: _bonusValueTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f56677b5f375f34482bd79fb1e22462, type: 2}
     - target: {fileID: 3867999756485801853, guid: 74734e7af6494204f859ccfc2bbfdb74, type: 3}
       propertyPath: _inventorySO
       value: 

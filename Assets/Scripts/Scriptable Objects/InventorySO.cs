@@ -243,6 +243,43 @@ public class InventorySO : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Updates ALL bonus stats for ALL items of equipment in the current pool. Call BonusStatPoolSO after the change.
+    /// </summary>
+    public void RefreshAllBonusStats()
+    {
+        bool anyChanged = false;
+
+        for (int i = 0; i < _items.Count; i++)
+        {
+            var data = _items[i];
+            if (data.Item?.ItemType != ItemType.Equipment) continue;
+            if (data.Item.BonusStatPool == null) continue;
+
+            var newBonusList = new List<BonusStatInstance>();
+
+            foreach (var bonus in data.BonusStats)
+            {
+                if (data.Item.BonusStatPool.TryGetRandomValueForType(bonus.Type, out float newValue))
+                {
+                    newBonusList.Add(new BonusStatInstance(bonus.Type, newValue));
+                }
+                else
+                {
+                    newBonusList.Add(bonus); 
+                }
+            }
+
+            _items[i] = data.WithUpgrade(data.UpgradeLevel, data.MainStat, newBonusList);
+            anyChanged = true;
+        }
+
+        if (anyChanged)
+        {
+            NotifyInventoryChanged();
+            Debug.Log($"[InventorySO] Обновлено бонусных статов: {_items.Count(item => item.Item?.ItemType == ItemType.Equipment)} предметов");
+        }
+    }
 
     private void NotifyInventoryChanged()
     {

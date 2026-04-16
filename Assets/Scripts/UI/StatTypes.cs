@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatType
@@ -33,13 +34,31 @@ public struct MainStatEntry
     public float Weight;
 }
 
+//[Serializable]
+//public struct BonusStatEntry
+//{
+//    public StatType Type;
+//    public float MinValue;
+//    public float MaxValue;
+//    public float Weight;
+//}
+
 [Serializable]
-public struct BonusStatEntry
+public struct BonusOption
 {
-    public StatType Type;
-    public float MinValue;
-    public float MaxValue;
+    [Range(0f, 100f)]
     public float Weight;
+    public float Value;
+}
+
+[Serializable]
+public struct StatBonusPoolEntry
+{
+    [Header("Характеристика")]
+    public StatType Type;
+    [Range(0f, 100f)]
+    public float TypeWeight;
+    public List<BonusOption> Options;  
 }
 
 [Serializable]

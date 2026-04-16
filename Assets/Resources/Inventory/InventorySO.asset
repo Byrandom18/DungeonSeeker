@@ -17,16 +17,16 @@ MonoBehaviour:
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
+    Rarity: 2
+    MaxUpgradeLevel: 2
     _mainStat:
       Type: 2
       BaseValue: 30
       ValueScalePerLevel: 0.1
     _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 1
-    UpgradeLevel: 0
+    UpgradeLevel: 4
     IsEquipped: 1
     Rarity: 4
     MaxUpgradeLevel: 4
@@ -34,76 +34,195 @@ MonoBehaviour:
       Type: 7
       BaseValue: 10
       ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
+    _bonusStats:
+    - Type: 12
+      Value: 5
+    - Type: 2
+      Value: 6
+    - Type: 5
+      Value: 9
+    - Type: 9
+      Value: 9
   - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 1
-    Rarity: 2
-    MaxUpgradeLevel: 2
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
     _mainStat:
-      Type: 0
-      BaseValue: 15
+      Type: 8
+      BaseValue: 20
       ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    _bonusStats:
+    - Type: 0
+      Value: 5
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 1
-    Rarity: 2
-    MaxUpgradeLevel: 2
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
     _mainStat:
       Type: 4
       BaseValue: 15
       ValueScalePerLevel: 0.1
-    _bonusStats: []
+    _bonusStats:
+    - Type: 5
+      Value: 10
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 13
+      Value: 9
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 4
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 12
+      Value: 5
   - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
+    Rarity: 1
+    MaxUpgradeLevel: 1
     _mainStat:
       Type: 2
       BaseValue: 30
       ValueScalePerLevel: 0.1
     _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 4
+    MaxUpgradeLevel: 4
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
     Quantity: 1
     UpgradeLevel: 1
-    IsEquipped: 1
-    Rarity: 1
-    MaxUpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
     _mainStat:
-      Type: 0
-      BaseValue: 15
+      Type: 10
+      BaseValue: 50
       ValueScalePerLevel: 0.1
     _bonusStats:
     - Type: 8
-      Value: 11.298021
+      Value: 6
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 9
+      Value: 10
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 10
+      BaseValue: 50
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 4
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 0
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
   - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 0
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 1
+    MaxUpgradeLevel: 1
+    _mainStat:
+      Type: 10
+      BaseValue: 50
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 7
+      BaseValue: 10
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 10
+      BaseValue: 50
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 2
+      Value: 9
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
@@ -116,62 +235,53 @@ MonoBehaviour:
     _bonusStats: []
   - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
     Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 10
-      BaseValue: 50
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
-    Quantity: 1
     UpgradeLevel: 1
     IsEquipped: 0
     Rarity: 3
     MaxUpgradeLevel: 3
     _mainStat:
-      Type: 7
-      BaseValue: 10
+      Type: 0
+      BaseValue: 15
       ValueScalePerLevel: 0.1
     _bonusStats:
-    - Type: 12
-      Value: 16.831594
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+    - Type: 16
+      Value: 5
+  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 0
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
     Rarity: 2
     MaxUpgradeLevel: 2
     _mainStat:
-      Type: 7
-      BaseValue: 10
+      Type: 10
+      BaseValue: 50
       ValueScalePerLevel: 0.1
     _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 4
+      Value: 6
+  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
@@ -182,41 +292,32 @@ MonoBehaviour:
       BaseValue: 15
       ValueScalePerLevel: 0.1
     _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
     Quantity: 1
     UpgradeLevel: 1
     IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats:
-    - Type: 11
-      Value: 19.698296
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
+    Rarity: 3
+    MaxUpgradeLevel: 3
     _mainStat:
       Type: 2
       BaseValue: 30
       ValueScalePerLevel: 0.1
-    _bonusStats: []
+    _bonusStats:
+    - Type: 12
+      Value: 9
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 4
+      BaseValue: 15
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 2
+      Value: 6
   - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 1
     UpgradeLevel: 0
@@ -224,11 +325,85 @@ MonoBehaviour:
     Rarity: 1
     MaxUpgradeLevel: 1
     _mainStat:
-      Type: 0
-      BaseValue: 15
+      Type: 10
+      BaseValue: 50
       ValueScalePerLevel: 0.1
     _bonusStats: []
+  - Item: {fileID: 11400000, guid: 1298fa8236deda44cbb15d0528d56cdb, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 5
+    MaxUpgradeLevel: 5
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 15
+      Value: 9
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 4
+    MaxUpgradeLevel: 4
+    _mainStat:
+      Type: 10
+      BaseValue: 50
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 11
+      Value: 10
+  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 8
+      BaseValue: 20
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 13
+      Value: 6
   - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 1
+    IsEquipped: 0
+    Rarity: 3
+    MaxUpgradeLevel: 3
+    _mainStat:
+      Type: 2
+      BaseValue: 30
+      ValueScalePerLevel: 0.1
+    _bonusStats:
+    - Type: 15
+      Value: 7
+  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+    Quantity: 1
+    UpgradeLevel: 0
+    IsEquipped: 0
+    Rarity: 2
+    MaxUpgradeLevel: 2
+    _mainStat:
+      Type: 10
+      BaseValue: 50
+      ValueScalePerLevel: 0.1
+    _bonusStats: []
+  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
@@ -239,64 +414,9 @@ MonoBehaviour:
       BaseValue: 50
       ValueScalePerLevel: 0.1
     _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
+  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Quantity: 1
     UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
-    Quantity: 1
-    UpgradeLevel: 1
     IsEquipped: 0
     Rarity: 4
     MaxUpgradeLevel: 4
@@ -304,358 +424,15 @@ MonoBehaviour:
       Type: 2
       BaseValue: 30
       ValueScalePerLevel: 0.1
-    _bonusStats:
-    - Type: 12
-      Value: 14.739755
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 5
-    MaxUpgradeLevel: 5
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 1298fa8236deda44cbb15d0528d56cdb, type: 2}
-    Quantity: 2
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 5
-    MaxUpgradeLevel: 5
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-    Quantity: 3
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
     _bonusStats: []
   - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
     Quantity: 1
     UpgradeLevel: 0
     IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 10
-      BaseValue: 50
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 10
-      BaseValue: 50
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
+    Rarity: 4
+    MaxUpgradeLevel: 4
     _mainStat:
       Type: 2
       BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 4
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 10
-      BaseValue: 50
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 8
-      BaseValue: 20
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 7
-      BaseValue: 10
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 0
-      BaseValue: 15
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 33f9688618a0fc7458105e20963eaa57, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 2
-    MaxUpgradeLevel: 2
-    _mainStat:
-      Type: 10
-      BaseValue: 50
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 3
-    MaxUpgradeLevel: 3
-    _mainStat:
-      Type: 2
-      BaseValue: 30
-      ValueScalePerLevel: 0.1
-    _bonusStats: []
-  - Item: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
-    Quantity: 1
-    UpgradeLevel: 0
-    IsEquipped: 0
-    Rarity: 1
-    MaxUpgradeLevel: 1
-    _mainStat:
-      Type: 7
-      BaseValue: 10
       ValueScalePerLevel: 0.1
     _bonusStats: []
