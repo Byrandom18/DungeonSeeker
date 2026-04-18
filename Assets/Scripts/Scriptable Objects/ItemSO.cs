@@ -34,16 +34,14 @@ public class ItemSO : ScriptableObject
 {
     public int ID => GetInstanceID();
 
-    [field: SerializeField] public Sprite Sprite { get; private set; }
-    [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField, TextArea] public string Description { get; private set; }
-
-    [field: SerializeField] public ItemType ItemType { get; private set; }
-    [field: SerializeField] public ItemRarity Rarity { get; private set; }
-    [field: SerializeField] public bool IsStackable { get; private set; }
-
-    [field: SerializeField] public EquipmentSlot EquipmentSlot { get; private set; }
-    [field: SerializeField] public int MaxUpgradeLevel { get; private set; } = 6;
+    [field: SerializeField] public Sprite               Sprite { get; private set; }
+    [field: SerializeField] public string               Name { get; private set; }
+    [field: SerializeField, TextArea] public string     Description { get; private set; }
+    [field: SerializeField] public ItemType             ItemType { get; private set; }
+    [field: SerializeField] public ItemRarity           Rarity { get; private set; }
+    [field: SerializeField] public bool                 IsStackable { get; private set; }
+    [field: SerializeField] public EquipmentSlot        EquipmentSlot { get; private set; }
+    [field: SerializeField] public int                  MaxUpgradeLevel { get; private set; } = 6;
 
     [Header("Stat Pools")]
     [SerializeField] private MainStatPoolSO _mainStatPool;
@@ -59,6 +57,14 @@ public class ItemSO : ScriptableObject
 
     [SerializeField] private UpgradeRecipeSO _upgradeRecipe;
     public UpgradeRecipeSO UpgradeRecipe => _upgradeRecipe;
+
+    /// <summary>
+    /// Filled in only for EquipmentSlot items.Weapon.
+    /// Defines the archetype, sprite, and combat parameters of the weapon.
+    /// </summary>
+    [Header("Weapon (only for Weapon slot)")]
+    [SerializeField] private WeaponSO _weaponSO;
+    public WeaponSO WeaponSO => _weaponSO;
 
     public int ExpectedBonusCountAtLevel(int level)
     {

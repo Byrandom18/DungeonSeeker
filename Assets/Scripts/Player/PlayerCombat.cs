@@ -8,35 +8,47 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
-        GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+        GameInput.Instance.OnPlayerAttack += OnPlayerAttack;
     }
 
-    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    private void OnPlayerAttack(object sender, System.EventArgs e)
     {
-        if (_canAttack && PlayerStats.Instance.IsAlive)
-        {
-            ActiveWeapon.Instance.GetActiveWeapon().Attack();
-            _attackCooldown += ActiveWeapon.Instance.GetActiveWeapon().Cooldown;
-            StartCoroutine(AttackCD());
-        }
-        
+        if (!_canAttack || !PlayerStats.Instance.IsAlive) return;
+
+        WeaponBase weapon = ActiveWeapon.Instance.GetActiveWeapon();
+
+        weapon.Attack();
+        _attackCooldown = weapon.Cooldown;
+
+        StartCoroutine(AttackCooldownRoutine(weapon));
     }
 
-    private IEnumerator AttackCD()
+    private IEnumerator AttackCooldownRoutine(WeaponBase weapon)
     {
         _canAttack = false;
         GameInput.Instance.CanAttack = false;
-        // some weapons needs for freeze rotation on animation
-        ActiveWeapon.Instance.RotationEnabled = ActiveWeapon.Instance.GetActiveWeapon().RotationEnabled;
+
+        bool lockRotation = weapon.WeaponData != null && weapon.WeaponData.LockRotationOnSwing;
+        if (lockRotation)
+            ActiveWeapon.Instance.RotationEnabled = false;
+
+        ActiveWeapon.Instance.NotifyAttackStarted();
+
         yield return new WaitForSeconds(_attackCooldown);
-        ActiveWeapon.Instance.RotationEnabled = true;
+
+        if (lockRotation)
+            ActiveWeapon.Instance.RotationEnabled = true;
+
         _attackCooldown = 0;
         _canAttack = true;
-        GameInput .Instance.CanAttack = true;
+        GameInput.Instance.CanAttack = true;
+
+        ActiveWeapon.Instance.NotifyAttackEnded();
     }
 
     private void OnDestroy()
     {
-        GameInput.Instance.OnPlayerAttack -= GameInput_OnPlayerAttack;
+        if (GameInput.Instance != null)
+            GameInput.Instance.OnPlayerAttack -= OnPlayerAttack;
     }
 }

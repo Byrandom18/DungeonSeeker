@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0438e1c9820ae83439b87c82eb0a3dca, type: 3}
+  m_Name: Staff
+  m_EditorClassIdentifier: 
+  WeaponType: 1
+  WeaponSprite: {fileID: -929794979, guid: fe9de3c15b20d0942b1a8ad13b3214c5, type: 3}
+  DisplayName: Bow
+  DamageMultiplier: 1
+  AttackCooldown: 0.5
+  RotationEnabled: 1
+  LockRotationOnSwing: 0
+  ProjectilePrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
+  ProjectileSpeed: 8
+  ProjectileLifetime: 3
+  SizeMultiplier: 1
+  ProjectileCount: 1
+  SpreadAngle: 15
+  Penetrate: 1
+  ApplyStagger: 0
+  KnockbackMultiplier: 1
+  MeleeRange: 1

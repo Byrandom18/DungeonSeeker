@@ -25,3 +25,4 @@ MonoBehaviour:
   _firstBonusAtLevel: 1
   _bonusEveryNLevels: 1
   _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}
+  _weaponSO: {fileID: 11400000, guid: f0aed391be4026b4a8c49eb8ce34c1be, type: 2}

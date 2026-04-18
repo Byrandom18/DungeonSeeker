@@ -5,20 +5,19 @@ using UnityEngine;
 [RequireComponent (typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
-    public float Speed = 8f;
-    public float Lifetime = 3f;
-    public float Damage = 1;
-    public float Penetrate = 1;
-    public float KnockbackMultiplier = 1;
-    public bool StaggerApply = false;
-    public bool CanPenetrateWall = false;
-    //public float defShred = 0;
-    
-    public bool EnemyLaunch = false;
+    public float Speed               = 8f;
+    public float Lifetime            = 3f;
+    public float Damage              = 1f;
+    public float Penetrate           = 1f;
+    public float KnockbackMultiplier = 1f;
+    public bool  StaggerApply        = false;
+    public bool  CanPenetrateWall    = false;
+    public bool  EnemyLaunch         = false;
 
     public event EventHandler OnProjectileDestroy;
 
-    public Vector2 StartPosition;
+    public Vector2 StartPosition { get; private set; }
+
     private Vector2 direction;
     private Rigidbody2D rb;
 
@@ -41,24 +40,37 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (EnemyLaunch && collision.CompareTag("Player") && collision.transform.TryGetComponent(out PlayerStats player))
+        if (EnemyLaunch)
         {
-            player.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
-            PenetrationUpdate();
+            if (collision.TryGetComponent(out ICharacterEntity target) && target.IsAlive)
+            {
+                target.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
+                PenetrationUpdate();
+                return;
+            }
         }
-        else if (!EnemyLaunch && collision.CompareTag("Enemy") && collision.transform.TryGetComponent(out EnemyDamage enemy))
+        else
         {
-            enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
-            PenetrationUpdate();
+            if (collision.TryGetComponent(out EnemyDamage enemy))
+            {
+                enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
+                PenetrationUpdate();
+                return;
+            }
         }
-        else if (collision.CompareTag("Environment") && collision.TryGetComponent(out DestructibleEnvironment environment))
+        // Разрушаемое окружение
+        if (collision.TryGetComponent(out DestructibleEnvironment env))
         {
-            environment.TakeDamage();
+            env.TakeDamage();
             PenetrationUpdate();
+            return;
         }
-        else if (collision.CompareTag("Environment") && !CanPenetrateWall) Destroy(gameObject);
 
-        
+        // Стена — уничтожаем если нет пробития
+        if (collision.CompareTag("Environment") && !CanPenetrateWall)
+            Destroy(gameObject);
+
+
     }
     private void PenetrationUpdate()
     {

@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private EnemySO _enemySO;
     [SerializeField] private State _startingState;
+
     [Header("Roaming settings")]
     [SerializeField] private bool _enableRoam = true;
     [SerializeField] private float _roamSpeed = 1.5f;
@@ -18,9 +19,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _roamingTimerMax = 2f;
     [SerializeField] private float _idleDuration = 5f;
     [SerializeField] private bool _canChangeStartPos = true;
-    private float _roamingTime;
-    private Vector3 _roamPosition;
-    private Vector3 _startingPosition; // walk around start coordinate
 
     [Header("Chase settings")]
     [SerializeField] private float _chasingSpeed = 2.5f;
@@ -32,22 +30,27 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool _isAttackingEnemy = true;
     [SerializeField] private float _attackDistance = 1f;
     [SerializeField] private float _attackRate = 3f;
-    private float _nextAttackTime = 0f;
 
     private NavMeshAgent _navMeshAgent;
     private EnemyDamage _enemyDamage;
+
     [SerializeField] private State _state;
 
+    private float _roamingTime;
+    private Vector3 _roamPosition;
+    private Vector3 _startingPosition; // walk around start coordinate
+    private float _nextAttackTime = 0f;
     private bool _isIdle = false;
-    //private bool isChasing = false;
     private bool _isRoaming = false;
+
+    private ICharacterEntity _currentTarget;
+
     public bool IsFacingRight = true;
+    public bool IsAttacking = false;
 
     public event EventHandler OnEnemyAttack;
     public event EventHandler OnEnemyUpdateSpriteDirection;
-    public bool IsAttacking = false;
     
-
     private enum State
     {
         Idle,
@@ -68,10 +71,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        if (_enemyDamage == null)
-            Debug.LogError($"EnemyDamage is missing on {gameObject.name}");
-        if (_enemySO == null)
-            Debug.LogError($"EnemySO is missing on {gameObject.name}");
+        if (_enemyDamage == null) Debug.LogError($"EnemyDamage missing on {gameObject.name}");
+        if (_enemySO == null) Debug.LogError($"EnemySO missing on {gameObject.name}");
         InitializeStats();
         _startingPosition = transform.position;
         _navMeshAgent.speed = _roamSpeed;
@@ -79,42 +80,32 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        RefreshTarget();
         StateHandler();
         if (_enemyDamage.IsAlive) UpdateFacingDirection();
     }
 
 
-    public bool IsRunning()
+    public bool IsRunning() => _navMeshAgent.velocity != Vector3.zero;
+
+    public float GetRoamingAnimationSpeed() => _navMeshAgent.speed / _roamSpeed;
+
+    private void RefreshTarget()
     {
-        if (_navMeshAgent.velocity == Vector3.zero)
-            return false;
-        else
-            return true;
+        if (PartyManager.Instance == null) return;
+        _currentTarget = PartyManager.Instance.GetNearestTarget(transform.position);
     }
 
-    public float GetRoamingAnimationSpeed()
-    {
-        return _navMeshAgent.speed / _roamSpeed;
-    }
+    private bool HasLiveTarget() => _currentTarget != null && _currentTarget.IsAlive;
 
-    private void InitializeStats()
-    {
-        _enableRoam = _enemySO.EnableRoam;
-        _canChangeStartPos = _enemySO.EnableChangeStartPos;
-        _roamSpeed = _enemySO.RoamSpeed;
-        _roamingDistanceMax = _enemySO.RoamingDistanceMax;
-        _roamingDistanceMin = _enemySO.RoamingDistanceMin;
-        _roamingTimerMax = _enemySO.RoamingTimerMax;
-        _idleDuration = _enemySO.IdleDuration;
+    private Vector3 TargetPosition() => _currentTarget.Transform.position;
 
-        _isChasingEnemy = _enemySO.EnableChase;
-        _chasingSpeed = _enemySO.ChasingSpeed;
-        _chasingDistance = _enemySO.ChasingDistance;
+    private float DistanceToTarget() =>
+        HasLiveTarget()
+            ? Vector3.Distance(transform.position, TargetPosition())
+            : float.MaxValue;
 
-        _isAttackingEnemy = _enemySO.EnableAttack;
-        _attackDistance = _enemySO.AttackDistance;
-        _attackRate = _enemySO.AttackRate;
-    }
+    // ======= State machine ========================================================
 
     private void StateHandler()
     {
@@ -166,53 +157,50 @@ public class EnemyAI : MonoBehaviour
 
     private void CheckCurrentState()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, PlayerMovement.Instance.transform.position);
+        if (!_enemyDamage.IsAlive)
+        {
+            TransitionTo(State.Death);
+            return;
+        }
+
+        if (!HasLiveTarget())
+        {
+            if (_state != State.Idle) TransitionTo(State.Roaming);
+            return;
+        }
+
+        float dist = DistanceToTarget();
         State newState = State.Roaming;
-        if (_state == State.Idle)
-        {
-            newState = State.Idle;
-        }
 
-        if (PlayerStats.Instance.IsAlive)
-        {
-            if (_isChasingEnemy)
-            {
-                if (distanceToPlayer <= _chasingDistance)
-                {
-                    newState = State.Chasing;
-                }
-            }
-
-            if (_isAttackingEnemy)
-            {
-                if (distanceToPlayer <= _attackDistance)
-                {
-                    newState = State.Attacking;
-                }
-            }
-        }
-        
-        if (!_enemyDamage.IsAlive) newState = State.Death;
+        if (_isChasingEnemy && dist <= _chasingDistance) newState = State.Chasing;
+        if (_isAttackingEnemy && dist <= _attackDistance) newState = State.Attacking;
 
         if (newState != _state)
+            TransitionTo(newState);
+    }
+
+    private void TransitionTo(State newState)
+    {
+        switch (newState)
         {
-            if (newState == State.Chasing)
-            {
+            case State.Chasing:
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.speed = _chasingSpeed;
-            }
-            else if (newState == State.Roaming)
-            {
+                break;
+            case State.Roaming:
                 _roamingTime = 0;
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.speed = _roamSpeed;
-            }
-            else if (newState == State.Attacking) _navMeshAgent.ResetPath();
-            else if (newState == State.Death) _navMeshAgent.ResetPath();
-
-            _state = newState;
+                break;
+            case State.Attacking:
+            case State.Death:
+                _navMeshAgent.ResetPath();
+                break;
         }
+        _state = newState;
     }
+
+    // ========== Combat ====================================================
 
     private void AttackingTarget()
     {
@@ -255,9 +243,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 toDestination = _navMeshAgent.destination - transform.position;
         if (toDestination.magnitude > finalStopDistance)
         {
-            Vector3 shortenedDestination = transform.position +
-                toDestination.normalized * finalStopDistance;
-            _navMeshAgent.SetDestination(shortenedDestination);
+            _navMeshAgent.SetDestination(transform.position + toDestination.normalized * finalStopDistance);
         }
     }
 
@@ -269,17 +255,14 @@ public class EnemyAI : MonoBehaviour
         _isIdle = false;
     }
 
+
+    // ======= Visual ====================================================
     private void UpdateFacingDirection()
     {
-        // ѕолучаем текущее направление движени€
-        Vector3 moveDirection = _navMeshAgent.velocity.normalized;
-
-        if (moveDirection.magnitude > 0.1f)
+        Vector3 moveDir = _navMeshAgent.velocity.normalized;
+        if (moveDir.magnitude > 0.1f)
         {
-            // ќпредел€ем, вправо или влево движемс€
-            bool shouldFaceRight = moveDirection.x > 0;
-
-            // –азворачиваем только если направление изменилось
+            bool shouldFaceRight = moveDir.x > 0;
             if (shouldFaceRight != IsFacingRight)
             {
                 IsFacingRight = shouldFaceRight;
@@ -288,5 +271,23 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    
+    // ========== Initializing =========================================
+    private void InitializeStats()
+    {
+        _enableRoam = _enemySO.EnableRoam;
+        _canChangeStartPos = _enemySO.EnableChangeStartPos;
+        _roamSpeed = _enemySO.RoamSpeed;
+        _roamingDistanceMax = _enemySO.RoamingDistanceMax;
+        _roamingDistanceMin = _enemySO.RoamingDistanceMin;
+        _roamingTimerMax = _enemySO.RoamingTimerMax;
+        _idleDuration = _enemySO.IdleDuration;
+
+        _isChasingEnemy = _enemySO.EnableChase;
+        _chasingSpeed = _enemySO.ChasingSpeed;
+        _chasingDistance = _enemySO.ChasingDistance;
+
+        _isAttackingEnemy = _enemySO.EnableAttack;
+        _attackDistance = _enemySO.AttackDistance;
+        _attackRate = _enemySO.AttackRate;
+    }
 }

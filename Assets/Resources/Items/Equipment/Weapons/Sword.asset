@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0438e1c9820ae83439b87c82eb0a3dca, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: 
+  WeaponType: 0
+  WeaponSprite: {fileID: -2872409368766515237, guid: 433adafa2e7e28940a401d34177b0b3f, type: 3}
+  DisplayName: Sword
+  DamageMultiplier: 1
+  AttackCooldown: 0.5
+  RotationEnabled: 1
+  LockRotationOnSwing: 1
+  ProjectilePrefab: {fileID: 0}
+  ProjectileSpeed: 8
+  ProjectileLifetime: 3
+  SizeMultiplier: 1
+  ProjectileCount: 1
+  SpreadAngle: 15
+  Penetrate: 1
+  ApplyStagger: 0
+  KnockbackMultiplier: 1
+  MeleeRange: 1

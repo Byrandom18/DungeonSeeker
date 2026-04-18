@@ -46,13 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6f355ce6862624e8487536d8302a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageMulti: 1
-  Cooldown: 0.5
-  RotationEnabled: 1
-  _projectilePrefab: {fileID: 8876501365342310937, guid: 67d69a11e386e714491b2ce3cde34078, type: 3}
-  _baseProjectileSpeed: 8
-  _baseProjectileLifetime: 3
-  _sizeMultiplier: 1
+  WeaponData: {fileID: 0}
 --- !u!50 &8011566228307739622
 Rigidbody2D:
   serializedVersion: 5

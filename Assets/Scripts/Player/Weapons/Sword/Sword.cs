@@ -11,60 +11,53 @@ public class Sword : WeaponBase
 
     private void Awake()
     {
+        base.Awake();
         _attackBox = GetComponentInChildren<PolygonCollider2D>();
     }
 
     private void Start()
     {
-        CheckAllComponents();
+        if (_attackBox == null)
+            Debug.LogError($"[Sword] Attack collider missing on {gameObject.name}");
     }
 
+    public override void ApplyWeaponSO(WeaponSO data)
+    {
+        base.ApplyWeaponSO(data);
+        if (_attackBox != null)
+            _attackBox.transform.localScale = Vector3.one * data.MeleeRange;
+    }
 
     public override void Attack()
     {
         OnSwordSwing?.Invoke(this, EventArgs.Empty);
     }
 
-    public void StartAttack()
-    {
-        _attackBox.enabled = true;
-    }
+    public void StartAttack() => _attackBox.enabled = true;
+    public void EndAttack() => _attackBox.enabled = false;
 
-    public void EndAttack()
-    {
-        _attackBox.enabled = false;
-    }
-
-
-    private void CheckAllComponents()
-    {
-        CheckComponent(_attackBox, "Attack Collider");
-    }
-
-    private void CheckComponent<T>(T component, string componentName) where T : Component
-    {
-        if (component == null)
-            Debug.LogError($"{componentName} is missing on {gameObject.name}");
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent(out EnemyDamage enemyDamage))
+        if (collision.TryGetComponent(out EnemyDamage enemy))
         {
-            float damage = CalculateDamage();
-            enemyDamage.TakeDamage(damage, transform.position, PlayerStats.Instance.KnockbackMultiplier, true);
+            float damage = DamageMulti * GetOwnerAttack();
+            float knockbackMulti = WeaponData != null ? WeaponData.KnockbackMultiplier : 1f;
+            enemy.TakeDamage(damage, transform.position, knockbackMulti, true);
         }
-        if (collision.TryGetComponent(out DestructibleEnvironment distructibleEnvironment))
-        {
-            distructibleEnvironment.TakeDamage();
-        }
+
+        if (collision.TryGetComponent(out DestructibleEnvironment env))
+            env.TakeDamage();
     }
 
-    private float CalculateDamage() 
+    private float GetOwnerAttack()
     {
+        if (Owner != null)
+            return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
 
-        return DamageMulti * PlayerStats.Instance.CurrentAtk;
+        // Fallback для совместимости пока не все персонажи переведены
+        return PlayerStats.Instance != null ? PlayerStats.Instance.Attack : 1f;
     }
 
-    
+
 }

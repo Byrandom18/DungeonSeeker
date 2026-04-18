@@ -303,11 +303,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166cb990b2269f240b052592bc729f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationEnabled: 1
-  _weapons:
-  - {fileID: 1529239022}
-  - {fileID: 1367113278}
-  - {fileID: 1793420918}
+  _ownerStats: {fileID: 1952328085}
+  _weaponEntries:
+  - Type: 0
+    Weapon: {fileID: 1529239022}
+  - Type: 1
+    Weapon: {fileID: 1367113278}
+  - Type: 2
+    Weapon: {fileID: 1793420918}
+  _inventorySO: {fileID: 11400000, guid: 39e56d36cb0e0a14383b9a78fe20d849, type: 2}
 --- !u!1 &90570415
 GameObject:
   m_ObjectHideFlags: 0
@@ -3420,7 +3424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1147127754
 Transform:
   m_ObjectHideFlags: 0
@@ -4970,6 +4974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1952328087}
   - component: {fileID: 1952328085}
+  - component: {fileID: 1952328093}
   - component: {fileID: 1952328086}
   - component: {fileID: 1952328088}
   - component: {fileID: 1952328089}
@@ -5023,31 +5028,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99fb4bf0c6b5c64fa99cfd19394ced5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  BaseHealth: 10000
-  HealthMod: 0
-  MaxHealth: 0
-  HealthRegen: 0
-  BaseAtk: 1
-  CurrentAtk: 1
-  AtkMod: 0
-  DamageMod: 0
-  Luck: 0
-  CritRate: 5
-  CritDamage: 50
-  Def: 0
-  SpeedMod: 0
-  PenetrationBoost: 0
-  ProjectileSpeed: 0
-  Durations: 0
-  CdRed: 0
-  AddProjectile: 0
-  AreaMod: 0
-  DefShred: 0
-  Invulnerability: 0
+  _baseHealth: 100
+  _baseAttack: 10
+  _baseDefence: 0
+  _baseSpeed: 3
+  _baseCritChance: 5
+  _baseCritDamage: 50
   KnockbackResist: 0
   KnockbackMultiplier: 1
-  IsAlive: 1
 --- !u!114 &1952328086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,6 +5190,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KnockbackForce: 2
   KnockbackMovingTimerMax: 0.3
+--- !u!114 &1952328093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952328082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052af730a1c94841bb49a7368e6ba9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventorySO: {fileID: 11400000, guid: 39e56d36cb0e0a14383b9a78fe20d849, type: 2}
 --- !u!1 &1959660670
 GameObject:
   m_ObjectHideFlags: 0
@@ -5518,6 +5519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Staff
       objectReference: {fileID: 0}
+    - target: {fileID: 4916965975577719223, guid: 597006b18ec8f69459ad37c53c6d47d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5574,6 +5579,10 @@ PrefabInstance:
     - target: {fileID: 3250267034165292066, guid: ab750a78825e6c14396f1f0586b02c9a, type: 3}
       propertyPath: m_Name
       value: Bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250267034165292066, guid: ab750a78825e6c14396f1f0586b02c9a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

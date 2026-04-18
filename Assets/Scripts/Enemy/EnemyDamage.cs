@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    [SerializeField] private bool _haveTouchDamage = false;
-
-    [Header("Stats")]
     [SerializeField] private EnemySO _enemySO;
-    private float _baseHealth;
-    private float _maxHealth;
-    private float _currentHealth;
-    private float _baseAttack = 1;
-    public float CurrentAttack = 1;
+    [SerializeField] private bool    _haveTouchDamage = false;
 
     [Header("Stagger settings")]
-    [SerializeField] private bool _staggerImmune = false;
-    public bool InStagger = false;
-    public bool CanReceiveStagger = true;
+    [SerializeField] private bool  _staggerImmune   = false;
     [SerializeField] private float _staggerDuration = 1f;
-    private float _staggerEndTime = 0f;
+
+    public bool InStagger         = false;
+    public bool CanReceiveStagger = true;
+    public bool IsAlive           = true;
+
+    public float KnockbackMultiplier = 1f;
+
+    // Runtime stats
+    private float _currentHealth;
+    private float _baseAttack;
+    public  float CurrentAttack;
+
+    private float _knockbackResist;
+    private float _staggerEndTime;
+    private float _nextAttackTime;
+
+    private Knockback        _knockback;
+    private CapsuleCollider2D _hitBox;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
-    private float _nextAttackTime = 0;
-    public float KnockbackMultiplier = 1;
-    private Knockback _knockback;
-    [SerializeField] private float _knockbackResist;
-    public bool IsAlive = true;
-    private CapsuleCollider2D _hitBox;
 
     private void Awake()
     {
@@ -38,67 +40,44 @@ public class EnemyDamage : MonoBehaviour
 
     private void Start()
     {
-        if (_enemySO == null)
-            Debug.LogError($"EnemySO is missing on {gameObject.name}");
-        if (_knockback == null)
-            Debug.LogError($"Knockback script is missing on {gameObject.name}");
+        if (_enemySO == null) Debug.LogError($"EnemySO missing on {gameObject.name}");
+        if (_knockback == null) Debug.LogError($"Knockback missing on {gameObject.name}");
         InitializeStats();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (_haveTouchDamage)
+        if (!_haveTouchDamage) return;
+        if (Time.time <= _nextAttackTime) return;
+
+        if (collision.TryGetComponent(out ICharacterEntity target) && target.IsAlive)
         {
-            if (Time.time > _nextAttackTime && collision.transform.TryGetComponent(out PlayerStats player))
-            {
-                player.TakeDamage(CurrentAttack, transform.position, KnockbackMultiplier); //(transform, _currentAttack, ...)
-                _nextAttackTime = Time.time + 1f;
-                _knockback.GetKnockedBack(collision.transform.position, 1f, _knockbackResist);
-            }
+            target.TakeDamage(CurrentAttack, transform.position, KnockbackMultiplier);
+            _nextAttackTime = Time.time + 1f;
+            _knockback.GetKnockedBack(collision.transform.position, 1f, _knockbackResist);
         }
     }
 
-    public void TakeDamage(float damage, 
-        Vector3 knockbackSource, float knockbackMultiplier,
+    public void TakeDamage(
+        float damage,
+        Vector3 knockbackSource,
+        float knockbackMultiplier,
         bool isStaggeringAttack)
     {
-        if (IsAlive)
-        {
-            _currentHealth -= damage;
-            if (isStaggeringAttack) ApplyStagger();
-            OnTakeHit?.Invoke(this, EventArgs.Empty);
-            DetectDeath();
-            _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
-        }
-    }
+        if (!IsAlive) return;
 
-    private void InitializeStats()
-    {
-        _baseHealth = _enemySO.EnemyMaxHealth;
-        _maxHealth = _baseHealth; //* _healthModifier ...
-        _currentHealth = _maxHealth;
+        _currentHealth -= damage;
+        if (isStaggeringAttack) ApplyStagger();
 
-        _baseAttack = _enemySO.EnemyBaseAttack;
-        CurrentAttack = _baseAttack; //* _attackModifier ...
-
-        _staggerImmune = _enemySO.StaggerImmune;
-        _staggerDuration = _enemySO.StaggerDuration;
-
-        KnockbackMultiplier = _enemySO.KnockbackMultiplier;
-        _knockbackResist = _enemySO.KnockbackResist;
-        _knockback.KnockbackForce = _enemySO.KnockbackSelfForce;
-        _knockback.KnockbackMovingTimerMax = _enemySO.KnockbackDuration;
-
-        _haveTouchDamage = _enemySO.EnableTouchDamage;
+        OnTakeHit?.Invoke(this, EventArgs.Empty);
+        _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
+        DetectDeath();
     }
 
     private void ApplyStagger()
     {
         if (!_staggerImmune && CanReceiveStagger)
-        {
-            
             StartCoroutine(StaggerCoroutine());
-        }
     }
 
     private IEnumerator StaggerCoroutine()
@@ -109,12 +88,29 @@ public class EnemyDamage : MonoBehaviour
         if (Time.time >= _staggerEndTime) InStagger = false;
     }
 
+    private void InitializeStats()
+    {
+        _currentHealth = _enemySO.EnemyMaxHealth;
+
+        _baseAttack   = _enemySO.EnemyBaseAttack;
+        CurrentAttack = _baseAttack;
+
+        _staggerImmune   = _enemySO.StaggerImmune;
+        _staggerDuration = _enemySO.StaggerDuration;
+
+        KnockbackMultiplier = _enemySO.KnockbackMultiplier;
+        _knockbackResist    = _enemySO.KnockbackResist;
+
+        _knockback.KnockbackForce            = _enemySO.KnockbackSelfForce;
+        _knockback.KnockbackMovingTimerMax   = _enemySO.KnockbackDuration;
+
+        _haveTouchDamage = _enemySO.EnableTouchDamage;
+    }
+
+
     private void DetectDeath()
     {
-        if (_currentHealth <= 0)
-        {
-            Death();
-        }
+        if (_currentHealth <= 0f) Death();
     }
 
     private void Death()
