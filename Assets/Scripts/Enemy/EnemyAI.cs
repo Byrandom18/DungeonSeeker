@@ -157,23 +157,25 @@ public class EnemyAI : MonoBehaviour
 
     private void CheckCurrentState()
     {
+        float dist = DistanceToTarget();
+        State newState = State.Roaming;
+
+        if (_state == State.Idle)
+        {
+            newState = State.Idle;
+        }
+
         if (!_enemyDamage.IsAlive)
         {
             TransitionTo(State.Death);
             return;
         }
 
-        if (!HasLiveTarget())
+        if (HasLiveTarget())
         {
-            if (_state != State.Idle) TransitionTo(State.Roaming);
-            return;
+            if (_isChasingEnemy && dist <= _chasingDistance) newState = State.Chasing;
+            if (_isAttackingEnemy && dist <= _attackDistance) newState = State.Attacking;
         }
-
-        float dist = DistanceToTarget();
-        State newState = State.Roaming;
-
-        if (_isChasingEnemy && dist <= _chasingDistance) newState = State.Chasing;
-        if (_isAttackingEnemy && dist <= _attackDistance) newState = State.Attacking;
 
         if (newState != _state)
             TransitionTo(newState);
@@ -193,6 +195,8 @@ public class EnemyAI : MonoBehaviour
                 _navMeshAgent.speed = _roamSpeed;
                 break;
             case State.Attacking:
+                _navMeshAgent.ResetPath();
+                break;
             case State.Death:
                 _navMeshAgent.ResetPath();
                 break;

@@ -16,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_canAttack || !PlayerStats.Instance.IsAlive) return;
 
         WeaponBase weapon = ActiveWeapon.Instance.GetActiveWeapon();
+        if (weapon == null) return;
 
         weapon.Attack();
         _attackCooldown = weapon.Cooldown;

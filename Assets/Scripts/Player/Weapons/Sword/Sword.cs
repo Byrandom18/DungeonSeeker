@@ -6,13 +6,16 @@ public class Sword : WeaponBase
 {
     public event EventHandler OnSwordSwing;
     private PolygonCollider2D _attackBox;
+
+    private TrailRenderer _trail;
     //public float Cooldown = 0.5f;
     //public bool RotationEnabled = false;
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         _attackBox = GetComponentInChildren<PolygonCollider2D>();
+        _trail = GetComponentInChildren<TrailRenderer>();
     }
 
     private void Start()
@@ -21,11 +24,18 @@ public class Sword : WeaponBase
             Debug.LogError($"[Sword] Attack collider missing on {gameObject.name}");
     }
 
+    
+
     public override void ApplyWeaponSO(WeaponSO data)
     {
         base.ApplyWeaponSO(data);
         if (_attackBox != null)
-            _attackBox.transform.localScale = Vector3.one * data.MeleeRange;
+        {
+            float scaleFactor = data.MeleeRange; // * sizeMod
+            _attackBox.transform.localScale = Vector3.one * scaleFactor;
+            if (_trail != null) _trail.widthMultiplier = scaleFactor;
+        }
+            
     }
 
     public override void Attack()
@@ -49,6 +59,8 @@ public class Sword : WeaponBase
         if (collision.TryGetComponent(out DestructibleEnvironment env))
             env.TakeDamage();
     }
+
+    
 
     private float GetOwnerAttack()
     {

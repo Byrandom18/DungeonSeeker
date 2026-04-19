@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -17,7 +17,7 @@ public class ActiveWeapon : MonoBehaviour
     public static ActiveWeapon Instance { get; private set; }
 
     [Header("Owner")]
-    [SerializeField] private PlayerStats _ownerStats;  // or AllyStats — any ICharacterEntity
+    [SerializeField] private PlayerStats _ownerStats;  // or AllyStats вЂ” any ICharacterEntity
 
     [Header("Weapon components (by 1 on each WeaponType)")]
     [SerializeField] private WeaponEntry[] _weaponEntries;
@@ -29,7 +29,7 @@ public class ActiveWeapon : MonoBehaviour
     private WeaponBase _activeWeapon;
 
     private bool _isMidSwing;
-    private WeaponSO _pendingWeaponSO; // SO которое нужно применить после атаки
+    private WeaponSO _pendingWeaponSO; // SO РєРѕС‚РѕСЂРѕРµ РЅСѓР¶РЅРѕ РїСЂРёРјРµРЅРёС‚СЊ РїРѕСЃР»Рµ Р°С‚Р°РєРё
     private bool _pendingDeactivate;
 
     public bool RotationEnabled
@@ -59,10 +59,7 @@ public class ActiveWeapon : MonoBehaviour
         foreach (var entry in _weaponEntries)
         {
             if (entry.Weapon != null)
-            {
                 _weaponMap[entry.Type] = entry.Weapon;
-                entry.Weapon.gameObject.SetActive(false);
-            }
         }
     }
 
@@ -80,6 +77,8 @@ public class ActiveWeapon : MonoBehaviour
 
     private void Start()
     {
+        foreach (var kv in _weaponMap)
+            kv.Value.gameObject.SetActive(false);
         OnInventoryChanged(); // apply the current inventory status at start
     }
 
@@ -142,7 +141,7 @@ public class ActiveWeapon : MonoBehaviour
 
     private void ActivateWeapon(WeaponSO weaponData)
     {
-        // Деактивировать предыдущее
+        // Р”РµР°РєС‚РёРІРёСЂРѕРІР°С‚СЊ РїСЂРµРґС‹РґСѓС‰РµРµ
         if (_activeWeapon != null)
             _activeWeapon.gameObject.SetActive(false);
 
