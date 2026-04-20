@@ -5,7 +5,7 @@ using System.Collections;
 [SelectionBase]
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
     [SerializeField] private float _speed = 3f;
     private float _minMovingSpeed = 0.1f;
     private PlayerStats _stats;
@@ -27,14 +27,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         
         Instance = this;
         _stats = GetComponent<PlayerStats>();
         _visual = GetComponentInChildren<PlayerVisual>();
         _mainCamera = Camera.main;
         _knockback = GetComponent<Knockback>();
-        if (rb == null)
+        if (_rb == null)
             Debug.LogError("Rigidbody2D not found on " + gameObject.name);
         if (_visual == null)
             Debug.LogError("VisualComponent not found on " + gameObject.name);
@@ -59,13 +59,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_isDodging && _stats.IsAlive)
-        {
-            if (_knockback.IsGettingKnockedback)
-                return;
-            Move();
-            UpdateSpriteDirection();
-        }
+        //if (!_isDodging && _stats.IsAlive)
+        //{
+        //    if (_knockback.IsGettingKnockedback)
+        //        return;
+        //    Move();
+        //    UpdateSpriteDirection();
+        //}
+        Move();
+        UpdateSpriteDirection();
     }
 
 
@@ -97,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
             _lastMovementDirection = _inputVector;
         }
 
-        rb.MovePosition(rb.position + _inputVector * (_speed * Time.fixedDeltaTime));
+        _rb.transform.position = (_rb.position + _inputVector * (_speed * Time.fixedDeltaTime));
         if (Mathf.Abs(_inputVector.x) > _minMovingSpeed || Mathf.Abs(_inputVector.y) > _minMovingSpeed)
         {
             _isRunning = true;
@@ -128,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         _canDodge = false;
         _isDodging = true;
         _stats.Invulnerability = true;
+
         // Определяем направление
         Vector2 dodgeDirection = GameInput.Instance.GetMovementVector();
         if (dodgeDirection == Vector2.zero)
@@ -137,15 +140,16 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Применяем рывок через velocity
-        rb.linearVelocity = dodgeDirection * _dodgePower;
-
+        //_rb.linearVelocity = dodgeDirection * _dodgePower;
+        _rb.AddForce(dodgeDirection * _dodgePower, ForceMode2D.Impulse);
         // Ждем duration
         yield return new WaitForSeconds(_dodgeDuration);
 
         // Возвращаем обычную скорость (если игрок держит кнопку движения)
         if (!_isDodging) // Дополнительная проверка на случай прерывания
         {
-            rb.linearVelocity = GameInput.Instance.GetMovementVector() * _speed;
+            //_rb.linearVelocity = GameInput.Instance.GetMovementVector() * _speed;
+            _rb.AddForce(dodgeDirection * _dodgePower, ForceMode2D.Impulse);
         }
 
         // Завершение

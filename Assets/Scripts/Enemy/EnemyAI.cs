@@ -90,6 +90,7 @@ public class EnemyAI : MonoBehaviour
 
     public float GetRoamingAnimationSpeed() => _navMeshAgent.speed / _roamSpeed;
 
+
     private void RefreshTarget()
     {
         if (PartyManager.Instance == null) return;
@@ -173,7 +174,15 @@ public class EnemyAI : MonoBehaviour
 
         if (HasLiveTarget())
         {
-            if (_isChasingEnemy && dist <= _chasingDistance) newState = State.Chasing;
+            if (_isChasingEnemy)
+            {
+                if (_enemyDamage.IsChasing) newState = State.Chasing;
+                else if (dist <= _chasingDistance)
+                {
+                    newState = State.Chasing;
+                    _enemyDamage.IsChasing = true;
+                }
+            }
             if (_isAttackingEnemy && dist <= _attackDistance) newState = State.Attacking;
         }
 
@@ -219,8 +228,8 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasingTarget()
     {
-        if (!IsAttacking)
-            _navMeshAgent.SetDestination(PlayerMovement.Instance.transform.position);
+        if (!IsAttacking && HasLiveTarget())
+            _navMeshAgent.SetDestination(TargetPosition());
 
     }
 

@@ -14,6 +14,7 @@ public class EnemyDamage : MonoBehaviour
     public bool InStagger         = false;
     public bool CanReceiveStagger = true;
     public bool IsAlive           = true;
+    public bool IsChasing         = false;
 
     public float KnockbackMultiplier = 1f;
 
@@ -26,7 +27,7 @@ public class EnemyDamage : MonoBehaviour
     private float _staggerEndTime;
     private float _nextAttackTime;
 
-    private Knockback        _knockback;
+    private Knockback         _knockback;
     private CapsuleCollider2D _hitBox;
 
     public event EventHandler OnTakeHit;
@@ -69,6 +70,7 @@ public class EnemyDamage : MonoBehaviour
         _currentHealth -= damage;
         if (isStaggeringAttack) ApplyStagger();
 
+        IsChasing = true;
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
         DetectDeath();
@@ -102,7 +104,7 @@ public class EnemyDamage : MonoBehaviour
         _knockbackResist    = _enemySO.KnockbackResist;
 
         _knockback.KnockbackForce            = _enemySO.KnockbackSelfForce;
-        _knockback.KnockbackMovingTimerMax   = _enemySO.KnockbackDuration;
+        //_knockback.KnockbackMovingTimerMax   = _enemySO.KnockbackDuration;
 
         _haveTouchDamage = _enemySO.EnableTouchDamage;
     }

@@ -24,7 +24,7 @@ MonoBehaviour:
   ProjectileLifetime: 3
   SizeMultiplier: 1
   ProjectileCount: 5
-  SpreadAngle: 15
+  SpreadAngle: 5
   Penetrate: 1
   ApplyStagger: 0
   KnockbackMultiplier: 1

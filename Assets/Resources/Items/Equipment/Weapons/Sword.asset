@@ -28,4 +28,4 @@ MonoBehaviour:
   Penetrate: 1
   ApplyStagger: 0
   KnockbackMultiplier: 1
-  MeleeRange: 5
+  MeleeRange: 1
