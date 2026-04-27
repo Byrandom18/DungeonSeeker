@@ -26,10 +26,22 @@ public class EnemyAI : MonoBehaviour
     //[SerializeField] private float _chasingAnimationSpeedMultiplier = 1.5f;
     [SerializeField] private bool _isChasingEnemy = true;
 
+    [Header("Stepping chase")]
+    [SerializeField] private bool _useSteppedChase = false;
+    [SerializeField] private float _stepDistance = 1.5f;  
+    [SerializeField] private float _stepSpread = 30f;   
+    [SerializeField] private float _stepPauseDuration = 0.4f;  
+
     [Header("Attack settings")]
     [SerializeField] private bool _isAttackingEnemy = true;
     [SerializeField] private float _attackDistance = 1f;
     [SerializeField] private float _attackRate = 3f;
+
+    [Header("Retreat after attack")]
+    [SerializeField] private bool _retreatAfterAttack = false;
+    [SerializeField] private float _retreatDistance = 3f;   // желаемая дистанция отступления
+    [SerializeField] private float _retreatSpeed = 2f;
+    [SerializeField] private float _minSafeDistance = 5f;
 
     private NavMeshAgent _navMeshAgent;
     private EnemyDamage _enemyDamage;
@@ -42,6 +54,13 @@ public class EnemyAI : MonoBehaviour
     private float _nextAttackTime = 0f;
     private bool _isIdle = false;
     private bool _isRoaming = false;
+
+    // Stepped chase
+    private bool _isStepPausing = false;
+    private bool _stepInProgress = false;
+
+    // Retreat
+    private bool _isRetreating = false;
 
     private ICharacterEntity _currentTarget;
 
@@ -57,6 +76,7 @@ public class EnemyAI : MonoBehaviour
         Roaming,
         Chasing,
         Attacking,
+        Retreating,
         Death
     }
 
@@ -145,10 +165,17 @@ public class EnemyAI : MonoBehaviour
                 ChasingTarget();
                 CheckCurrentState();
                 break;
+
             case State.Attacking:
                 AttackingTarget();
                 CheckCurrentState();
                 break;
+
+            case State.Retreating:
+                RetreatFromTarget();
+                CheckCurrentState();
+                break;
+
             case State.Death:
                 break;
         }
@@ -158,7 +185,12 @@ public class EnemyAI : MonoBehaviour
 
     private void CheckCurrentState()
     {
-        float dist = DistanceToTarget();
+        if (!_enemyDamage.IsAlive)
+        {
+            TransitionTo(State.Death);
+            return;
+        }
+        bool canAttack = Time.time > _nextAttackTime;
         State newState = State.Roaming;
 
         if (_state == State.Idle)
@@ -166,15 +198,10 @@ public class EnemyAI : MonoBehaviour
             newState = State.Idle;
         }
 
-        if (!_enemyDamage.IsAlive)
-        {
-            TransitionTo(State.Death);
-            return;
-        }
-
         if (HasLiveTarget())
         {
-            if (_isChasingEnemy)
+            float dist = DistanceToTarget();
+            if (_isChasingEnemy && canAttack)
             {
                 if (_enemyDamage.IsChasing) newState = State.Chasing;
                 else if (dist <= _chasingDistance)
@@ -183,7 +210,10 @@ public class EnemyAI : MonoBehaviour
                     _enemyDamage.IsChasing = true;
                 }
             }
-            if (_isAttackingEnemy && dist <= _attackDistance) newState = State.Attacking;
+            if (_isAttackingEnemy && dist <= _attackDistance) 
+                newState = State.Attacking;
+            if (_retreatAfterAttack && !canAttack && dist < _minSafeDistance && !IsAttacking)
+                newState = State.Retreating;
         }
 
         if (newState != _state)
@@ -205,6 +235,11 @@ public class EnemyAI : MonoBehaviour
                 break;
             case State.Attacking:
                 _navMeshAgent.ResetPath();
+                break;
+            case State.Retreating:
+                _navMeshAgent.ResetPath();
+                _navMeshAgent.speed = _retreatSpeed;
+                _isRetreating = false;
                 break;
             case State.Death:
                 _navMeshAgent.ResetPath();
@@ -232,6 +267,42 @@ public class EnemyAI : MonoBehaviour
             _navMeshAgent.SetDestination(TargetPosition());
 
     }
+
+    private void RetreatFromTarget()
+    {
+        if (!HasLiveTarget()) return;
+
+        float dist = DistanceToTarget();
+        if (dist >= _minSafeDistance)
+        {
+            _navMeshAgent.ResetPath();
+            _isRetreating = false;
+            return;
+        }
+
+        if (!_isRetreating)
+        {
+            Vector3 awayDir = (transform.position - TargetPosition()).normalized;
+            float spreadRad = UnityEngine.Random.Range(-30f, 30f) * Mathf.Deg2Rad;
+            Vector3 retreatDir = new Vector3(
+                awayDir.x * Mathf.Cos(spreadRad) - awayDir.y * Mathf.Sin(spreadRad),
+                awayDir.x * Mathf.Sin(spreadRad) + awayDir.y * Mathf.Cos(spreadRad),
+                0f).normalized;
+
+            Vector3 retreatTarget = transform.position + retreatDir * _retreatDistance;
+            _navMeshAgent.SetDestination(retreatTarget);
+            _isRetreating = true;
+        }
+
+        // Когда дошли до точки — сбросить флаг для следующего шага отступления
+        if (_isRetreating && !_navMeshAgent.pathPending
+            && _navMeshAgent.remainingDistance < 0.2f)
+            _isRetreating = false;
+
+        
+    }
+
+    // ========== Roam ================================================
 
     private void Roaming()
     {
@@ -281,6 +352,21 @@ public class EnemyAI : MonoBehaviour
                 IsFacingRight = shouldFaceRight;
                 OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
             }
+        }
+    }
+
+    private void LookAtTarget()
+    {
+        Vector2 difference = transform.position - TargetPosition();
+        if (IsFacingRight && difference.x > 0f)
+        {
+            IsFacingRight = false;
+            OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
+        }
+        else if (!IsFacingRight && difference.x < 0f)
+        {
+            IsFacingRight = true;
+            OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
         }
     }
 
