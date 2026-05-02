@@ -375,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3534423962336530266, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4315614045414868383, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -420,6 +420,10 @@ PrefabInstance:
     - target: {fileID: 4371921207192225971, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565278847027488913, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
+      propertyPath: _useSteppedChase
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9219247842571303285, guid: 3b2ff3d48b27c9445a7240f6060096f1, type: 3}
       propertyPath: m_Material
@@ -3050,6 +3054,10 @@ PrefabInstance:
     - target: {fileID: 7908723048241487027, guid: af50ed6771b072f44923b9c1cb4564d7, type: 3}
       propertyPath: m_Name
       value: Dark Mage
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908723048241487027, guid: af50ed6771b072f44923b9c1cb4564d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

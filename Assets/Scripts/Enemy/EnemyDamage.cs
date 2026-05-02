@@ -29,6 +29,7 @@ public class EnemyDamage : MonoBehaviour
 
     private Knockback         _knockback;
     private CapsuleCollider2D _hitBox;
+    private BoxCollider2D     _collisionBox;
 
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
@@ -37,6 +38,7 @@ public class EnemyDamage : MonoBehaviour
     {
         _knockback = GetComponent<Knockback>();
         _hitBox = GetComponent<CapsuleCollider2D>();
+        _collisionBox = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -74,6 +76,11 @@ public class EnemyDamage : MonoBehaviour
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
         DetectDeath();
+    }
+
+    public EnemySO GetEnemySO()
+    {
+        return _enemySO;
     }
 
     private void ApplyStagger()
@@ -118,6 +125,7 @@ public class EnemyDamage : MonoBehaviour
     private void Death()
     {
         _hitBox.enabled = false;
+        _collisionBox.enabled = false;
         IsAlive = false;
         OnDeath?.Invoke(this, EventArgs.Empty);
     }

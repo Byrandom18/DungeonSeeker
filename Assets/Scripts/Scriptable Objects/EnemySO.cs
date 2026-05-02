@@ -24,6 +24,12 @@ public class EnemySO : ScriptableObject
     public float ChasingSpeed = 3f;
     public float ChasingDistance = 5f;
 
+    [Header("Stepping chase")]
+    public bool UseSteppedChase = false;
+    public float StepDistance = 1.5f;
+    public float StepSpread = 45f;
+    public float StepPauseDuration = 0.5f;
+
     [Header("Attack settings")]
     public bool EnableAttack = true;
     public float AttackDistance = 2f;

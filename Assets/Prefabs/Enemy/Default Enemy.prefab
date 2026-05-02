@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1714525529075657319}
   - component: {fileID: 1257132027651446878}
   - component: {fileID: 7625737000648714153}
+  - component: {fileID: 9143775062172994216}
   m_Layer: 0
   m_Name: Default Enemy Visual
   m_TagString: Untagged
@@ -126,6 +127,27 @@ MonoBehaviour:
   _damagableObject: {fileID: 1580109368771830838}
   _blinkMaterial: {fileID: 2100000, guid: 5d4c33a166644af4b83e91fab9af5096, type: 2}
   _blinkDuration: 0.1
+--- !u!114 &9143775062172994216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409067990645469605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f538d8110d8a724589568c6bd78d2b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 1714525529075657319}
+  _chargeColor: {r: 1, g: 0.3, b: 0, a: 1}
+  _maxAlpha: 0.55
+  _chargeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5267373375929859351
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47db37537a011594b96bb6168461ff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySO: {fileID: 0}
   _startingState: 0
   _enableRoam: 1
   _roamSpeed: 1.5
@@ -211,9 +232,17 @@ MonoBehaviour:
   _chasingSpeed: 2.5
   _chasingDistance: 5
   _isChasingEnemy: 1
+  _useSteppedChase: 0
+  _stepDistance: 1.5
+  _stepSpread: 30
+  _stepPauseDuration: 0.4
   _isAttackingEnemy: 1
   _attackDistance: 1
   _attackRate: 3
+  _retreatAfterAttack: 0
+  _retreatDistance: 3
+  _retreatSpeed: 2
+  _minSafeDistance: 5
   _state: 0
   IsFacingRight: 1
   IsAttacking: 0

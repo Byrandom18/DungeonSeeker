@@ -7,9 +7,10 @@ public class VoidGolemVisual : MonoBehaviour
 {
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private EnemyDamage _enemyDamage;
-    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _attackPrefab;
 
-    private Explosion _explosionScript = null;
+    [SerializeField] private float _attackRadius = 1;
+    private AreaAttack _attackScript = null;
     private SpriteRenderer _sprite;
     private Vector2 _originScale;
     private Animator _animator;
@@ -21,12 +22,13 @@ public class VoidGolemVisual : MonoBehaviour
     private static readonly int HIT = Animator.StringToHash("TakeHit");
     private static readonly int DIE = Animator.StringToHash("Death");
 
-
+    [SerializeField] private AttackChargeVisual _chargeVisual;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
+        if (_chargeVisual == null) Debug.LogError($"[VoidGolemVisual] chargeVisual not assigned on {gameObject.name}");
     }
 
     private void Start()
@@ -58,28 +60,40 @@ public class VoidGolemVisual : MonoBehaviour
         _attackPosition = transform.position + direction * 1f;
         _enemyAI.IsFacingRight = direction.x > 0;
         UpdateSpriteDirection();
+
+        StartCoroutine(StartChargeNextFrame());
+    }
+    private IEnumerator StartChargeNextFrame()
+    {
+        yield return null; // ждём один кадр чтобы аниматор обновил StateInfo
+        float remainingTime = GetRemainingAnimationTime();
+        _chargeVisual?.StartCharge(remainingTime);
     }
 
     public void AttackStart()
     {
-        GameObject go = Instantiate(_explosionPrefab, _attackPosition, Quaternion.identity, transform);
-        _explosionScript = go.GetComponent<Explosion>();
-        if (_explosionScript != null)
+        GameObject go = Instantiate(_attackPrefab, _attackPosition, Quaternion.identity, transform);
+        _attackScript = go.GetComponent<AreaAttack>();
+        if (_attackScript != null)
         {
-            float remainingTime = GetRemainingAnimationTime();
-            _explosionScript.MaxRadius = 2f;
-            _explosionScript.ExplosionTime = remainingTime;
-            _explosionScript.Damage = _enemyDamage.CurrentAttack;
-            _explosionScript.KnockbackMultiplier = _enemyDamage.KnockbackMultiplier;
+            _attackScript.IsEnemyLaunch = true;
+            _attackScript.Radius = _attackRadius;
+            _attackScript.Damage = _enemyDamage.CurrentAttack;
+            _attackScript.KnockbackMultiplier = _enemyDamage.KnockbackMultiplier;
+            _attackScript.SourcePosition = transform.position;
         }
     }
     public void AttackCancelled()
     {
-        if (_explosionScript != null) _explosionScript.StopExplosion();
         _enemyAI.IsAttacking = false;
+        _chargeVisual?.StopCharge();
     }
 
-    public void AttackEnd() => _enemyAI.IsAttacking = false;
+    public void AttackEnd()
+    {
+        _enemyAI.IsAttacking = false;
+        _chargeVisual?.StopCharge();
+    }
 
     public IEnumerator StaggerReturnRoutine()
     {

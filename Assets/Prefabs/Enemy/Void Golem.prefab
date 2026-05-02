@@ -80,6 +80,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5818158120553587875}
   m_SourcePrefab: {fileID: 100100000, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+--- !u!114 &500045837807728869 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9143775062172994216, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 8653020116983001677}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753984887914185704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f538d8110d8a724589568c6bd78d2b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7565278847027488913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1218495228056247004, guid: 8df8648e39c5577438019a4df791995e, type: 3}
@@ -110,7 +121,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyAI: {fileID: 7565278847027488913}
   _enemyDamage: {fileID: 7924117535752836731}
-  _explosionPrefab: {fileID: 4292109623783867667, guid: 245075d39fd28b64582210707695346f, type: 3}
+  _attackPrefab: {fileID: 3598874540283438067, guid: 6bffa5b2c7e7ed94dbd00e516d0aa731, type: 3}
+  _attackRadius: 1
+  _chargeVisual: {fileID: 500045837807728869}
 --- !u!114 &7924117535752836731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1580109368771830838, guid: 8df8648e39c5577438019a4df791995e, type: 3}

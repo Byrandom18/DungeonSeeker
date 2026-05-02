@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 [SelectionBase]
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private EnemySO _enemySO;
+    private EnemySO _enemySO;
     [SerializeField] private State _startingState;
 
     [Header("Roaming settings")]
@@ -91,6 +91,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        _enemySO = _enemyDamage.GetEnemySO();
         if (_enemyDamage == null) Debug.LogError($"EnemyDamage missing on {gameObject.name}");
         if (_enemySO == null) Debug.LogError($"EnemySO missing on {gameObject.name}");
         InitializeStats();
@@ -162,7 +163,8 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case State.Chasing:
-                ChasingTarget();
+                if (_useSteppedChase) SteppedChase();
+                else ChasingTarget();
                 CheckCurrentState();
                 break;
 
@@ -201,7 +203,7 @@ public class EnemyAI : MonoBehaviour
         if (HasLiveTarget())
         {
             float dist = DistanceToTarget();
-            if (_isChasingEnemy && canAttack)
+            if (_isChasingEnemy)
             {
                 if (_enemyDamage.IsChasing) newState = State.Chasing;
                 else if (dist <= _chasingDistance)
@@ -263,9 +265,46 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasingTarget()
     {
-        if (!IsAttacking && HasLiveTarget())
+        if (!IsAttacking && HasLiveTarget() && Time.time > _nextAttackTime)
             _navMeshAgent.SetDestination(TargetPosition());
 
+    }
+
+    private void SteppedChase()
+    {
+        if (IsAttacking || _isStepPausing) return;
+
+        // pause
+        if (_stepInProgress && !_navMeshAgent.pathPending
+            && _navMeshAgent.remainingDistance < 0.15f)
+        {
+            _stepInProgress = false;
+            StartCoroutine(StepPauseRoutine());
+            return;
+        }
+
+        // next step
+        if (!_stepInProgress && HasLiveTarget())
+        {
+            Vector3 toTarget = (TargetPosition() - transform.position).normalized;
+            float spreadRad = UnityEngine.Random.Range(-_stepSpread, _stepSpread) * Mathf.Deg2Rad;
+            Vector3 stepDir = new Vector3(
+                toTarget.x * Mathf.Cos(spreadRad) - toTarget.y * Mathf.Sin(spreadRad),
+                toTarget.x * Mathf.Sin(spreadRad) + toTarget.y * Mathf.Cos(spreadRad),
+                0f).normalized;
+
+            Vector3 stepTarget = transform.position + stepDir * _stepDistance;
+            _navMeshAgent.SetDestination(stepTarget);
+            _stepInProgress = true;
+        }
+    }
+
+    private IEnumerator StepPauseRoutine()
+    {
+        _isStepPausing = true;
+        _navMeshAgent.ResetPath();
+        yield return new WaitForSeconds(_stepPauseDuration);
+        _isStepPausing = false;
     }
 
     private void RetreatFromTarget()
@@ -294,7 +333,6 @@ public class EnemyAI : MonoBehaviour
             _isRetreating = true;
         }
 
-        // Когда дошли до точки — сбросить флаг для следующего шага отступления
         if (_isRetreating && !_navMeshAgent.pathPending
             && _navMeshAgent.remainingDistance < 0.2f)
             _isRetreating = false;
@@ -355,20 +393,20 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void LookAtTarget()
-    {
-        Vector2 difference = transform.position - TargetPosition();
-        if (IsFacingRight && difference.x > 0f)
-        {
-            IsFacingRight = false;
-            OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
-        }
-        else if (!IsFacingRight && difference.x < 0f)
-        {
-            IsFacingRight = true;
-            OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
-        }
-    }
+    //private void LookAtTarget()
+    //{
+    //    Vector2 difference = transform.position - TargetPosition();
+    //    if (IsFacingRight && difference.x > 0f)
+    //    {
+    //        IsFacingRight = false;
+    //        OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
+    //    }
+    //    else if (!IsFacingRight && difference.x < 0f)
+    //    {
+    //        IsFacingRight = true;
+    //        OnEnemyUpdateSpriteDirection?.Invoke(this, EventArgs.Empty);
+    //    }
+    //}
 
     // ========== Initializing =========================================
     private void InitializeStats()
@@ -380,6 +418,11 @@ public class EnemyAI : MonoBehaviour
         _roamingDistanceMin = _enemySO.RoamingDistanceMin;
         _roamingTimerMax = _enemySO.RoamingTimerMax;
         _idleDuration = _enemySO.IdleDuration;
+
+        _useSteppedChase = _enemySO.UseSteppedChase;
+        _stepDistance = _enemySO.StepDistance;
+        _stepSpread = _enemySO.StepSpread;
+        _stepPauseDuration = _enemySO.StepPauseDuration;
 
         _isChasingEnemy = _enemySO.EnableChase;
         _chasingSpeed = _enemySO.ChasingSpeed;
