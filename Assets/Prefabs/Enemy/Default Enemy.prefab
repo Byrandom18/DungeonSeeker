@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1714525529075657319}
   - component: {fileID: 1257132027651446878}
   - component: {fileID: 7625737000648714153}
-  - component: {fileID: 9143775062172994216}
+  - component: {fileID: 6158868822809197667}
   m_Layer: 0
   m_Name: Default Enemy Visual
   m_TagString: Untagged
@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f73e68bb2d0b3be4f8c63df87dffbeb2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   _damagableObject: {fileID: 1580109368771830838}
   _blinkMaterial: {fileID: 2100000, guid: 5d4c33a166644af4b83e91fab9af5096, type: 2}
   _blinkDuration: 0.1
---- !u!114 &9143775062172994216
+--- !u!114 &6158868822809197667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,11 +140,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 1714525529075657319}
-  _chargeColor: {r: 1, g: 0.3, b: 0, a: 1}
-  _maxAlpha: 0.55
+  _tintColor: {r: 1, g: 0.3, b: 0, a: 0}
+  _maxIntensity: 0.4
   _chargeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

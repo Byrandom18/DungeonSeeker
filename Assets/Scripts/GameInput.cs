@@ -11,6 +11,7 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnPlayerAttack;
     public event EventHandler OnPlayerDodge;
     public event EventHandler OnInventoryButton;
+    public event Action<int> OnAbilityUsed;
 
     private void Awake()
     {
@@ -25,6 +26,9 @@ public class GameInput : MonoBehaviour
         //_inputActions.Player.Attack.performed += PlayerAttack_performed;
         _inputActions.Player.Dodge.started += PlayerDodge_started;
         _inputActions.UI.Inventory.started += Inventory_started;
+        _inputActions.Player.Ability1.started += _ => OnAbilityUsed?.Invoke(0);
+        _inputActions.Player.Ability2.started += _ => OnAbilityUsed?.Invoke(1);
+        _inputActions.Player.Ability3.started += _ => OnAbilityUsed?.Invoke(2);
         CanAttack = true;
     }
 
@@ -66,5 +70,9 @@ public class GameInput : MonoBehaviour
     {
         //_inputActions.Player.Attack.started -= PlayerAttack_performed;
         _inputActions.Player.Dodge.started -= PlayerDodge_started;
+        _inputActions.UI.Inventory.started -= Inventory_started;
+        _inputActions.Player.Ability1.started -= _ => OnAbilityUsed?.Invoke(0);
+        _inputActions.Player.Ability2.started -= _ => OnAbilityUsed?.Invoke(1);
+        _inputActions.Player.Ability3.started -= _ => OnAbilityUsed?.Invoke(2);
     }
 }

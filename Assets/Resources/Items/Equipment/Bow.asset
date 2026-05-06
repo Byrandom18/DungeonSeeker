@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88186f58a84c8eb42b8a6dbfb3de5838, type: 3}
+  m_Name: Bow
+  m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: -2061684845, guid: fe9de3c15b20d0942b1a8ad13b3214c5, type: 3}
+  <Name>k__BackingField: Bow
+  <Description>k__BackingField: shoot arrows
+  <ItemType>k__BackingField: 1
+  <Rarity>k__BackingField: 0
+  <IsStackable>k__BackingField: 0
+  <EquipmentSlot>k__BackingField: 5
+  <MaxUpgradeLevel>k__BackingField: 6
+  _mainStatPool: {fileID: 11400000, guid: 16267304d521a1946bf3679d63510306, type: 2}
+  _bonusStatPool: {fileID: 11400000, guid: f9b58a24cf73da541a5b8efad5b2a0b6, type: 2}
+  _firstBonusAtLevel: 1
+  _bonusEveryNLevels: 1
+  _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}
+  _weaponSO: {fileID: 11400000, guid: f0aed391be4026b4a8c49eb8ce34c1be, type: 2}

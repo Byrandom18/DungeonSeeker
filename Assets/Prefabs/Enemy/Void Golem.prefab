@@ -80,9 +80,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5818158120553587875}
   m_SourcePrefab: {fileID: 100100000, guid: 8df8648e39c5577438019a4df791995e, type: 3}
---- !u!114 &500045837807728869 stripped
+--- !u!114 &3273274030271073838 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9143775062172994216, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6158868822809197667, guid: 8df8648e39c5577438019a4df791995e, type: 3}
   m_PrefabInstance: {fileID: 8653020116983001677}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7753984887914185704}
@@ -123,7 +123,7 @@ MonoBehaviour:
   _enemyDamage: {fileID: 7924117535752836731}
   _attackPrefab: {fileID: 3598874540283438067, guid: 6bffa5b2c7e7ed94dbd00e516d0aa731, type: 3}
   _attackRadius: 1
-  _chargeVisual: {fileID: 500045837807728869}
+  _chargeVisual: {fileID: 3273274030271073838}
 --- !u!114 &7924117535752836731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1580109368771830838, guid: 8df8648e39c5577438019a4df791995e, type: 3}

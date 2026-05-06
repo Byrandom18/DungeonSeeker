@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0438e1c9820ae83439b87c82eb0a3dca, type: 3}
   m_Name: Staff
   m_EditorClassIdentifier: 
-  WeaponType: 1
+  WeaponType: 2
   WeaponSprite: {fileID: -929794979, guid: fe9de3c15b20d0942b1a8ad13b3214c5, type: 3}
   DisplayName: Bow
   DamageMultiplier: 1

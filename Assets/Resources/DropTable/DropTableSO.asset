@@ -32,4 +32,8 @@ MonoBehaviour:
     Weight: 1
   - Equipment: {fileID: 11400000, guid: 76ce6a7f5ba99b0479d1424c27ad7831, type: 2}
     Weight: 1
+  - Equipment: {fileID: 11400000, guid: 5773966f8efbef54a9d4c19b102e34f6, type: 2}
+    Weight: 1
+  - Equipment: {fileID: 11400000, guid: a652c09c39e64394ebedb9f6ac232978, type: 2}
+    Weight: 1
   _alwaysDrops: []

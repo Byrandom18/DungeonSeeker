@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class PlayerStats : MonoBehaviour, ICharacterEntity
@@ -8,7 +9,8 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private Knockback _knockback;
     private EquipmentComponent _equipment;
-
+    [SerializeField] private Slider _healthBar;
+    
     public event EventHandler OnPlayerDeath;
     public event EventHandler OnFlashBlink;
 
@@ -74,6 +76,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         InitializeBaseStats();
         StatSystem.OnStatsChanged += OnStatsChanged;
         Health = MaxHealth;
+        UpdateUI();
     }
 
     public void TakeDamage(float rawDamage, Vector3 knockbackSource, float knockbackMultiplier)
@@ -88,12 +91,14 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
         if (Health <= 0f) Die();
         else _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, 0f);
+        UpdateUI();
     }
 
     public void Heal(float amount)
     {
         if (!IsAlive) return;
         Health = Mathf.Min(Health + amount, MaxHealth);
+        UpdateUI();
     }
 
     private void InitializeBaseStats()
@@ -117,6 +122,12 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         _hitboxCollider.enabled = false;
         _collisionCollider.enabled = false;
         OnPlayerDeath?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void UpdateUI()
+    {
+        _healthBar.maxValue = MaxHealth;
+        _healthBar.value = Health;
     }
 
     private void OnDestroy()

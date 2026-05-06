@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c14cb4df75a660429fad7abb3e29836, type: 3}
+  m_Name: Fireball
+  m_EditorClassIdentifier: 
+  DisplayName: Fireball
+  Icon: {fileID: 156744379, guid: c74bb6eeebb23e94b9fcba2a2d439616, type: 3}
+  Description: 
+  AbilityType: 0
+  RequiredWeapon: 2
+  RequiresWeapon: 1
+  Cooldown: 0
+  ManaCost: 0
+  EffectPrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
+  DamageMultiplier: 1
+  AreaOfEffect: 1
+  ApplyStagger: 0
+  ProjectileSpeed: 4
+  ProjectileLifetime: 8
+  KnockbackMultiplier: 3
+  Penetrate: 1

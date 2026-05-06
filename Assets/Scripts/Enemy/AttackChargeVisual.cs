@@ -2,46 +2,49 @@
 using UnityEngine;
 
 /// <summary>
-/// Накладывает красно-оранжевый тинт во время замаха атаки.
+/// Аддитивный тинт во время замаха атаки.
 ///
-/// Использует MaterialPropertyBlock на основном SpriteRenderer —
-/// не требует второго рендерера, не создаёт новых материалов,
-/// автоматически следует анимации (спрайт не нужно синхронизировать вручную).
+/// Требует кастомный шейдер (Shader Graph) с аддитивным смешением RGB:
+///   finalColor.rgb = spriteTexture.rgb + _TintColor.rgb
 ///
-/// Настройка:
-///   1. Назначить _spriteRenderer — основной SpriteRenderer врага.
-///      Если не назначен — ищется автоматически через GetComponentInChildren.
-///   2. Вызвать StartCharge(duration) в начале анимации атаки.
-///   3. Вызвать StopCharge() при отмене или завершении.
+/// Это осветляет спрайт не замещая его цвет, сохраняя все детали.
+/// При _TintColor = (0,0,0) — спрайт без изменений.
+/// При _TintColor = (1,0.3,0) — оранжевое осветление.
 ///
-/// Совместимость: стандартные шейдеры URP Sprite-Lit-Default и
-/// Sprite-Unlit-Default поддерживают _Color через MaterialPropertyBlock.
+/// Как создать шейдер (Shader Graph, URP, Unity 6):
+///   1. ПКМ → Create → Shader Graph → URP → Sprite Unlit Shader Graph
+///   2. Texture2D Property: Name="_MainTex",   Reference="_MainTex"
+///   3. Color Property:     Name="_TintColor",  Reference="_TintColor", default=(0,0,0,0)
+///   4. Sample Texture 2D ← _MainTex
+///      → Split → Combine(R,G,B) → Add(+_TintColor.rgb) → Base Color
+///      → A → Alpha
+///   5. Сохранить. Создать материал. Назначить на SpriteRenderer врага.
 /// </summary>
 public class AttackChargeVisual : MonoBehaviour
 {
-    [Header("Основной SpriteRenderer врага")]
+    [Header("SpriteRenderer с кастомным шейдером")]
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
-    [Header("Цвет тинта")]
-    [SerializeField] private Color _chargeColor = new Color(1f, 0.3f, 0f, 1f);
+    [Header("Цвет аддитивного тинта (RGB прибавляется к спрайту)")]
+    [SerializeField] private Color _tintColor = new Color(1f, 0.3f, 0f, 0f);
 
     [Header("Максимальная сила тинта (0–1)")]
-    [SerializeField, Range(0f, 1f)] private float _maxAlpha = 0.55f;
+    [SerializeField, Range(0f, 1f)] private float _maxIntensity = 0.6f;
 
-    [Tooltip("Кривая нарастания. Если пустая — используется встроенная Pow 1.5")]
+    [Tooltip("Кривая нарастания. Пустая = медленно в начале, резко в конце")]
     [SerializeField] private AnimationCurve _chargeCurve;
 
-    private static readonly int ColorProp = Shader.PropertyToID("_Color");
+    // Свойство в Shader Graph должно иметь Reference = _TintColor
+    private static readonly int TintColorProp = Shader.PropertyToID("_TintColor");
 
     private MaterialPropertyBlock _mpb;
     private Coroutine _chargeRoutine;
-    private Color _originalColor;
     private bool _initialized;
 
     private void Awake()
     {
         if (_spriteRenderer == null)
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (_spriteRenderer == null)
         {
@@ -50,13 +53,7 @@ public class AttackChargeVisual : MonoBehaviour
         }
 
         _mpb = new MaterialPropertyBlock();
-        _spriteRenderer.GetPropertyBlock(_mpb);
 
-        // Запоминаем оригинальный цвет
-        // У нового объекта блок пустой — берём из SpriteRenderer.color
-        _originalColor = _spriteRenderer.color;
-
-        // Кривая нарастания по умолчанию: медленно => резко в конце
         if (_chargeCurve == null || _chargeCurve.length == 0)
         {
             _chargeCurve = new AnimationCurve(
@@ -70,12 +67,8 @@ public class AttackChargeVisual : MonoBehaviour
         ResetTint();
     }
 
-    // == Публичный API =========================================================
+    // ── Публичный API ─────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Начать нарастание тинта.
-    /// duration — время до момента нанесения урона (берётся из аниматора).
-    /// </summary>
     public void StartCharge(float duration)
     {
         if (!_initialized) return;
@@ -84,7 +77,6 @@ public class AttackChargeVisual : MonoBehaviour
         _chargeRoutine = StartCoroutine(ChargeRoutine(duration));
     }
 
-    /// <summary>Немедленно сбросить тинт.</summary>
     public void StopCharge()
     {
         if (_chargeRoutine != null)
@@ -95,7 +87,7 @@ public class AttackChargeVisual : MonoBehaviour
         if (_initialized) ResetTint();
     }
 
-    // == Корутина ==============================================================
+    // ── Корутина ──────────────────────────────────────────────────────────────
 
     private IEnumerator ChargeRoutine(float duration)
     {
@@ -105,31 +97,35 @@ public class AttackChargeVisual : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
-            float weight = _chargeCurve.Evaluate(t) * _maxAlpha;
-            ApplyTint(weight);
+            float intensity = _chargeCurve.Evaluate(t) * _maxIntensity;
+            ApplyTint(intensity);
             yield return null;
         }
 
-        ApplyTint(_maxAlpha);
+        ApplyTint(_maxIntensity);
     }
 
-    // == Внутренние методы =====================================================
+    // ── Внутренние методы ─────────────────────────────────────────────────────
 
     /// <summary>
-    /// Смешивает оригинальный цвет спрайта с _chargeColor через Lerp.
-    /// weight = 0 => оригинал, weight = 1 => полный тинт.
-    /// Alpha оригинала сохраняется.
+    /// Записывает аддитивный тинт в MaterialPropertyBlock.
+    /// intensity = 0 → tintColor * 0 = чёрный (нет добавки)
+    /// intensity = 1 → tintColor * 1 = полная добавка
     /// </summary>
-    private void ApplyTint(float weight)
+    private void ApplyTint(float intensity)
     {
         if (_spriteRenderer == null) return;
 
         _spriteRenderer.GetPropertyBlock(_mpb);
 
-        Color blended = Color.Lerp(_originalColor, _chargeColor, weight);
-        blended.a = _originalColor.a; // не трогаем прозрачность
+        Color tint = new Color(
+            _tintColor.r * intensity,
+            _tintColor.g * intensity,
+            _tintColor.b * intensity,
+            0f // alpha не используется в аддитивном режиме
+        );
 
-        _mpb.SetColor(ColorProp, blended);
+        _mpb.SetColor(TintColorProp, tint);
         _spriteRenderer.SetPropertyBlock(_mpb);
     }
 
@@ -138,7 +134,7 @@ public class AttackChargeVisual : MonoBehaviour
         if (_spriteRenderer == null) return;
 
         _spriteRenderer.GetPropertyBlock(_mpb);
-        _mpb.SetColor(ColorProp, _originalColor);
+        _mpb.SetColor(TintColorProp, Color.clear);
         _spriteRenderer.SetPropertyBlock(_mpb);
     }
 }
