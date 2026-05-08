@@ -14,10 +14,12 @@ public class FireballAbility : AbilityBase
 
         Vector3 dir = (ctx.AimPosition - ctx.Owner.Transform.position).normalized;
         float atk = ctx.Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
+        Vector3 spawnPosition = ctx.Owner.Transform.position;
+        spawnPosition.y += 0.5f;
 
         GameObject go = Object.Instantiate(
             Data.EffectPrefab,
-            ctx.Owner.Transform.position,
+            spawnPosition,
             Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg, Vector3.forward)
         );
 

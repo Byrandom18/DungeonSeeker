@@ -11,6 +11,7 @@ public class AreaAttack : MonoBehaviour
     public float AreaMulti = 1;
     public float Radius = 0.5f;
     public bool IsEnemyLaunch;
+    public bool StaggerApply = false;
     public float KnockbackMultiplier = 1;
     public float Damage = 1;
     public Vector3 SourcePosition;
@@ -20,7 +21,7 @@ public class AreaAttack : MonoBehaviour
         if (_projectile != null)
         {
             _projectile.OnProjectileDestroy += Projectile_OnProjectileDestroy;
-            AreaMulti = _projectile.transform.localScale.x;
+            AreaMulti = _projectile.AreaModifier;
         }
         else Activate();
     }
@@ -49,11 +50,22 @@ public class AreaAttack : MonoBehaviour
         {
             if (hitCollider.transform.TryGetComponent(out EnemyDamage enemy))
             {
-                float damage = _projectile.Damage;
-                Vector3 sourcePosition = _projectile.StartPosition;
-                float knockbackMulti = _projectile.KnockbackMultiplier;
-                bool isStagger = _projectile.StaggerApply;
-                enemy.TakeDamage(damage, sourcePosition, knockbackMulti, isStagger);
+                if (_projectile != null)
+                {
+                    float damage = _projectile.Damage;
+                    Vector3 sourcePosition = _projectile.StartPosition;
+                    float knockbackMulti = _projectile.KnockbackMultiplier;
+                    bool isStagger = _projectile.StaggerApply;
+                    enemy.TakeDamage(damage, sourcePosition, knockbackMulti, isStagger);
+                }
+                else
+                {
+                    float damage = Damage;
+                    Vector3 sourcePosition = SourcePosition;
+                    float knockbackMulti = KnockbackMultiplier;
+                    bool isStagger = StaggerApply;
+                    enemy.TakeDamage(damage, sourcePosition, knockbackMulti, isStagger);
+                }
             }
         }
         foreach (Collider2D hitCollider in hitEnvironment)

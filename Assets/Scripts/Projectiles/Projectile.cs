@@ -1,18 +1,28 @@
-using Google.Protobuf.WellKnownTypes;
 using System;
+using System.IO.Abstractions;
 using UnityEngine;
 
 [RequireComponent (typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
+    [Header("Base Settings")]
     public float Speed               = 8f;
     public float Lifetime            = 3f;
     public float Damage              = 1f;
     public float Penetrate           = 1f;
     public float KnockbackMultiplier = 1f;
+    public float AreaModifier        = 1f;
+    public bool  UnlimitedPenetrate  = false;
+    public bool  TouchDamage         = true;
     public bool  StaggerApply        = false;
     public bool  CanPenetrateWall    = false;
     public bool  EnemyLaunch         = false;
+
+    [Header("Delayed destroy")]
+    [Tooltip("Projectile size, how far it can enter before destroy")]
+    public float DelayEntering       = 0.25f;
+    [Tooltip("Will be destroyed after it enters the object by 0.25f (DelayEntering) instead instant")]
+    public bool  DelayedDestroy      = false;
 
     public event EventHandler OnProjectileDestroy;
 
@@ -44,7 +54,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out ICharacterEntity target) && target.IsAlive)
             {
-                target.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
+                if (TouchDamage) target.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
                 PenetrationUpdate();
                 return;
             }
@@ -53,7 +63,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out EnemyDamage enemy))
             {
-                enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
+                if (TouchDamage) enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
                 PenetrationUpdate();
                 return;
             }
@@ -61,21 +71,29 @@ public class Projectile : MonoBehaviour
         // Разрушаемое окружение
         if (collision.TryGetComponent(out DestructibleEnvironment env))
         {
-            env.TakeDamage();
+            if (TouchDamage) env.TakeDamage();
             PenetrationUpdate();
             return;
         }
-
         // Стена — уничтожаем если нет пробития
-        if (collision.CompareTag("Environment") && !CanPenetrateWall)
-            Destroy(gameObject);
-
+        else if (collision.CompareTag("Environment") && !CanPenetrateWall)
+            SetDestroy();
 
     }
     private void PenetrationUpdate()
     {
-        Penetrate -= 1;
-        if (Penetrate <= 0) Destroy(gameObject);
+        if (!UnlimitedPenetrate)
+        {
+            Penetrate -= 1;
+            if (Penetrate <= 0) SetDestroy();
+        }
+    }
+
+    private void SetDestroy()
+    {
+        if (DelayedDestroy)
+            Destroy(gameObject, DelayEntering/Speed);
+        else Destroy(gameObject);
     }
 
     private void OnDestroy()

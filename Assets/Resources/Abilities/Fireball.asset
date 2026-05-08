@@ -23,8 +23,12 @@ MonoBehaviour:
   EffectPrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
   DamageMultiplier: 1
   AreaOfEffect: 1
-  ApplyStagger: 0
-  ProjectileSpeed: 4
-  ProjectileLifetime: 8
   KnockbackMultiplier: 3
+  StaggerApply: 0
+  ProjectileSpeed: 1
+  ProjectileLifetime: 10
   Penetrate: 1
+  UnlimitedPenetrate: 0
+  CanPenetrateWall: 0
+  DelayedDestroy: 0
+  DelayEntering: 0.25

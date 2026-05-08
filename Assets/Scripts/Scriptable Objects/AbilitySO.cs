@@ -18,14 +18,16 @@ public class AbilitySO : ScriptableObject
     [Header("Stats")]
     public float DamageMultiplier = 1f;
     public float AreaOfEffect = 1f;
-    public bool ApplyStagger;
-
+    public float KnockbackMultiplier = 1f;
+    public bool StaggerApply;
 
     [Header("Projectile Settings")]
     public float ProjectileSpeed = 8f;
     public float ProjectileLifetime = 3f;
-    public float KnockbackMultiplier = 1f;
     public float Penetrate = 1f;
-
+    public bool UnlimitedPenetrate = false;
+    public bool CanPenetrateWall = false;
+    public bool DelayedDestroy = false;
+    public float DelayEntering = 0.25f;
 }
 
