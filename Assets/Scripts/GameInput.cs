@@ -71,8 +71,5 @@ public class GameInput : MonoBehaviour
         //_inputActions.Player.Attack.started -= PlayerAttack_performed;
         _inputActions.Player.Dodge.started -= PlayerDodge_started;
         _inputActions.UI.Inventory.started -= Inventory_started;
-        _inputActions.Player.Ability1.started -= _ => OnAbilityUsed?.Invoke(0);
-        _inputActions.Player.Ability2.started -= _ => OnAbilityUsed?.Invoke(1);
-        _inputActions.Player.Ability3.started -= _ => OnAbilityUsed?.Invoke(2);
     }
 }

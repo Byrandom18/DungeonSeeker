@@ -43,9 +43,7 @@ public class Ranged : WeaponBase
 
         OnRangedAttack?.Invoke(this, EventArgs.Empty);
 
-        Vector3 mousePos = GameInput.Instance.GetMousePosition();
-        Vector3 playerScreen = PlayerMovement.Instance.GetPlayerScreenPosition();
-        Vector3 baseDirection = (mousePos - playerScreen).normalized;
+        Vector2 baseDirection = ResolveAimDirection();
         float damage = GetOwnerAttack() * DamageMulti;
 
         SpawnProjectiles(baseDirection, damage);
@@ -97,6 +95,24 @@ public class Ranged : WeaponBase
             p.EnemyLaunch        = false;
             p.SetDirection(direction, transform.position);
         }
+    }
+
+    private Vector2 ResolveAimDirection()
+    {
+        ActiveWeapon host = GetComponentInParent<ActiveWeapon>();
+        if (host != null)
+            return host.GetAttackAimDirection();
+
+        if (GameInput.Instance != null && PlayerMovement.Instance != null)
+        {
+            Vector3 mousePos = GameInput.Instance.GetMousePosition();
+            Vector3 playerScreen = PlayerMovement.Instance.GetPlayerScreenPosition();
+            Vector2 delta = mousePos - playerScreen;
+            if (delta.sqrMagnitude > 1e-6f)
+                return delta.normalized;
+        }
+
+        return Vector2.right;
     }
 
     private float GetOwnerAttack()

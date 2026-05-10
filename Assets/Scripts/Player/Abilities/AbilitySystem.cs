@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class AbilitySystem : MonoBehaviour
 {
-    // —лоты способностей Ч задаютс€ в Inspector через SO
+    // —лоты способностей ? задаютс€ в Inspector через SO
     [SerializeField] private AbilitySO[] _abilitySlots; // размер = кол-во слотов (4)
 
     private AbilityBase[] _abilities;
     private ICharacterEntity _owner;
-    [SerializeField] private ActiveWeapon _activeWeapon; // null у ботов
+    [SerializeField] private ActiveWeapon _activeWeapon;
+
+    public int AbilitySlotCount => _abilities != null ? _abilities.Length : 0;
 
     public event Action<int, float> OnCooldownChanged; // слот, оставшийс€ кулдаун
     public event Action<int> OnAbilityUsed;

@@ -47,26 +47,13 @@ public class InventoryPage : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_inventorySO != null)
-        {
-            _inventorySO.OnInventoryChanged += RefreshCurrentView;
-            _inventorySO.OnInventoryChanged += RefreshUpgradeButton;
-            _inventorySO.OnItemAdded += OnItemAdded;
-            _inventorySO.OnItemRemovedAt += OnItemRemovedAt;
-        }
-
+        BindInventory(_inventorySO);
         _inventorySO?.RebuildEquippedDictionary();
     }
 
     private void OnDisable()
     {
-        if (_inventorySO != null)
-        {
-            _inventorySO.OnInventoryChanged -= RefreshCurrentView;
-            _inventorySO.OnInventoryChanged -= RefreshUpgradeButton;
-            _inventorySO.OnItemAdded -= OnItemAdded;
-            _inventorySO.OnItemRemovedAt -= OnItemRemovedAt;
-        }
+        UnbindInventory(_inventorySO);
     }
 
 
@@ -308,6 +295,11 @@ public class InventoryPage : MonoBehaviour
     private void RefreshUpgradeButton()
     {
         if (_upgradeButton == null) return;
+        if (RunSystem.Instance != null && RunSystem.Instance.IsInRun)
+        {
+            _upgradeButton.interactable = false;
+            return;
+        }
         if (_selectedItem == null)
         {
             _upgradeButton.interactable = false;
@@ -338,6 +330,7 @@ public class InventoryPage : MonoBehaviour
     private void HandleUpgradeButtonClicked()
     {
         if (_selectedItem == null) return;
+        if (RunSystem.Instance != null && RunSystem.Instance.IsInRun) return;
 
         int sourceIdx = _selectedItem.InventoryIndex;
 
@@ -350,6 +343,43 @@ public class InventoryPage : MonoBehaviour
             () => HandleEquipButtonClicked(_selectedItem)
         );
         RefreshUpgradeButton();
+    }
+
+    public void SetInventorySO(InventorySO inventorySO)
+    {
+        if (_inventorySO == inventorySO) return;
+
+        bool wasEnabled = isActiveAndEnabled;
+        if (wasEnabled)
+            UnbindInventory(_inventorySO);
+
+        _inventorySO = inventorySO;
+        _selectedItem = null;
+        _itemDescription.ResetDescription();
+
+        if (wasEnabled)
+            BindInventory(_inventorySO);
+
+        if (gameObject.activeInHierarchy)
+            ReSortAndRefresh();
+    }
+
+    private void BindInventory(InventorySO inventory)
+    {
+        if (inventory == null) return;
+        inventory.OnInventoryChanged += RefreshCurrentView;
+        inventory.OnInventoryChanged += RefreshUpgradeButton;
+        inventory.OnItemAdded += OnItemAdded;
+        inventory.OnItemRemovedAt += OnItemRemovedAt;
+    }
+
+    private void UnbindInventory(InventorySO inventory)
+    {
+        if (inventory == null) return;
+        inventory.OnInventoryChanged -= RefreshCurrentView;
+        inventory.OnInventoryChanged -= RefreshUpgradeButton;
+        inventory.OnItemAdded -= OnItemAdded;
+        inventory.OnItemRemovedAt -= OnItemRemovedAt;
     }
 
     private void OnDestroy()

@@ -7,6 +7,12 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 {
     public static PlayerStats Instance { get; private set; }
 
+    /// <summary>
+    /// Single human-controlled character in the scene registers the singleton.
+    /// Bots use the same stats component with this disabled.
+    /// </summary>
+    [SerializeField] private bool _registerAsPrimaryPlayer = true;
+
     private Knockback _knockback;
     private EquipmentComponent _equipment;
     [SerializeField] private Slider _healthBar;
@@ -48,8 +54,16 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else { Destroy(gameObject); return; }
+        if (_registerAsPrimaryPlayer)
+        {
+            if (Instance == null) Instance = this;
+            else
+            {
+                Debug.LogError($"[PlayerStats] Duplicate primary player on {gameObject.name}. Destroying.");
+                Destroy(gameObject);
+                return;
+            }
+        }
 
         _knockback          = GetComponent<Knockback>();
         _equipment          = GetComponent<EquipmentComponent>();

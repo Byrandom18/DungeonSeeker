@@ -14,11 +14,20 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnInventoryButton += GameInput_OnInventoryButton;
+        if (_inventoryPage != null)
+            _inventoryPage.SetInventorySO(_inventorySO);
     }
 
     public InventorySO GetInventorySO()
     {
         return _inventorySO;
+    }
+
+    public void SetInventorySO(InventorySO inventorySO)
+    {
+        _inventorySO = inventorySO;
+        if (_inventoryPage != null)
+            _inventoryPage.SetInventorySO(_inventorySO);
     }
 
     private void GameInput_OnInventoryButton(object sender, System.EventArgs e)

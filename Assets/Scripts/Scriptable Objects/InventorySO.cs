@@ -17,6 +17,88 @@ public class InventorySO : ScriptableObject
 
     public IReadOnlyList<InventoryItemData> Items => _items;
 
+    /// <summary>
+    /// Clears all items from this inventory.
+    /// </summary>
+    public void ClearAll(bool notify = true)
+    {
+        _items.Clear();
+        _equippedItems.Clear();
+        if (notify)
+            NotifyInventoryChanged();
+    }
+
+    /// <summary>
+    /// Adds prebuilt runtime items directly (used by run/hub transfer).
+    /// </summary>
+    public void AddItems(IEnumerable<InventoryItemData> items, bool notify = true)
+    {
+        if (items == null) return;
+        foreach (var item in items)
+        {
+            // Keep equipment instances separate (each has own rolled stats/rarity/upgrade).
+            if (item.Item != null && item.Item.IsStackable && item.Item.ItemType == ItemType.Resource)
+            {
+                int index = _items.FindIndex(i => i.Item == item.Item);
+                if (index >= 0)
+                {
+                    int newQty = _items[index].Quantity + item.Quantity;
+                    _items[index] = _items[index].ChangeQuantity(newQty);
+                    continue;
+                }
+            }
+
+            _items.Add(item);
+        }
+        if (notify)
+            NotifyInventoryChanged();
+    }
+
+    /// <summary>
+    /// Moves all currently equipped items into target inventory.
+    /// Source items are removed from this inventory.
+    /// </summary>
+    public int TransferEquippedTo(InventorySO target)
+    {
+        if (target == null || target == this) return 0;
+
+        var moved = new List<InventoryItemData>();
+        for (int i = _items.Count - 1; i >= 0; i--)
+        {
+            if (!_items[i].IsEquipped) continue;
+            moved.Add(_items[i]);
+            _items.RemoveAt(i);
+        }
+
+        moved.Reverse();
+
+        if (moved.Count > 0)
+            target.AddItems(moved, notify: false);
+
+        NotifyInventoryChanged();
+        target.NotifyInventoryChanged();
+        return moved.Count;
+    }
+
+    /// <summary>
+    /// Moves all items to target inventory and empties this inventory.
+    /// </summary>
+    public int TransferAllTo(InventorySO target)
+    {
+        if (target == null || target == this) return 0;
+
+        int movedCount = _items.Count;
+        if (movedCount == 0) return 0;
+
+        target.AddItems(_items, notify: false);
+        _items.Clear();
+        _equippedItems.Clear();
+
+        NotifyInventoryChanged();
+        target.NotifyInventoryChanged();
+        return movedCount;
+    }
+
     // ========== initialize ================================================
     public void RebuildEquippedDictionary()
     {
@@ -277,7 +359,7 @@ public class InventorySO : ScriptableObject
         if (anyChanged)
         {
             NotifyInventoryChanged();
-            Debug.Log($"[InventorySO] Îáíîâëåíî áîíóñíûõ ñòàòîâ: {_items.Count(item => item.Item?.ItemType == ItemType.Equipment)} ïðåäìåòîâ");
+            Debug.Log($"[InventorySO] ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜: {_items.Count(item => item.Item?.ItemType == ItemType.Equipment)} ˜˜˜˜˜˜˜˜˜");
         }
     }
 

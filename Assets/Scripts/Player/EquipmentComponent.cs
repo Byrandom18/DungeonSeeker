@@ -7,13 +7,19 @@ using UnityEngine;
 ///
 /// Subscribes to InventorySO.OnInventoryChanged,
 /// reassembles the StatModifier list of equipped items with each change and transfers
-/// them to the StatSystem with a single call to SetModifiers ó without going through one at a time.
+/// them to the StatSystem with a single call to SetModifiers without going through one at a time.
 /// </summary>
 public class EquipmentComponent : MonoBehaviour
 {
+    /// <summary>
+    /// Dedicated inventory for this character (ally). If null, falls back to
+    /// <see cref="InventoryController"/> in <see cref="Start"/> (player).
+    /// </summary>
     [SerializeField] private InventorySO _inventorySO;
 
     private StatSystem _statSystem;
+    private bool _inventoryEventsBound;
+    private bool _useControllerInventory;
 
     public StatSystem GetStatSystem() => _statSystem;
 
@@ -24,28 +30,60 @@ public class EquipmentComponent : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_inventorySO == null)
-        {
-            Debug.LogError($"[EquipmentComponent] InventorySO not assigned to {gameObject.name}");
-            return;
-        }
-
-        _inventorySO.OnInventoryChanged += Refresh;
-        // Restore the equipment dictionary (in case OnEnable is called
-        // after loading the scene, when the Dictionary is not filled yet)
-        _inventorySO.RebuildEquippedDictionary();
-        Refresh();
-    }
-
-    private void OnDisable()
-    {
-        if (_inventorySO != null)
-            _inventorySO.OnInventoryChanged -= Refresh;
+        TryBindInventoryEvents();
+        if (RunSystem.Instance != null)
+            RunSystem.Instance.OnRunStateChanged += HandleRunStateChanged;
     }
 
     private void Start()
     {
-        _inventorySO = InventoryController.Instance.GetInventorySO();
+        _useControllerInventory = _inventorySO == null;
+        if (_useControllerInventory && InventoryController.Instance != null)
+            _inventorySO = InventoryController.Instance.GetInventorySO();
+
+        TryBindInventoryEvents();
+    }
+
+    private void OnDisable()
+    {
+        if (RunSystem.Instance != null)
+            RunSystem.Instance.OnRunStateChanged -= HandleRunStateChanged;
+        UnbindInventoryEvents();
+    }
+
+    private void HandleRunStateChanged(bool _)
+    {
+        if (!_useControllerInventory) return;
+        if (InventoryController.Instance == null) return;
+
+        InventorySO nextInventory = InventoryController.Instance.GetInventorySO();
+        if (ReferenceEquals(nextInventory, _inventorySO)) return;
+
+        UnbindInventoryEvents();
+        _inventorySO = nextInventory;
+        TryBindInventoryEvents();
+    }
+
+    private void TryBindInventoryEvents()
+    {
+        if (_inventorySO == null)
+            return;
+
+        if (_inventoryEventsBound)
+            return;
+
+        _inventorySO.OnInventoryChanged += Refresh;
+        _inventorySO.RebuildEquippedDictionary();
+        Refresh();
+        _inventoryEventsBound = true;
+    }
+
+    private void UnbindInventoryEvents()
+    {
+        if (_inventorySO != null && _inventoryEventsBound)
+            _inventorySO.OnInventoryChanged -= Refresh;
+
+        _inventoryEventsBound = false;
     }
 
     // == public API =========================================================
@@ -57,6 +95,9 @@ public class EquipmentComponent : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
+        if (_inventorySO == null)
+            return;
+
         var mods = BuildEquipmentModifiers();
         _statSystem.SetModifiers(ModifierSource.Equipment, mods);
     }
@@ -119,8 +160,8 @@ public class EquipmentComponent : MonoBehaviour
 
     /// <summary>
     /// Naming convention from StatTypes.cs:
-    /// AttackMod, HealthMod, DefenceMod, SizeMod... ó interest rates.
-    /// AttackFlat, HealthFlat, DefenceFlat, ManaFlat... ó flat ones.
+    /// AttackMod, HealthMod, DefenceMod, SizeMod... ù interest rates.
+    /// AttackFlat, HealthFlat, DefenceFlat, ManaFlat... ù flat ones.
     /// </summary>
     private static bool IsPercentStat(StatType type) => type switch
     {
