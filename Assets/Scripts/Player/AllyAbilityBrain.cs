@@ -44,7 +44,7 @@ public class AllyAbilityBrain : MonoBehaviour
     private bool TryGetNearestEnemy(out Vector3 position)
     {
         position = default;
-        int n = Physics2D.OverlapCircleNonAlloc(transform.position, _scanRadius, _buffer);
+        int n = EnemyPhysics2D.OverlapCircle(transform.position, _scanRadius, _buffer);
 
         Transform best = null;
         float bestSq = float.MaxValue;

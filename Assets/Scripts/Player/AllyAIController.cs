@@ -142,7 +142,7 @@ public class AllyAIController : MonoBehaviour
 
     private void RefreshEnemyTarget()
     {
-        int count = Physics2D.OverlapCircleNonAlloc(
+        int count = EnemyPhysics2D.OverlapCircle(
             transform.position, _detectRadius, _overlapBuffer);
 
         Transform best = null;

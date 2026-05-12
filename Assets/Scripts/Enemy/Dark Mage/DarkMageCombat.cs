@@ -36,11 +36,19 @@ public class DarkMageCombat : MonoBehaviour
 
         if (go.TryGetComponent(out Projectile p))
         {
-            p.Speed = _baseProjectileSpeed;
-            p.Lifetime = _baseProjectileLifetime;
-            p.Damage = _damageMultiplier * damage;
-            p.EnemyLaunch = true;
-            p.SetDirection(direction, transform.position);
+            var config = new ProjectileConfig
+            {
+                Speed = _baseProjectileSpeed,
+                Lifetime = _baseProjectileLifetime,
+                Damage = _damageMultiplier * damage,
+                Size = _sizeMultiplier,
+                AreaModifier = _sizeMultiplier,
+                EnemyLaunch = true,
+                Direction = direction,
+                StartPosition = transform.position
+            };
+
+            p.Configure(config);
         }
     }
 }

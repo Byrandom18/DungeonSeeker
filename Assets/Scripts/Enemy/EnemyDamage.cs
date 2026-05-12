@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDamage : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnemyDamage : MonoBehaviour
     [Header("Stagger settings")]
     [SerializeField] private bool  _staggerImmune   = false;
     [SerializeField] private float _staggerDuration = 1f;
+
+    [SerializeField] private Slider _healthBar;
 
     public bool InStagger         = false;
     public bool CanReceiveStagger = true;
@@ -46,6 +49,7 @@ public class EnemyDamage : MonoBehaviour
         if (_enemySO == null) Debug.LogError($"EnemySO missing on {gameObject.name}");
         if (_knockback == null) Debug.LogError($"Knockback missing on {gameObject.name}");
         InitializeStats();
+        InitializeHealthBar();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -70,6 +74,7 @@ public class EnemyDamage : MonoBehaviour
         if (!IsAlive) return;
 
         _currentHealth -= damage;
+        UpdateHealthBar();
         if (isStaggeringAttack) ApplyStagger();
 
         IsChasing = true;
@@ -116,6 +121,24 @@ public class EnemyDamage : MonoBehaviour
         _haveTouchDamage = _enemySO.EnableTouchDamage;
     }
 
+    private void InitializeHealthBar()
+    {
+        if (_healthBar == null)
+        {
+            Debug.LogError("Healthbar not assigned on " + gameObject.name);
+            return;
+        }
+        _healthBar.maxValue = _enemySO.EnemyMaxHealth;
+        _healthBar.value = _currentHealth;
+        _healthBar.enabled = false;                 // idk why not working
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (_healthBar == null) return;
+        _healthBar.enabled = true;
+        _healthBar.value = _currentHealth;
+    }
 
     private void DetectDeath()
     {
@@ -126,6 +149,7 @@ public class EnemyDamage : MonoBehaviour
     {
         _hitBox.enabled = false;
         _collisionBox.enabled = false;
+        _healthBar.enabled = false;
         IsAlive = false;
         OnDeath?.Invoke(this, EventArgs.Empty);
     }

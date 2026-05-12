@@ -25,7 +25,7 @@ MonoBehaviour:
   SizeMultiplier: 1
   ProjectileCount: 5
   SpreadAngle: 5
-  Penetrate: 1
+  Penetrate: 0
   ApplyStagger: 0
   KnockbackMultiplier: 1
   MeleeRange: 1

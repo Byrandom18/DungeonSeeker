@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class FireballAbility : AbilityBase
 {
@@ -23,14 +24,25 @@ public class FireballAbility : AbilityBase
             Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg, Vector3.forward)
         );
 
+        
         if (go.TryGetComponent(out Projectile p))
         {
-            p.Damage = atk * Data.DamageMultiplier;
-            p.Speed = Data.ProjectileSpeed;
-            p.Lifetime = Data.ProjectileLifetime;
-            p.EnemyLaunch = false;
-            p.KnockbackMultiplier = Data.KnockbackMultiplier;
-            p.SetDirection(dir, ctx.Owner.Transform.position);
+            var config = new ProjectileConfig
+            {
+                Speed = Data.ProjectileSpeed,
+                Lifetime = Data.ProjectileLifetime,
+                Damage = atk * Data.DamageMultiplier,
+                Penetrate = Data.Penetrate,
+                KnockbackMultiplier = Data.KnockbackMultiplier,
+                Size = Data.AreaOfEffect,
+                AreaModifier = Data.AreaOfEffect,
+                StaggerApply = Data.StaggerApply,
+                EnemyLaunch = false,
+                Direction = dir,
+                StartPosition = ctx.Owner.Transform.position
+            };
+
+            p.Configure(config);
         }
     }
 }

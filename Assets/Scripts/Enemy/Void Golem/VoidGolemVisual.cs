@@ -9,8 +9,9 @@ public class VoidGolemVisual : MonoBehaviour
     [SerializeField] private EnemyDamage _enemyDamage;
     [SerializeField] private GameObject _attackPrefab;
 
-    [SerializeField] private float _attackRadius = 1;
-    private AreaAttack _attackScript = null;
+    [SerializeField] private float _attackRadius = 1f;
+    [SerializeField] private float _areaMultiplier = 1f;
+
     private SpriteRenderer _sprite;
     private Vector2 _originScale;
     private Animator _animator;
@@ -73,14 +74,21 @@ public class VoidGolemVisual : MonoBehaviour
     public void AttackStart()
     {
         GameObject go = Instantiate(_attackPrefab, _attackPosition, Quaternion.identity, transform);
-        _attackScript = go.GetComponent<AreaAttack>();
-        if (_attackScript != null)
+        //_attackScript = go.GetComponent<AreaAttack>();
+        //if (_attackScript != null)
+        //{
+        //    _attackScript.
+        //}
+        if (go.TryGetComponent(out AreaAttack attackScript))
         {
-            _attackScript.IsEnemyLaunch = true;
-            _attackScript.Radius = _attackRadius;
-            _attackScript.Damage = _enemyDamage.CurrentAttack;
-            _attackScript.KnockbackMultiplier = _enemyDamage.KnockbackMultiplier;
-            _attackScript.SourcePosition = transform.position;
+            attackScript.Configure(
+                _enemyDamage.CurrentAttack,
+                _attackRadius,
+                _areaMultiplier,
+                true,
+                false,
+                _enemyDamage.KnockbackMultiplier,
+                transform.position);
         }
     }
     public void AttackCancelled()

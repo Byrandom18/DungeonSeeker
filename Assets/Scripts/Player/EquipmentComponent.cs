@@ -160,8 +160,8 @@ public class EquipmentComponent : MonoBehaviour
 
     /// <summary>
     /// Naming convention from StatTypes.cs:
-    /// AttackMod, HealthMod, DefenceMod, SizeMod... ù interest rates.
-    /// AttackFlat, HealthFlat, DefenceFlat, ManaFlat... ù flat ones.
+    /// AttackMod, HealthMod, DefenceMod, SizeMod... ÔøΩ interest rates.
+    /// AttackFlat, HealthFlat, DefenceFlat, ManaFlat... ÔøΩ flat ones.
     /// </summary>
     private static bool IsPercentStat(StatType type) => type switch
     {

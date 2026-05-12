@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class AbilitySystem : MonoBehaviour
 {
-    // Слоты способностей ? задаются в Inspector через SO
-    [SerializeField] private AbilitySO[] _abilitySlots; // размер = кол-во слотов (4)
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Inspector пїЅпїЅпїЅпїЅпїЅ SO
+    [SerializeField] private AbilitySO[] _abilitySlots; // пїЅпїЅпїЅпїЅпїЅпїЅ = пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (4)
 
     private AbilityBase[] _abilities;
     private ICharacterEntity _owner;
@@ -12,7 +12,7 @@ public class AbilitySystem : MonoBehaviour
 
     public int AbilitySlotCount => _abilities != null ? _abilities.Length : 0;
 
-    public event Action<int, float> OnCooldownChanged; // слот, оставшийся кулдаун
+    public event Action<int, float> OnCooldownChanged; // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public event Action<int> OnAbilityUsed;
 
     private void Awake()
@@ -50,7 +50,7 @@ public class AbilitySystem : MonoBehaviour
         return used;
     }
 
-    // Смена способности в слоте (из UI выбора способностей)
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ UI пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     public void SetAbility(int slotIndex, AbilitySO abilitySO)
     {
         if (slotIndex < 0 || slotIndex >= _abilities.Length) return;

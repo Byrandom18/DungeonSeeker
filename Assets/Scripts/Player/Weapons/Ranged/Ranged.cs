@@ -82,18 +82,25 @@ public class Ranged : WeaponBase
 
         GameObject go = Instantiate(_projectilePrefab, spawnPos,
                                     Quaternion.AngleAxis(angle, Vector3.forward));
-        go.transform.localScale = Vector3.one * _sizeMultiplier;
-
+        
         if (go.TryGetComponent(out Projectile p))
         {
-            p.Speed              = _projectileSpeed;
-            p.Lifetime           = _projectileLifetime;
-            p.Damage             = damage;
-            p.Penetrate          = _penetrate;
-            p.KnockbackMultiplier = _knockbackMultiplier;
-            p.StaggerApply       = _applyStagger;
-            p.EnemyLaunch        = false;
-            p.SetDirection(direction, transform.position);
+            var config = new ProjectileConfig
+            {
+                Speed = _projectileSpeed,
+                Lifetime = _projectileLifetime,
+                Damage = damage,
+                Penetrate = _penetrate,
+                KnockbackMultiplier = _knockbackMultiplier,
+                Size = _sizeMultiplier,
+                AreaModifier = _sizeMultiplier,
+                StaggerApply = _applyStagger,
+                EnemyLaunch = false,
+                Direction = direction,
+                StartPosition = transform.position
+            };
+
+            p.Configure(config);
         }
     }
 

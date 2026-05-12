@@ -1,51 +1,62 @@
 using System;
-using System.IO.Abstractions;
 using UnityEngine;
 
 [RequireComponent (typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
-    [Header("Base Settings")]
-    public float Speed               = 8f;
-    public float Lifetime            = 3f;
-    public float Damage              = 1f;
-    public float Penetrate           = 1f;
-    public float KnockbackMultiplier = 1f;
-    public float AreaModifier        = 1f;
-    public bool  UnlimitedPenetrate  = false;
-    public bool  TouchDamage         = true;
-    public bool  StaggerApply        = false;
-    public bool  CanPenetrateWall    = false;
-    public bool  EnemyLaunch         = false;
+    public float Speed               { get; private set; }
+    public float Lifetime            { get; private set; }
+    public float Damage              { get; private set; }
+    public float Penetrate           { get; private set; }
+    public float KnockbackMultiplier { get; private set; }
+    public float AreaModifier        { get; private set; }
+    public bool EnemyLaunch          { get; private set; }
+    public bool StaggerApply         { get; private set; }
+    public Vector2 StartPosition     { get; private set; }
+
+    [Header("Base Settings")] // edit only in inspector for each projectile variant
+    [SerializeField] private bool  _unlimitedPenetrate  = false;
+    [SerializeField] private bool  _touchDamage         = true;
+    [SerializeField] private bool  _canPenetrateWall    = false;
 
     [Header("Delayed destroy")]
     [Tooltip("Projectile size, how far it can enter before destroy")]
-    public float DelayEntering       = 0.25f;
+    [SerializeField] private float _delayEntering       = 0.25f;
     [Tooltip("Will be destroyed after it enters the object by 0.25f (DelayEntering) instead instant")]
-    public bool  DelayedDestroy      = false;
+    [SerializeField] private bool  _delayedDestroy      = false;
 
     public event EventHandler OnProjectileDestroy;
 
-    public Vector2 StartPosition { get; private set; }
-
-    private Vector2 direction;
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    public void Configure(ProjectileConfig config)
     {
+        Speed = config.Speed;
+        Lifetime = config.Lifetime;
+        Damage = config.Damage;
+        Penetrate = config.Penetrate;
+        KnockbackMultiplier = config.KnockbackMultiplier;
+        transform.localScale = Vector2.one * config.Size;
+        AreaModifier = config.AreaModifier;
+
+        StaggerApply = config.StaggerApply;
+        EnemyLaunch = config.EnemyLaunch;
+
+        SetDirection(config.Direction, config.StartPosition);
+
         Destroy(gameObject, Lifetime);
     }
 
-    public void SetDirection(Vector2 dir, Vector3 startPosition)
+    private void SetDirection(Vector2 dir, Vector3 startPosition)
     {
-        direction = dir.normalized;
+        Vector2 direction = dir.normalized;
         StartPosition = startPosition;
-        rb.linearVelocity = direction * Speed;
+        _rb.linearVelocity = direction * Speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,7 +65,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out ICharacterEntity target) && target.IsAlive)
             {
-                if (TouchDamage) target.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
+                if (_touchDamage) target.TakeDamage(Damage, StartPosition, KnockbackMultiplier);
                 PenetrationUpdate();
                 return;
             }
@@ -63,41 +74,77 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out EnemyDamage enemy))
             {
-                if (TouchDamage) enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
+                if (_touchDamage) enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
                 PenetrationUpdate();
                 return;
             }
         }
-        // Разрушаемое окружение
         if (collision.TryGetComponent(out DestructibleEnvironment env))
         {
-            if (TouchDamage) env.TakeDamage();
+            if (_touchDamage) env.TakeDamage();
             PenetrationUpdate();
             return;
         }
-        // Стена — уничтожаем если нет пробития
-        else if (collision.CompareTag("Environment") && !CanPenetrateWall)
+        else if (collision.CompareTag("Environment") && !_canPenetrateWall)
             SetDestroy();
 
     }
     private void PenetrationUpdate()
     {
-        if (!UnlimitedPenetrate)
+        if (!_unlimitedPenetrate)
         {
             Penetrate -= 1;
-            if (Penetrate <= 0) SetDestroy();
+            if (Penetrate < 0) SetDestroy();
         }
     }
 
     private void SetDestroy()
     {
-        if (DelayedDestroy)
-            Destroy(gameObject, DelayEntering/Speed);
+        if (_delayedDestroy)
+            Destroy(gameObject, _delayEntering/Speed);
         else Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
         OnProjectileDestroy?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+
+
+[Serializable]
+public struct ProjectileConfig
+{
+    public float Speed;
+    public float Lifetime;
+    public float Damage;
+    public float Penetrate;
+    public float KnockbackMultiplier;
+    public float Size;         // for self scale
+    public float AreaModifier; // for children objects scale (explosion, etc)
+
+    public bool StaggerApply;
+    public bool EnemyLaunch;
+
+    public Vector2 Direction;
+    public Vector3 StartPosition;
+
+    public ProjectileConfig(float speed = 8f, float lifetime = 5f, float damage = 1f, float size = 1f, float areaModifier = 1f)
+    {
+        Speed = speed;
+        Lifetime = lifetime;
+        Damage = damage;
+
+        Penetrate = 0;
+        KnockbackMultiplier = 1f;
+        Size = size;                      // for self scale
+        AreaModifier = areaModifier;      // for children objects scale (explosion, etc)
+
+        StaggerApply = true;
+        EnemyLaunch = false;
+
+        Direction = Vector2.right;
+        StartPosition = Vector3.zero;
     }
 }

@@ -83,7 +83,6 @@ public class Explosion : MonoBehaviour
 
     private void CreateLineRenderers()
     {
-        // Создаем объекты для кругов
         SetCircleSettings(_outerLineRenderer, OuterCircleColor, false);
         SetCircleSettings(_innerLineRenderer, InnerCircleColor, true);
 
@@ -121,10 +120,8 @@ public class Explosion : MonoBehaviour
 
     private void CreateCircles()
     {
-        // Внешний круг всегда на максимальном радиусе
         DrawCircle(_outerLineRenderer, MaxRadius);
 
-        // Внутренний круг растет
         DrawCircle(_innerLineRenderer, _currentRadius);
     }
 

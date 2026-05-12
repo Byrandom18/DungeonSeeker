@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 
 public class AreaAttack : MonoBehaviour
@@ -8,114 +9,94 @@ public class AreaAttack : MonoBehaviour
     [SerializeField] private LayerMask _environmentLayer;
     [SerializeField] private GameObject _deathVFXPrefab;
 
-    public float AreaMulti = 1;
-    public float Radius = 0.5f;
-    public bool IsEnemyLaunch;
-    public bool StaggerApply = false;
-    public float KnockbackMultiplier = 1;
-    public float Damage = 1;
-    public Vector3 SourcePosition;
+    [Tooltip("set in inspector if parent is projectile")]
+    [SerializeField] private float _radius = 0.5f;
+
+    private float _areaMulti = 1;
+    private bool _enemyLaunch;
+    private bool _staggerApply = false;
+    private float _knockbackMultiplier = 1;
+    private float _damage = 1;
+    private Vector3 _damageSource;
 
     private void Start()
     {
         if (_projectile != null)
         {
             _projectile.OnProjectileDestroy += Projectile_OnProjectileDestroy;
-            AreaMulti = _projectile.AreaModifier;
+
+            _areaMulti = _projectile.AreaModifier;
+            _enemyLaunch = _projectile.EnemyLaunch;
+            _damage = _projectile.Damage;
+            _damageSource = _projectile.StartPosition;
+            _knockbackMultiplier = _projectile.KnockbackMultiplier;
+            _staggerApply = _projectile.StaggerApply;
         }
-        else Activate();
     }
 
-    private void Activate()
+    public void Configure(
+        float damage,
+        float baseRadius,
+        float areaMuliplier,
+        bool enemyLaunch,
+        bool staggerApply,
+        float knockbackMultiplier,
+        Vector3 damageSource)
     {
-        if (IsEnemyLaunch)
-        {
-            CheckCharactersInCircle();
-        }
-        else Destroy(gameObject);
+        _damage = damage;
+        _radius = baseRadius;
+        transform.localScale = Vector2.one * areaMuliplier;  //tdl
+        _enemyLaunch = enemyLaunch;
+        _staggerApply = staggerApply;
+        _knockbackMultiplier = knockbackMultiplier;
+        _damageSource = damageSource;
+
+        CheckEntitiesInCircle();
     }
 
     private void Projectile_OnProjectileDestroy(object sender, System.EventArgs e)
     {
-        CheckEnemiesInCircle();
+        CheckEntitiesInCircle();
     }
 
-    private void CheckEnemiesInCircle()
+    private void CheckEntitiesInCircle()
     {
-        float radius = Radius * AreaMulti;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, radius, _enemyLayer);
-        Collider2D[] hitEnvironment = Physics2D.OverlapCircleAll(transform.position, radius, _environmentLayer);
+        float radius = _radius * _areaMulti;
         ShowDeathVFX();
-        foreach (Collider2D hitCollider in hitEnemies)
+
+        if (!_enemyLaunch)
         {
-            if (hitCollider.transform.TryGetComponent(out EnemyDamage enemy))
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, radius, _enemyLayer);
+            foreach (Collider2D hitCollider in hitEnemies)
             {
-                if (_projectile != null)
-                {
-                    float damage = _projectile.Damage;
-                    Vector3 sourcePosition = _projectile.StartPosition;
-                    float knockbackMulti = _projectile.KnockbackMultiplier;
-                    bool isStagger = _projectile.StaggerApply;
-                    enemy.TakeDamage(damage, sourcePosition, knockbackMulti, isStagger);
-                }
-                else
-                {
-                    float damage = Damage;
-                    Vector3 sourcePosition = SourcePosition;
-                    float knockbackMulti = KnockbackMultiplier;
-                    bool isStagger = StaggerApply;
-                    enemy.TakeDamage(damage, sourcePosition, knockbackMulti, isStagger);
-                }
+                if (hitCollider.transform.TryGetComponent(out EnemyDamage enemy))
+                    enemy.TakeDamage(_damage, _damageSource, _knockbackMultiplier, _staggerApply);
             }
         }
+        else
+        {
+            Collider2D[] hitCharacters = Physics2D.OverlapCircleAll(transform.position, radius, _characterLayer);
+            foreach (Collider2D hitCollider in hitCharacters)
+            {
+                if (hitCollider.transform.TryGetComponent(out ICharacterEntity character))
+                    character.TakeDamage(_damage, _damageSource, _knockbackMultiplier);
+            }
+        }
+
+        Collider2D[] hitEnvironment = Physics2D.OverlapCircleAll(transform.position, radius, _environmentLayer);
         foreach (Collider2D hitCollider in hitEnvironment)
         {
             if (hitCollider.TryGetComponent(out DestructibleEnvironment environment))
-            {
                 environment.TakeDamage();
-            }
         }
 
     }
 
-    private void CheckCharactersInCircle()
-    {
-        float radius = Radius * AreaMulti;
-        Collider2D[] hitCharacters = Physics2D.OverlapCircleAll(transform.position, radius, _characterLayer);
-        Collider2D[] hitEnvironment = Physics2D.OverlapCircleAll(transform.position, radius, _environmentLayer);
-        ShowDeathVFX();
-        foreach (Collider2D hitCollider in hitCharacters)
-        {
-            if (hitCollider.transform.TryGetComponent(out ICharacterEntity character))
-            {
-                if (_projectile != null)
-                {
-                    float damage = _projectile.Damage;
-                    Vector3 sourcePosition = _projectile.StartPosition;
-                    float knockbackMulti = _projectile.KnockbackMultiplier;
-                    character.TakeDamage(damage, sourcePosition, knockbackMulti);
-                }
-                else
-                {
-                    float damage = Damage;
-                    Vector3 sourcePosition = SourcePosition;
-                    float knockbackMulti = KnockbackMultiplier;
-                    character.TakeDamage(damage, sourcePosition, knockbackMulti);
-                }
-            }
-        }
-        foreach (Collider2D hitCollider in hitEnvironment)
-        {
-            if (hitCollider.TryGetComponent(out DestructibleEnvironment environment))
-            {
-                environment.TakeDamage();
-            }
-        }
-    }
 
     private void ShowDeathVFX()
     {
-        Instantiate(_deathVFXPrefab, transform.position, Quaternion.identity);
+        GameObject go = Instantiate(_deathVFXPrefab, transform.position, Quaternion.identity);
+        go.transform.localScale = Vector3.one * _areaMulti;
     }
 
     private void OnDestroy()

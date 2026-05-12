@@ -359,7 +359,7 @@ public class InventorySO : ScriptableObject
         if (anyChanged)
         {
             NotifyInventoryChanged();
-            Debug.Log($"[InventorySO] ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜: {_items.Count(item => item.Item?.ItemType == ItemType.Equipment)} ˜˜˜˜˜˜˜˜˜");
+            Debug.Log($"[InventorySO] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {_items.Count(item => item.Item?.ItemType == ItemType.Equipment)} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

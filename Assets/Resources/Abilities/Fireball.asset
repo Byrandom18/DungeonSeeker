@@ -26,9 +26,9 @@ MonoBehaviour:
   KnockbackMultiplier: 3
   StaggerApply: 0
   ProjectileSpeed: 1
-  ProjectileLifetime: 10
-  Penetrate: 1
+  ProjectileLifetime: 100
+  Penetrate: 0
   UnlimitedPenetrate: 0
   CanPenetrateWall: 0
-  DelayedDestroy: 0
+  DelayedDestroy: 1
   DelayEntering: 0.25
