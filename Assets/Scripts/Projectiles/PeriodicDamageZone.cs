@@ -10,7 +10,7 @@ public class PeriodicDamageZone : MonoBehaviour
 {
     [Header("Damage")]
     [SerializeField] private float _damagePerTick = 10f;
-    [SerializeField] private float _knockbackMultiplier = 1f;
+    [SerializeField] private float _knockbackMultiplier;
     [SerializeField] private bool _staggerApply;
     [SerializeField] private bool _enemyLaunch;
 
@@ -32,6 +32,27 @@ public class PeriodicDamageZone : MonoBehaviour
         _damageSource = transform.position;
     }
 
+    private void Update()
+    {
+        if (_nextTickTime.Count == 0) return;
+
+        // Collect keys to avoid modifying the dictionary during iteration
+        var colliders = new List<Collider2D>(_nextTickTime.Keys);
+        foreach (var col in colliders)
+        {
+            if (col == null || !col.enabled)
+            {
+                _nextTickTime.Remove(col);
+                continue;
+            }
+
+            if (Time.time < _nextTickTime[col]) continue;
+
+            ApplyDamageToTarget(col);
+            _nextTickTime[col] = Time.time + _tickInterval;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.enabled) return;
@@ -40,19 +61,6 @@ public class PeriodicDamageZone : MonoBehaviour
 
         float next = Time.time + _tickInterval;
         _nextTickTime[collision] = next;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!collision.enabled) return;
-        if (!_nextTickTime.TryGetValue(collision, out float nextTime))
-            return;
-
-        if (Time.time < nextTime)
-            return;
-
-        ApplyDamageToTarget(collision);
-        _nextTickTime[collision] = Time.time + _tickInterval;
     }
 
     private void OnTriggerExit2D(Collider2D collision)

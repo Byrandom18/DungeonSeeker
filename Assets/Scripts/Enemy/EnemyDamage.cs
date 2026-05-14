@@ -130,13 +130,13 @@ public class EnemyDamage : MonoBehaviour
         }
         _healthBar.maxValue = _enemySO.EnemyMaxHealth;
         _healthBar.value = _currentHealth;
-        _healthBar.enabled = false;                 // idk why not working
+        _healthBar.gameObject.SetActive(false);
     }
 
     private void UpdateHealthBar()
     {
         if (_healthBar == null) return;
-        _healthBar.enabled = true;
+        _healthBar.gameObject.SetActive(true);
         _healthBar.value = _currentHealth;
     }
 
@@ -149,7 +149,7 @@ public class EnemyDamage : MonoBehaviour
     {
         _hitBox.enabled = false;
         _collisionBox.enabled = false;
-        _healthBar.enabled = false;
+        _healthBar.gameObject.SetActive(false);
         IsAlive = false;
         OnDeath?.Invoke(this, EventArgs.Empty);
     }

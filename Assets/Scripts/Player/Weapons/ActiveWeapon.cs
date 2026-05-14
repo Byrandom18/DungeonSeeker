@@ -82,7 +82,10 @@ public class ActiveWeapon : MonoBehaviour
             if (entry.Weapon != null)
                 _weaponMap[entry.Type] = entry.Weapon;
         }
+        _ownerStats.OnPlayerDeath += OwnerStats_OnPlayerDeath;
     }
+
+    
 
     private void OnEnable()
     {
@@ -268,6 +271,11 @@ public class ActiveWeapon : MonoBehaviour
         Vector2 dir = GetAttackAimDirection();
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    private void OwnerStats_OnPlayerDeath(object sender, System.EventArgs e)
+    {
+        _activeWeapon.gameObject.SetActive(false);
     }
 
     private void OnDestroy()

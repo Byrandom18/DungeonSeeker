@@ -6,6 +6,8 @@ public class PlayerVisual : MonoBehaviour
     private Vector2 _originScale;
     private Animator _animator;
 
+    [SerializeField] private PlayerStats _ownerStats;
+    
     private static readonly int DIE = Animator.StringToHash(DEATH);
     private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
 
@@ -21,7 +23,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start()
     {
-        PlayerStats.Instance.OnPlayerDeath += PlayerStats_OnPlayerDeath;
+        _ownerStats.OnPlayerDeath += PlayerStats_OnPlayerDeath;
     }
 
     private void PlayerStats_OnPlayerDeath(object sender, System.EventArgs e)
@@ -48,6 +50,6 @@ public class PlayerVisual : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerStats.Instance.OnPlayerDeath -= PlayerStats_OnPlayerDeath;
+        _ownerStats.OnPlayerDeath -= PlayerStats_OnPlayerDeath;
     }
 }

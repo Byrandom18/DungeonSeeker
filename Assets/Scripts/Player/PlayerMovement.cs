@@ -59,13 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (!_isDodging && _stats.IsAlive)
-        //{
-        //    if (_knockback.IsGettingKnockedback)
-        //        return;
-        //    Move();
-        //    UpdateSpriteDirection();
-        //}
+        if (!_stats.IsAlive) return;
         Move();
         UpdateSpriteDirection();
     }
