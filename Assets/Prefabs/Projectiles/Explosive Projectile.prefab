@@ -17,11 +17,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4580359308403620477, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: _touchDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580359308403620477, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
       propertyPath: DelayEntering
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4580359308403620477, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
       propertyPath: DelayedDestroy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580359308403620477, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}
+      propertyPath: _delayedDestroy
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9041331905375476774, guid: bd6b29c84de5be44a8783ed089a033ab, type: 3}

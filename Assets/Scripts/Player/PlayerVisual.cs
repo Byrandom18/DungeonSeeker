@@ -7,7 +7,8 @@ public class PlayerVisual : MonoBehaviour
     private Animator _animator;
 
     [SerializeField] private PlayerStats _ownerStats;
-    
+    private PlayerMovement _movement;
+
     private static readonly int DIE = Animator.StringToHash(DEATH);
     private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
 
@@ -19,6 +20,9 @@ public class PlayerVisual : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         _originScale = transform.localScale;
         _animator = GetComponent<Animator>();
+        if (_ownerStats == null)
+            _ownerStats = GetComponentInParent<PlayerStats>();
+        _movement = GetComponentInParent<PlayerMovement>();
     }
 
     private void Start()
@@ -33,7 +37,8 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetBool(MOVE, PlayerMovement.Instance.IsRunning());
+        if (_movement != null)
+            _animator.SetBool(MOVE, _movement.IsRunning());
     }
 
     public void UpdateSpriteDirection(bool flipRight)

@@ -148,9 +148,10 @@ public class VoidGolemVisual : MonoBehaviour
             var t = PartyManager.Instance.GetNearestTarget(transform.position);
             if (t != null) return t.Transform.position;
         }
-        return PlayerMovement.Instance != null
-            ? PlayerMovement.Instance.transform.position
-            : transform.position;
+        if (PartyManager.Instance != null && PartyManager.Instance.LeaderTransform != null)
+            return PartyManager.Instance.LeaderTransform.position;
+
+        return transform.position;
     }
 
     private float GetRemainingAnimationTime()

@@ -116,13 +116,17 @@ public class AllyAIController : MonoBehaviour
         if (_followTimer > 0f) return;
         _followTimer = _followRefresh;
 
-        if (PlayerMovement.Instance == null)
+        Transform leaderTransform = PartyManager.Instance != null
+            ? PartyManager.Instance.LeaderTransform
+            : null;
+
+        if (leaderTransform == null)
         {
             _agent.isStopped = true;
             return;
         }
 
-        Vector3 leader = PlayerMovement.Instance.transform.position;
+        Vector3 leader = leaderTransform.position;
         float dist = Vector2.Distance(transform.position, leader);
 
         if (dist > _followStopDistance)

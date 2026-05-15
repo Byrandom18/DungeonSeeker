@@ -58,7 +58,7 @@ public class InventoryDescription : MonoBehaviour
         _onEquipClicked = null;
     }
 
-    public void SetDescription(InventoryItemData data, System.Action onEquipClicked)
+    public void SetDescription(InventoryItemData data, System.Action onEquipClicked, bool isEquippedOnSelectedCharacter = false)
     {
         ItemSO item = data.Item;
 
@@ -77,7 +77,7 @@ public class InventoryDescription : MonoBehaviour
         SetPanelsActive(item.ItemType, true);
 
         if (item.ItemType == ItemType.Equipment)
-            FillEquipmentPanel(item, data, onEquipClicked);
+            FillEquipmentPanel(item, data, onEquipClicked, isEquippedOnSelectedCharacter);
         else
             FillResourcePanel(data);
     }
@@ -100,7 +100,7 @@ public class InventoryDescription : MonoBehaviour
         if (_upgradeLevelText) _upgradeLevelText.gameObject.SetActive(hasData);
     }
 
-    private void FillEquipmentPanel(ItemSO item, InventoryItemData data, System.Action onEquipClicked)
+    private void FillEquipmentPanel(ItemSO item, InventoryItemData data, System.Action onEquipClicked, bool isEquippedOnSelectedCharacter)
     {
         if (_equipmentPanel) _equipmentPanel.SetActive(true);
         if (_slotText) _slotText.text = item.EquipmentSlot.ToString();
@@ -128,8 +128,7 @@ public class InventoryDescription : MonoBehaviour
             }
         }
 
-        bool isEquipped = data.IsEquipped;
-        if (_equipButtonText) _equipButtonText.text = isEquipped ? "Unequip" : "Equip";
+        if (_equipButtonText) _equipButtonText.text = isEquippedOnSelectedCharacter ? "Unequip" : "Equip";
         _onEquipClicked = onEquipClicked;
     }
 

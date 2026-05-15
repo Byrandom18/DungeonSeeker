@@ -22,6 +22,9 @@ public class InventoryPage : MonoBehaviour
     [Header("Equipment Sub-filter")]
     [SerializeField] private GameObject _subFilterPanel;          // parent containing slot buttons
 
+    [Header("Party equipment")]
+    [SerializeField] private PartyEquipmentView _partyEquipmentView;
+
     [Header("Action Buttons")]
     [SerializeField] private Button _equipButton;
     [SerializeField] private Button _upgradeButton;
@@ -49,11 +52,27 @@ public class InventoryPage : MonoBehaviour
     {
         BindInventory(_inventorySO);
         _inventorySO?.RebuildEquippedDictionary();
+
+        if (_partyEquipmentView != null)
+        {
+            _partyEquipmentView.OnSelectedCharacterChanged += HandleSelectedCharacterChanged;
+            _partyEquipmentView.RebuildPartyList();
+        }
     }
 
     private void OnDisable()
     {
         UnbindInventory(_inventorySO);
+
+        if (_partyEquipmentView != null)
+            _partyEquipmentView.OnSelectedCharacterChanged -= HandleSelectedCharacterChanged;
+    }
+
+    private void HandleSelectedCharacterChanged()
+    {
+        RefreshCurrentView();
+        if (_selectedItem != null)
+            RefreshSelectedItemDescription();
     }
 
 
@@ -83,6 +102,7 @@ public class InventoryPage : MonoBehaviour
         gameObject.SetActive(true);
         _itemDescription.ResetDescription();
         _selectedItem = null;
+        _partyEquipmentView?.RebuildPartyList();
         SwitchTab(_activeTab);          // re-apply current tab so list refreshes
     }
 
@@ -140,13 +160,14 @@ public class InventoryPage : MonoBehaviour
             indexed.Add((i, data));
         }
 
-        // 1. Equipped
+        // 1. Equipped on selected character
         // 2. Rarity
         // 3. Level
         // 4. ItemSO id
         indexed.Sort((a, b) =>
         {
-            int eq = b.data.IsEquipped.CompareTo(a.data.IsEquipped);
+            int eq = IsEquippedOnSelectedCharacter(b.sourceIdx).CompareTo(
+                IsEquippedOnSelectedCharacter(a.sourceIdx));
             if (eq != 0) return eq;
 
             int rar = ((int)b.data.Rarity).CompareTo((int)a.data.Rarity);
@@ -198,7 +219,12 @@ public class InventoryPage : MonoBehaviour
             if (i < _currentView.Count)
             {
                 _spawnedItems[i].gameObject.SetActive(true);
-                _spawnedItems[i].SetData(_currentView[i], _currentViewSourceIndices[i]);
+                int sourceIdx = _currentViewSourceIndices[i];
+                InventoryItemData cellData = _currentView[i];
+                _spawnedItems[i].SetData(
+                    cellData,
+                    sourceIdx,
+                    GetEquippedOwnerIcon(cellData));
             }
             else
             {
@@ -242,9 +268,20 @@ public class InventoryPage : MonoBehaviour
 
         RefreshUpgradeButton();
 
+        RefreshSelectedItemDescription();
+    }
+
+    private void RefreshSelectedItemDescription()
+    {
+        if (_selectedItem == null) return;
+
+        int sourceIdx = _selectedItem.InventoryIndex;
+        bool isEquip = _selectedItem.ItemData.Item.ItemType == ItemType.Equipment;
+
         _itemDescription.SetDescription(
-            item.ItemData,
-            isEquip ? () => HandleEquipButtonClicked(item) : (System.Action)null
+            _inventorySO.Items[sourceIdx],
+            isEquip ? () => HandleEquipButtonClicked(_selectedItem) : (System.Action)null,
+            IsEquippedOnSelectedCharacter(sourceIdx)
         );
     }
 
@@ -260,27 +297,61 @@ public class InventoryPage : MonoBehaviour
 
     private void HandleEquipButtonClicked(InventoryItem item)
     {
-        if (item == null) return;
+        if (item == null || _inventorySO == null) return;
 
         int sourceIdx = item.InventoryIndex;
         if (sourceIdx < 0 || sourceIdx >= _inventorySO.Items.Count) return;
+
+        string ownerId = GetSelectedOwnerId();
+        if (string.IsNullOrEmpty(ownerId)) return;
+
         InventoryItemData data = _inventorySO.Items[sourceIdx];
+        EquipmentSlot slot = data.Item.EquipmentSlot;
 
-        if (data.IsEquipped)
-            _inventorySO.UnequipSlot(data.Item.EquipmentSlot);
+        if (IsEquippedOnSelectedCharacter(sourceIdx))
+            _inventorySO.UnequipSlot(slot, ownerId);
         else
-            _inventorySO.EquipItem(sourceIdx);
+            _inventorySO.EquipItem(sourceIdx, ownerId);
 
-        // Description panel re-binds via OnInventoryChanged -> RefreshCurrentView
-        // But we also immediately update the description to reflect equip state
+        RefreshCurrentView();
         if (_selectedItem != null)
+            RefreshSelectedItemDescription();
+    }
+
+    private string GetSelectedOwnerId()
+    {
+        if (_partyEquipmentView != null && _partyEquipmentView.SelectedEquipment != null)
+            return _partyEquipmentView.SelectedEquipment.PartyMemberId;
+
+        var allEquipment = FindObjectsByType<EquipmentComponent>(FindObjectsSortMode.None);
+        foreach (var equipment in allEquipment)
         {
-            // Re-fetch updated data
-            _itemDescription.SetDescription(
-                _inventorySO.Items[sourceIdx],
-                () => HandleEquipButtonClicked(_selectedItem)
-            );
+            var stats = equipment.GetComponent<PlayerStats>();
+            if (stats != null && stats.IsPrimaryPlayer)
+                return equipment.PartyMemberId;
         }
+
+        return allEquipment.Length > 0 ? allEquipment[0].PartyMemberId : null;
+    }
+
+    private static Sprite GetEquippedOwnerIcon(InventoryItemData data)
+    {
+        if (!data.IsEquipped || string.IsNullOrEmpty(data.EquippedOwnerId))
+            return null;
+
+        return EquipmentComponent.GetIconForOwner(data.EquippedOwnerId);
+    }
+
+    private bool IsEquippedOnSelectedCharacter(int sharedInventoryIndex)
+    {
+        if (_inventorySO == null || sharedInventoryIndex < 0 || sharedInventoryIndex >= _inventorySO.Items.Count)
+            return false;
+
+        string ownerId = GetSelectedOwnerId();
+        if (string.IsNullOrEmpty(ownerId))
+            return false;
+
+        return _inventorySO.IsEquippedOn(sharedInventoryIndex, ownerId);
     }
 
     private void HandleItemHovered(InventoryItem item) { /* Optional: tooltip */ }
@@ -320,7 +391,7 @@ public class InventoryPage : MonoBehaviour
     {
         for (int i = 0; i < _currentView.Count; i++)
         {
-            if (_currentView[i].IsEquipped)
+            if (IsEquippedOnSelectedCharacter(_currentViewSourceIndices[i]))
                 return _spawnedItems[i];
         }
         return _spawnedItems[0];
@@ -338,10 +409,7 @@ public class InventoryPage : MonoBehaviour
 
         int updatedIdx = _selectedItem.InventoryIndex;
 
-        _itemDescription.SetDescription(
-            _inventorySO.Items[updatedIdx],
-            () => HandleEquipButtonClicked(_selectedItem)
-        );
+        RefreshSelectedItemDescription();
         RefreshUpgradeButton();
     }
 

@@ -110,10 +110,14 @@ public class Ranged : WeaponBase
         if (host != null)
             return host.GetAttackAimDirection();
 
-        if (GameInput.Instance != null && PlayerMovement.Instance != null)
+        PlayerMovement moveRef = null;
+        if (PartyManager.Instance != null)
+            moveRef = PartyManager.Instance.LeaderMovement;
+
+        if (GameInput.Instance != null && moveRef != null)
         {
             Vector3 mousePos = GameInput.Instance.GetMousePosition();
-            Vector3 playerScreen = PlayerMovement.Instance.GetPlayerScreenPosition();
+            Vector3 playerScreen = moveRef.GetPlayerScreenPosition();
             Vector2 delta = mousePos - playerScreen;
             if (delta.sqrMagnitude > 1e-6f)
                 return delta.normalized;
@@ -126,6 +130,6 @@ public class Ranged : WeaponBase
     {
         if (Owner != null)
             return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
-        return PlayerStats.Instance != null ? PlayerStats.Instance.Attack : 1f;
+        return 1f;
     }
 }

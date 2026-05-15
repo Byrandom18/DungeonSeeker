@@ -8,8 +8,9 @@ public class InventorySO : ScriptableObject
 {
     [SerializeField] private List<InventoryItemData> _items = new List<InventoryItemData>();
 
-    // Equipped items: slot -> index in _items
-    private Dictionary<EquipmentSlot, int> _equippedItems = new Dictionary<EquipmentSlot, int>();
+    // ownerId -> (slot -> index in _items)
+    private readonly Dictionary<string, Dictionary<EquipmentSlot, int>> _equippedByOwner =
+        new Dictionary<string, Dictionary<EquipmentSlot, int>>();
 
     public event Action OnInventoryChanged;
     public event Action OnItemAdded;
@@ -23,7 +24,7 @@ public class InventorySO : ScriptableObject
     public void ClearAll(bool notify = true)
     {
         _items.Clear();
-        _equippedItems.Clear();
+        _equippedByOwner.Clear();
         if (notify)
             NotifyInventoryChanged();
     }
@@ -92,7 +93,7 @@ public class InventorySO : ScriptableObject
 
         target.AddItems(_items, notify: false);
         _items.Clear();
-        _equippedItems.Clear();
+        _equippedByOwner.Clear();
 
         NotifyInventoryChanged();
         target.NotifyInventoryChanged();
@@ -102,27 +103,41 @@ public class InventorySO : ScriptableObject
     // ========== initialize ================================================
     public void RebuildEquippedDictionary()
     {
-        _equippedItems.Clear();
+        _equippedByOwner.Clear();
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i].IsEquipped && _items[i].Item != null)
+            InventoryItemData data = _items[i];
+            if (!data.IsEquipped || data.Item == null)
+                continue;
+
+            if (string.IsNullOrEmpty(data.EquippedOwnerId))
             {
-                EquipmentSlot slot = _items[i].Item.EquipmentSlot;
-                if (!_equippedItems.ContainsKey(slot))
-                    _equippedItems[slot] = i;
-                else
-                {
-                    _items[i] = _items[i].SetEquipped(false);
-                }
+                _items[i] = data.SetEquipped(false);
+                continue;
             }
+
+            EquipmentSlot slot = data.Item.EquipmentSlot;
+            if (!TryRegisterEquippedIndex(data.EquippedOwnerId, slot, i))
+                _items[i] = data.SetEquipped(false);
         }
     }
 
     public bool IsEquipped(int itemIndex) =>
         itemIndex >= 0 && itemIndex < _items.Count && _items[itemIndex].IsEquipped;
 
-    public int? GetEquippedIndex(EquipmentSlot slot) =>
-        _equippedItems.TryGetValue(slot, out int idx) ? idx : (int?)null;
+    public bool IsEquippedOn(int itemIndex, string ownerId)
+    {
+        if (!IsEquipped(itemIndex)) return false;
+        if (string.IsNullOrEmpty(ownerId)) return false;
+        return _items[itemIndex].EquippedOwnerId == ownerId;
+    }
+
+    public int? GetEquippedIndex(EquipmentSlot slot, string ownerId)
+    {
+        if (string.IsNullOrEmpty(ownerId)) return null;
+        if (!_equippedByOwner.TryGetValue(ownerId, out var slots)) return null;
+        return slots.TryGetValue(slot, out int idx) ? idx : (int?)null;
+    }
 
 
     //======== Drop System ====================================================================
@@ -189,38 +204,55 @@ public class InventorySO : ScriptableObject
 
     //=========== Equip ====================================================================
 
-    public bool EquipItem(int itemIndex)
+    public bool EquipItem(int itemIndex, string ownerId)
     {
+        if (string.IsNullOrEmpty(ownerId)) return false;
         if (itemIndex < 0 || itemIndex >= _items.Count) return false;
 
         InventoryItemData data = _items[itemIndex];
-        if (data.Item.ItemType != ItemType.Equipment) return false;
+        if (data.Item == null || data.Item.ItemType != ItemType.Equipment) return false;
 
         EquipmentSlot slot = data.Item.EquipmentSlot;
 
-        if (_equippedItems.TryGetValue(slot, out int prevIndex) && prevIndex != itemIndex)
-        {
-            if (prevIndex < _items.Count)
-                _items[prevIndex] = _items[prevIndex].SetEquipped(false);
-        }
+        if (GetEquippedIndex(slot, ownerId) is int prevIndex && prevIndex != itemIndex)
+            UnequipItemAt(prevIndex);
 
-        _equippedItems[slot] = itemIndex;
-        _items[itemIndex] = _items[itemIndex].SetEquipped(true);
+        if (data.IsEquipped && data.EquippedOwnerId != ownerId)
+            UnequipItemAt(itemIndex);
+
+        _items[itemIndex] = data.SetEquipped(true, ownerId);
+        TryRegisterEquippedIndex(ownerId, slot, itemIndex);
 
         NotifyInventoryChanged();
         return true;
     }
 
-
-    public bool UnequipSlot(EquipmentSlot slot)
+    public bool UnequipSlot(EquipmentSlot slot, string ownerId)
     {
-        if (!_equippedItems.TryGetValue(slot, out int index)) return false;
+        if (string.IsNullOrEmpty(ownerId)) return false;
+        if (GetEquippedIndex(slot, ownerId) is not int index) return false;
+        if (!UnequipItemAt(index)) return false;
 
-        if (index < _items.Count)
-            _items[index] = _items[index].SetEquipped(false);
-
-        _equippedItems.Remove(slot);
         NotifyInventoryChanged();
+        return true;
+    }
+
+    /// <summary>
+    /// Removes a single item entry and updates equipped indices.
+    /// </summary>
+    public bool RemoveItemAt(int index, bool notify = true)
+    {
+        if (index < 0 || index >= _items.Count) return false;
+
+        UnequipIfNeeded(index);
+        _items.RemoveAt(index);
+        OnItemRemovedAt?.Invoke(index);
+
+        if (notify)
+            NotifyInventoryChanged();
+        else
+            RebuildEquippedDictionary();
+
         return true;
     }
 
@@ -369,16 +401,50 @@ public class InventorySO : ScriptableObject
         OnInventoryChanged?.Invoke();
     }
 
+    private bool UnequipItemAt(int index)
+    {
+        if (index < 0 || index >= _items.Count) return false;
+
+        InventoryItemData data = _items[index];
+        if (!data.IsEquipped) return false;
+
+        RemoveEquippedRegistration(data.EquippedOwnerId, data.Item?.EquipmentSlot ?? default, index);
+        _items[index] = data.SetEquipped(false);
+        return true;
+    }
+
     private void UnequipIfNeeded(int index)
     {
-        foreach (var kv in _equippedItems.ToList())
+        if (index < 0 || index >= _items.Count) return;
+        InventoryItemData data = _items[index];
+        if (!data.IsEquipped) return;
+
+        RemoveEquippedRegistration(data.EquippedOwnerId, data.Item?.EquipmentSlot ?? default, index);
+    }
+
+    private bool TryRegisterEquippedIndex(string ownerId, EquipmentSlot slot, int index)
+    {
+        if (!_equippedByOwner.TryGetValue(ownerId, out var slots))
         {
-            if (kv.Value == index)
-            {
-                _equippedItems.Remove(kv.Key);
-                break;
-            }
+            slots = new Dictionary<EquipmentSlot, int>();
+            _equippedByOwner[ownerId] = slots;
         }
+
+        if (slots.TryGetValue(slot, out int existing) && existing != index)
+            return false;
+
+        slots[slot] = index;
+        return true;
+    }
+
+    private void RemoveEquippedRegistration(string ownerId, EquipmentSlot slot, int index)
+    {
+        if (string.IsNullOrEmpty(ownerId)) return;
+        if (!_equippedByOwner.TryGetValue(ownerId, out var slots)) return;
+        if (slots.TryGetValue(slot, out int registered) && registered == index)
+            slots.Remove(slot);
+        if (slots.Count == 0)
+            _equippedByOwner.Remove(ownerId);
     }
 }
 
@@ -390,6 +456,8 @@ public struct InventoryItemData
     public int Quantity;
     public int UpgradeLevel;
     public bool IsEquipped;
+    /// <summary>Party member id from <see cref="EquipmentComponent.PartyMemberId"/>.</summary>
+    public string EquippedOwnerId;
     public ItemRarity Rarity;
     public int MaxUpgradeLevel;
 
@@ -406,6 +474,7 @@ public struct InventoryItemData
         Quantity = quantity;
         UpgradeLevel = 0;
         IsEquipped = false;
+        EquippedOwnerId = null;
         Rarity = rarity;
         MaxUpgradeLevel = maxUpgradeLevel;
 
@@ -424,19 +493,21 @@ public struct InventoryItemData
             Quantity = newQty,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = IsEquipped,
+            EquippedOwnerId = EquippedOwnerId,
             Rarity = Rarity,
             MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = _mainStat,
             _bonusStats = _bonusStats
         };
 
-    public InventoryItemData SetEquipped(bool equipped) =>
+    public InventoryItemData SetEquipped(bool equipped, string ownerId = null) =>
         new InventoryItemData
         {
             Item = Item,
             Quantity = Quantity,
             UpgradeLevel = UpgradeLevel,
             IsEquipped = equipped,
+            EquippedOwnerId = equipped ? ownerId : null,
             Rarity = Rarity,
             MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = _mainStat,
@@ -450,6 +521,7 @@ public struct InventoryItemData
             Quantity = Quantity,
             UpgradeLevel = newLevel,
             IsEquipped = IsEquipped,
+            EquippedOwnerId = EquippedOwnerId,
             Rarity = Rarity,
             MaxUpgradeLevel = MaxUpgradeLevel,
             _mainStat = newMain,

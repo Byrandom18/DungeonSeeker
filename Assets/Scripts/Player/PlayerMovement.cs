@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _inputVector;
     private Camera _mainCamera;
     private Knockback _knockback;
-    public static PlayerMovement Instance { get; private set; }
 
     [Header("Dodge Settings")]
     [SerializeField] private float _dodgePower = 10f; // Сила рывка
@@ -28,8 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        
-        Instance = this;
         _stats = GetComponent<PlayerStats>();
         _visual = GetComponentInChildren<PlayerVisual>();
         _mainCamera = Camera.main;
@@ -40,8 +37,6 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("VisualComponent not found on " + gameObject.name);
         if (_stats == null)
             Debug.LogError("PlayerStats not found on " + gameObject.name);
-        if (Instance == null)
-            Debug.LogError("Instance can not be assigned on" + gameObject.name);
         if (_knockback == null)
             Debug.LogError("Knockback can not be assigned on" + gameObject.name);
     }

@@ -2,25 +2,10 @@
 using UnityEngine;
 
 /// <summary>
-/// Controls the character's active weapon.
-///
-/// Stores one WeaponBase component for each WeaponType.
-/// When equipping an item with a WeaponSO:
-/// 1. Activates the desired WeaponBase by the WeaponType
-/// 2. Transfers the weapon to it (sprite, damage, cooldown, projectile parameters)
-/// 3. Passes a link to the owner (ICharacterEntity)
-///
-/// When removing the weapon, deactivates all WeaponBase.
+/// Controls the character's active weapon (one instance per character).
 /// </summary>
 public class ActiveWeapon : MonoBehaviour
 {
-    /// <summary>Singleton for the primary player prefab only; allies leave this unset.</summary>
-    public static ActiveWeapon Instance { get; private set; }
-
-    /// <summary>When enabled, assigns <see cref="Instance"/> on Awake and clears OnDestroy.</summary>
-    [SerializeField] private bool _registerPlayerSingleton = true;
-
-    /// <summary>Mouse aim uses <see cref="GameInput"/> and <see cref="PlayerMovement"/> (primary player).</summary>
     public enum AimMode
     {
         MouseRelativeToPlayer,
@@ -30,6 +15,7 @@ public class ActiveWeapon : MonoBehaviour
     [Header("Aiming")]
     [SerializeField] private AimMode _aimMode = AimMode.MouseRelativeToPlayer;
     [SerializeField] private Transform _worldAimTarget;
+    [SerializeField] private PlayerMovement _aimMovementReference;
 
     [Header("Owner")]
     [SerializeField] private PlayerStats _ownerStats;
@@ -38,15 +24,17 @@ public class ActiveWeapon : MonoBehaviour
     [SerializeField] private WeaponEntry[] _weaponEntries;
 
     [Header("Inventory")]
+    [SerializeField] private EquipmentComponent _equipment;
     [SerializeField] private InventorySO _inventorySO;
 
-    // current active weapon
     private WeaponBase _activeWeapon;
-
     private bool _isMidSwing;
-    private WeaponSO _pendingWeaponSO; // SO которое нужно применить после атаки
+    private WeaponSO _pendingWeaponSO;
     private bool _pendingDeactivate;
-    private bool _useControllerInventory;
+    private bool _useSharedInventory;
+    private string _ownerId;
+
+    private Dictionary<WeaponType, WeaponBase> _weaponMap;
 
     public bool RotationEnabled
     {
@@ -58,8 +46,6 @@ public class ActiveWeapon : MonoBehaviour
         }
     }
 
-    private Dictionary<WeaponType, WeaponBase> _weaponMap;
-
     [System.Serializable]
     public struct WeaponEntry
     {
@@ -69,12 +55,12 @@ public class ActiveWeapon : MonoBehaviour
 
     private void Awake()
     {
-        if (_registerPlayerSingleton)
-        {
-            if (Instance != null && Instance != this)
-                Debug.LogWarning("[ActiveWeapon] Multiple components registered as player singleton.");
-            Instance = this;
-        }
+        if (_ownerStats == null)
+            _ownerStats = GetComponent<PlayerStats>();
+        if (_equipment == null)
+            _equipment = GetComponent<EquipmentComponent>();
+        if (_aimMovementReference == null)
+            _aimMovementReference = GetComponent<PlayerMovement>();
 
         _weaponMap = new Dictionary<WeaponType, WeaponBase>();
         foreach (var entry in _weaponEntries)
@@ -82,14 +68,16 @@ public class ActiveWeapon : MonoBehaviour
             if (entry.Weapon != null)
                 _weaponMap[entry.Type] = entry.Weapon;
         }
-        _ownerStats.OnPlayerDeath += OwnerStats_OnPlayerDeath;
-    }
 
-    
+        if (_ownerStats != null)
+            _ownerStats.OnPlayerDeath += OwnerStats_OnPlayerDeath;
+
+        _ownerId = _equipment != null ? _equipment.PartyMemberId : null;
+        _useSharedInventory = _inventorySO == null;
+    }
 
     private void OnEnable()
     {
-        BindInventory();
         if (RunSystem.Instance != null)
             RunSystem.Instance.OnRunStateChanged += HandleRunStateChanged;
     }
@@ -103,17 +91,15 @@ public class ActiveWeapon : MonoBehaviour
 
     private void Start()
     {
-        _useControllerInventory = _inventorySO == null;
-        if (_useControllerInventory && InventoryController.Instance != null)
-        {
-            UnbindInventory();
-            _inventorySO = InventoryController.Instance.GetInventorySO();
-            BindInventory();
-        }
+        ResolveInventoryReference();
+
+        if (_equipment != null)
+            _ownerId = _equipment.PartyMemberId;
 
         foreach (var kv in _weaponMap)
             kv.Value.gameObject.SetActive(false);
-        OnInventoryChanged(); // apply the current inventory status at start
+
+        OnInventoryChanged();
     }
 
     private void Update()
@@ -122,17 +108,23 @@ public class ActiveWeapon : MonoBehaviour
         ApplyWeaponPivotRotation();
     }
 
-    /// <summary>Used by melee/ranged bots and by <see cref="Ranged"/> for projectile direction.</summary>
     public Vector2 GetAttackAimDirection()
     {
         if (_aimMode == AimMode.MouseRelativeToPlayer)
         {
-            if (GameInput.Instance == null || PlayerMovement.Instance == null)
+            if (GameInput.Instance == null)
+                return Vector2.right;
+
+            PlayerMovement moveRef = _aimMovementReference;
+            if (moveRef == null && PartyManager.Instance != null)
+                moveRef = PartyManager.Instance.LeaderMovement;
+
+            if (moveRef == null)
                 return Vector2.right;
 
             Vector3 mousePos = GameInput.Instance.GetMousePosition();
-            Vector3 playerScreen = PlayerMovement.Instance.GetPlayerScreenPosition();
-            Vector2 delta = mousePos - playerScreen;
+            Vector3 screenPos = moveRef.GetPlayerScreenPosition();
+            Vector2 delta = mousePos - screenPos;
             if (delta.sqrMagnitude <= 1e-6f)
                 return Vector2.right;
             return delta.normalized;
@@ -167,27 +159,38 @@ public class ActiveWeapon : MonoBehaviour
         ApplyPendingWeaponChange();
     }
 
+    private void ResolveInventoryReference()
+    {
+        UnbindInventory();
+
+        if (_useSharedInventory && InventoryController.Instance != null)
+            _inventorySO = InventoryController.Instance.GetInventorySO();
+
+        BindInventory();
+    }
+
     private void OnInventoryChanged()
     {
         if (_inventorySO == null) return;
+        if (string.IsNullOrEmpty(_ownerId) && _equipment != null)
+            _ownerId = _equipment.PartyMemberId;
 
         WeaponSO equippedSO = null;
         foreach (var data in _inventorySO.Items)
         {
-            if (data.IsEquipped
-                && data.Item != null
-                && data.Item.EquipmentSlot == EquipmentSlot.Weapon
-                && data.Item.WeaponSO != null)
-            {
-                equippedSO = data.Item.WeaponSO;
-                break;
-            }
+            if (!data.IsEquipped) continue;
+            if (!string.IsNullOrEmpty(_ownerId) && data.EquippedOwnerId != _ownerId) continue;
+            if (data.Item == null || data.Item.EquipmentSlot != EquipmentSlot.Weapon) continue;
+            if (data.Item.WeaponSO == null) continue;
+
+            equippedSO = data.Item.WeaponSO;
+            break;
         }
 
         if (_isMidSwing)
         {
             _pendingWeaponSO = equippedSO;
-            _pendingDeactivate = (equippedSO == null);
+            _pendingDeactivate = equippedSO == null;
             return;
         }
 
@@ -197,15 +200,7 @@ public class ActiveWeapon : MonoBehaviour
 
     private void HandleRunStateChanged(bool _)
     {
-        if (!_useControllerInventory) return;
-        if (InventoryController.Instance == null) return;
-
-        var nextInventory = InventoryController.Instance.GetInventorySO();
-        if (ReferenceEquals(nextInventory, _inventorySO)) return;
-
-        UnbindInventory();
-        _inventorySO = nextInventory;
-        BindInventory();
+        ResolveInventoryReference();
         OnInventoryChanged();
     }
 
@@ -236,7 +231,6 @@ public class ActiveWeapon : MonoBehaviour
 
     private void ActivateWeapon(WeaponSO weaponData)
     {
-        // Деактивировать предыдущее
         if (_activeWeapon != null)
             _activeWeapon.gameObject.SetActive(false);
 
@@ -273,14 +267,11 @@ public class ActiveWeapon : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
-    private void OwnerStats_OnPlayerDeath(object sender, System.EventArgs e)
-    {
-        _activeWeapon.gameObject.SetActive(false);
-    }
+    private void OwnerStats_OnPlayerDeath(object sender, System.EventArgs e) => DeactivateAll();
 
     private void OnDestroy()
     {
-        if (_registerPlayerSingleton && Instance == this)
-            Instance = null;
+        if (_ownerStats != null)
+            _ownerStats.OnPlayerDeath -= OwnerStats_OnPlayerDeath;
     }
 }

@@ -3,25 +3,60 @@ using UnityEngine;
 
 
 /// <summary>
-/// The bridge between the inventory and the character characteristics system.
-///
-/// Subscribes to InventorySO.OnInventoryChanged,
-/// reassembles the StatModifier list of equipped items with each change and transfers
-/// them to the StatSystem with a single call to SetModifiers without going through one at a time.
+/// The bridge between the shared inventory and this character's StatSystem.
+/// Equipment is stored in the party inventory; items reference this member via <see cref="PartyMemberId"/>.
 /// </summary>
 public class EquipmentComponent : MonoBehaviour
 {
-    /// <summary>
-    /// Dedicated inventory for this character (ally). If null, falls back to
-    /// <see cref="InventoryController"/> in <see cref="Start"/> (player).
-    /// </summary>
-    [SerializeField] private InventorySO _inventorySO;
+    [SerializeField] private string _partyMemberId;
+    [SerializeField] private string _displayName;
+    [SerializeField] private Sprite _characterIcon;
+
+    private static readonly Dictionary<string, Sprite> s_ownerIcons = new Dictionary<string, Sprite>();
+    private static readonly Dictionary<string, EquipmentComponent> s_ownerComponents =
+        new Dictionary<string, EquipmentComponent>();
 
     private StatSystem _statSystem;
+    private InventorySO _inventorySO;
     private bool _inventoryEventsBound;
-    private bool _useControllerInventory;
 
     public StatSystem GetStatSystem() => _statSystem;
+
+    /// <summary>Stable id used in <see cref="InventoryItemData.EquippedOwnerId"/>.</summary>
+    public string PartyMemberId
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_partyMemberId))
+                _partyMemberId = $"member_{GetInstanceID()}";
+            return _partyMemberId;
+        }
+    }
+
+    public InventorySO Inventory => _inventorySO;
+
+    public Sprite CharacterIcon => _characterIcon;
+
+    public static Sprite GetIconForOwner(string ownerId)
+    {
+        if (string.IsNullOrEmpty(ownerId)) return null;
+        return s_ownerIcons.TryGetValue(ownerId, out Sprite icon) ? icon : null;
+    }
+
+    public string DisplayName
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(_displayName))
+                return _displayName;
+
+            var stats = GetComponent<PlayerStats>();
+            if (stats != null && !string.IsNullOrWhiteSpace(stats.CharacterName))
+                return stats.CharacterName;
+
+            return gameObject.name;
+        }
+    }
 
     private void Awake()
     {
@@ -30,48 +65,63 @@ public class EquipmentComponent : MonoBehaviour
 
     private void OnEnable()
     {
-        TryBindInventoryEvents();
+        RegisterOwnerIcon();
+        TryBindSharedInventory();
         if (RunSystem.Instance != null)
             RunSystem.Instance.OnRunStateChanged += HandleRunStateChanged;
     }
 
     private void Start()
     {
-        _useControllerInventory = _inventorySO == null;
-        if (_useControllerInventory && InventoryController.Instance != null)
-            _inventorySO = InventoryController.Instance.GetInventorySO();
-
-        TryBindInventoryEvents();
+        TryBindSharedInventory();
     }
 
     private void OnDisable()
     {
+        UnregisterOwnerIcon();
         if (RunSystem.Instance != null)
             RunSystem.Instance.OnRunStateChanged -= HandleRunStateChanged;
         UnbindInventoryEvents();
     }
 
-    private void HandleRunStateChanged(bool _)
+    private void RegisterOwnerIcon()
     {
-        if (!_useControllerInventory) return;
-        if (InventoryController.Instance == null) return;
-
-        InventorySO nextInventory = InventoryController.Instance.GetInventorySO();
-        if (ReferenceEquals(nextInventory, _inventorySO)) return;
-
-        UnbindInventoryEvents();
-        _inventorySO = nextInventory;
-        TryBindInventoryEvents();
+        string id = PartyMemberId;
+        s_ownerIcons[id] = _characterIcon;
+        s_ownerComponents[id] = this;
     }
 
-    private void TryBindInventoryEvents()
+    private void UnregisterOwnerIcon()
     {
-        if (_inventorySO == null)
+        string id = PartyMemberId;
+        if (s_ownerComponents.TryGetValue(id, out EquipmentComponent registered) && registered == this)
+        {
+            s_ownerIcons.Remove(id);
+            s_ownerComponents.Remove(id);
+        }
+    }
+
+    private void HandleRunStateChanged(bool _)
+    {
+        UnbindInventoryEvents();
+        _inventorySO = null;
+        TryBindSharedInventory();
+    }
+
+    private void TryBindSharedInventory()
+    {
+        if (InventoryController.Instance == null)
             return;
 
-        if (_inventoryEventsBound)
+        InventorySO shared = InventoryController.Instance.GetInventorySO();
+        if (shared == null)
             return;
 
+        if (ReferenceEquals(_inventorySO, shared) && _inventoryEventsBound)
+            return;
+
+        UnbindInventoryEvents();
+        _inventorySO = shared;
         _inventorySO.OnInventoryChanged += Refresh;
         _inventorySO.RebuildEquippedDictionary();
         Refresh();
@@ -86,13 +136,6 @@ public class EquipmentComponent : MonoBehaviour
         _inventoryEventsBound = false;
     }
 
-    // == public API =========================================================
-
-    /// <summary>
-    /// Recalculates all equipment modifiers from the currently equipped items.
-    /// It is called automatically when the inventory is changed, but it can be called manually
-    /// for example, after loading a save.
-    /// </summary>
     public void Refresh()
     {
         if (_inventorySO == null)
@@ -102,29 +145,24 @@ public class EquipmentComponent : MonoBehaviour
         _statSystem.SetModifiers(ModifierSource.Equipment, mods);
     }
 
-    /// <summary>
-    /// Sets the basic values of the character's stats (from class, level, etc.).
-    /// Called from PlayerStats.InitializeStats() instead of directly assigning fields.
-    /// </summary>
     public void SetBaseStats(IEnumerable<(StatType type, float value)> baseStats)
     {
         foreach (var (type, value) in baseStats)
             _statSystem.SetBaseValue(type, value);
     }
 
-    // == Assembling modifiers ==================================================
-
     private List<StatModifier> BuildEquipmentModifiers()
     {
         var result = new List<StatModifier>();
-
         if (_inventorySO == null) return result;
 
+        string ownerId = PartyMemberId;
         IReadOnlyList<InventoryItemData> items = _inventorySO.Items;
 
         foreach (var data in items)
         {
             if (!data.IsEquipped) continue;
+            if (data.EquippedOwnerId != ownerId) continue;
             if (data.Item == null) continue;
             if (data.Item.ItemType != ItemType.Equipment) continue;
 
@@ -142,8 +180,6 @@ public class EquipmentComponent : MonoBehaviour
         if (main.BaseValue == 0f && main.ValueScalePerLevel == 0f) return;
 
         float currentValue = main.GetValue(data.UpgradeLevel);
-        // Defining the type of modifier by the name StatType:
-        // *Mod = percentage, *Flat = flat
         bool isPercent = IsPercentStat(main.Type);
 
         result.Add(new StatModifier(main.Type, currentValue, ModifierSource.Equipment, isPercent));
@@ -158,11 +194,6 @@ public class EquipmentComponent : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Naming convention from StatTypes.cs:
-    /// AttackMod, HealthMod, DefenceMod, SizeMod... � interest rates.
-    /// AttackFlat, HealthFlat, DefenceFlat, ManaFlat... � flat ones.
-    /// </summary>
     private static bool IsPercentStat(StatType type) => type switch
     {
         StatType.AttackMod => true,

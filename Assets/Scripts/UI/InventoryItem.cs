@@ -11,7 +11,8 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField] private TMP_Text _quantityText;
     [SerializeField] private Image _rarityGradientImage;
     [SerializeField] private Image _selectionBorderImage;
-    [SerializeField] private GameObject _equippedBadge;   
+    [SerializeField] private GameObject _equippedBadge;
+    [SerializeField] private Image _equippedOwnerIcon;
 
     public InventoryItemData ItemData { get; private set; }
     public int InventoryIndex { get; private set; }
@@ -33,10 +34,13 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     private void Awake()
     {
+        if (_equippedBadge != null && _equippedOwnerIcon == null)
+            _equippedOwnerIcon = _equippedBadge.GetComponent<Image>();
+
         Deselect();
     }
 
-    public void SetData(InventoryItemData data, int index)
+    public void SetData(InventoryItemData data, int index, Sprite equippedOwnerIcon = null)
     {
         ItemData = data;
         InventoryIndex = index;
@@ -55,13 +59,26 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             _quantityText.text = data.Quantity.ToString();
         }
 
-        // Rarity Gradient
         int rarityIndex = Mathf.Clamp((int)data.Rarity, 1, RarityColors.Length - 1);
         _rarityGradientImage.color = RarityColors[rarityIndex];
 
-        // Equipped badge
+        bool isEquippedOnAnyone = data.IsEquipped && !string.IsNullOrEmpty(data.EquippedOwnerId);
         if (_equippedBadge != null)
-            _equippedBadge.SetActive(data.IsEquipped);
+            _equippedBadge.SetActive(isEquippedOnAnyone);
+
+        if (_equippedOwnerIcon != null)
+        {
+            if (isEquippedOnAnyone && equippedOwnerIcon != null)
+            {
+                _equippedOwnerIcon.sprite = equippedOwnerIcon;
+                _equippedOwnerIcon.enabled = true;
+            }
+            else
+            {
+                _equippedOwnerIcon.sprite = null;
+                _equippedOwnerIcon.enabled = false;
+            }
+        }
     }
 
     public void Clear()
@@ -71,6 +88,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         _quantityText.gameObject.SetActive(false);
         _rarityGradientImage.color = Color.clear;
         if (_equippedBadge != null) _equippedBadge.SetActive(false);
+        if (_equippedOwnerIcon != null)
+        {
+            _equippedOwnerIcon.sprite = null;
+            _equippedOwnerIcon.enabled = false;
+        }
         Deselect();
     }
 

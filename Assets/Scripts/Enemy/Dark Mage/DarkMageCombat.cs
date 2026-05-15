@@ -22,10 +22,10 @@ public class DarkMageCombat : MonoBehaviour
             var target = PartyManager.Instance.GetNearestTarget(transform.position);
             if (target != null) return target.Transform.position;
         }
-        // Fallback
-        return PlayerMovement.Instance != null
-            ? PlayerMovement.Instance.transform.position
-            : transform.position + Vector3.right;
+        if (PartyManager.Instance != null && PartyManager.Instance.LeaderTransform != null)
+            return PartyManager.Instance.LeaderTransform.position;
+
+        return transform.position + Vector3.right;
     }
 
     private void SpawnProjectile(Vector2 direction, float damage)

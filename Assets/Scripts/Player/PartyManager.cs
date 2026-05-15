@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A singleton that keeps all the members of the group alive.
-///
-/// Enemies use GetNearestTarget(from) instead of a direct link
-/// to PlayerMovement.Instance — this allows them to attack any
-/// member of the group: a player or a bot.
-///
-/// Characters register themselves via Register/Unregister
-/// in their onenables/ondisables.
+/// Tracks party members for enemy targeting and ally follow behaviour.
+/// Characters register via <see cref="PlayerStats"/>; <see cref="Start"/> also rescans the scene.
 /// </summary>
 public class PartyManager : MonoBehaviour
 {
     public static PartyManager Instance { get; private set; }
 
     private readonly List<ICharacterEntity> _members = new List<ICharacterEntity>();
+    private Transform _leaderTransform;
+    private PlayerMovement _leaderMovement;
 
-    /// <summary>Only alive chars</summary>
     public IReadOnlyList<ICharacterEntity> Members => _members;
+    public Transform LeaderTransform => _leaderTransform;
+    public PlayerMovement LeaderMovement => _leaderMovement;
 
     public event Action OnPartyChanged;
-
-    // == Lifecycle ==============================================================
 
     private void Awake()
     {
@@ -36,29 +31,50 @@ public class PartyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // == Registration ============================================================
+    private void Start()
+    {
+        RegisterAllCharactersInScene();
+    }
 
     public void Register(ICharacterEntity entity)
     {
+        if (entity == null) return;
+
         if (!_members.Contains(entity))
         {
             _members.Add(entity);
             OnPartyChanged?.Invoke();
         }
+
+        if (entity is PlayerStats stats && stats.IsPrimaryPlayer)
+            RegisterLeaderFrom(stats.Transform);
     }
 
     public void Unregister(ICharacterEntity entity)
     {
+        if (entity == null) return;
+
         if (_members.Remove(entity))
             OnPartyChanged?.Invoke();
+
+        if (entity.Transform == _leaderTransform)
+        {
+            _leaderTransform = null;
+            _leaderMovement = null;
+            TryAssignLeaderFromMembers();
+        }
     }
 
-    // == Запросы для врагов ====================================================
+    public void RegisterAllCharactersInScene()
+    {
+        var allStats = FindObjectsByType<PlayerStats>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
 
-    /// <summary>
-    /// Returns the closest living member of the group to the point from.
-    /// If everyone is dead, it returns null.
-    /// </summary>
+        foreach (var stats in allStats)
+            Register(stats);
+    }
+
     public ICharacterEntity GetNearestTarget(Vector3 from)
     {
         ICharacterEntity nearest = null;
@@ -79,10 +95,6 @@ public class PartyManager : MonoBehaviour
         return nearest;
     }
 
-    /// <summary>
-    /// Returns the position of the nearest living member of the group.
-    /// If the group is empty, it returns Vector3.zero.
-    /// </summary>
     public Vector3 GetNearestTargetPosition(Vector3 from)
     {
         var target = GetNearestTarget(from);
@@ -94,5 +106,23 @@ public class PartyManager : MonoBehaviour
         foreach (var m in _members)
             if (m.IsAlive) return true;
         return false;
+    }
+
+    private void RegisterLeaderFrom(Transform characterTransform)
+    {
+        if (characterTransform == null) return;
+
+        _leaderTransform = characterTransform;
+        _leaderMovement = characterTransform.GetComponent<PlayerMovement>();
+    }
+
+    private void TryAssignLeaderFromMembers()
+    {
+        foreach (var member in _members)
+        {
+            if (member is not PlayerStats stats || !stats.IsPrimaryPlayer) continue;
+            RegisterLeaderFrom(member.Transform);
+            return;
+        }
     }
 }

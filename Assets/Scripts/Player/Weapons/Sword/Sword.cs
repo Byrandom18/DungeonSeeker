@@ -68,7 +68,7 @@ public class Sword : WeaponBase
             return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
 
         // Fallback для совместимости пока не все персонажи переведены
-        return PlayerStats.Instance != null ? PlayerStats.Instance.Attack : 1f;
+        return 1f;
     }
 
 

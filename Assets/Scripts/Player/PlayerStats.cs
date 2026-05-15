@@ -13,6 +13,9 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     /// </summary>
     [SerializeField] private bool _registerAsPrimaryPlayer = true;
 
+    [Header("Identity")]
+    [SerializeField] private string _characterName;
+
     private Knockback _knockback;
     private EquipmentComponent _equipment;
     [SerializeField] private Slider _healthBar;
@@ -27,6 +30,11 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     [SerializeField] private float _baseSpeed = 3f;
     [SerializeField] private float _baseCritChance = 5f;
     [SerializeField] private float _baseCritDamage = 50f;
+
+    public string CharacterName =>
+        string.IsNullOrWhiteSpace(_characterName) ? gameObject.name : _characterName;
+
+    public bool IsPrimaryPlayer => _registerAsPrimaryPlayer;
 
     // ICharacterEntity
     public StatSystem StatSystem => _equipment.GetStatSystem();
@@ -75,8 +83,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     }
     private void OnEnable()
     {
-        if (PartyManager.Instance != null)
-            PartyManager.Instance.Register(this);
+        TryRegisterWithParty();
     }
 
     private void OnDisable()
@@ -87,6 +94,8 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private void Start()
     {
+        TryRegisterWithParty();
+
         InitializeBaseStats();
         StatSystem.OnStatsChanged += OnStatsChanged;
         Health = MaxHealth;
@@ -142,6 +151,12 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     {
         _healthBar.maxValue = MaxHealth;
         _healthBar.value = Health;
+    }
+
+    private void TryRegisterWithParty()
+    {
+        if (PartyManager.Instance != null)
+            PartyManager.Instance.Register(this);
     }
 
     private void OnDestroy()

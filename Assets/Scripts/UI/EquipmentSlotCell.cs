@@ -15,7 +15,7 @@ public class EquipmentSlotCell : MonoBehaviour
     //[SerializeField] private TMPro.TMP_Text _slotNameText;
 
     [Header("Data & Navigation")]
-    [SerializeField] private InventorySO _inventorySO;
+    [SerializeField] private PartyEquipmentView _partyEquipmentView;
     [SerializeField] private InventoryPage _inventoryPage;
 
     private static readonly Color _emptyGradientColor = new Color(0.50f, 0.50f, 0.50f);
@@ -44,27 +44,69 @@ public class EquipmentSlotCell : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_inventorySO != null)
-            _inventorySO.OnInventoryChanged += Refresh;
+        if (_partyEquipmentView != null)
+        {
+            _partyEquipmentView.OnSelectedCharacterChanged += Refresh;
+            BindSelectedInventory();
+        }
         Refresh();
     }
 
     private void OnDisable()
     {
-        if (_inventorySO != null)
-            _inventorySO.OnInventoryChanged -= Refresh;
+        if (_partyEquipmentView != null)
+            _partyEquipmentView.OnSelectedCharacterChanged -= Refresh;
+
+        UnbindSelectedInventory();
     }
 
+    private InventorySO _boundInventory;
+
+    private void BindSelectedInventory()
+    {
+        UnbindSelectedInventory();
+
+        InventorySO inventory = _partyEquipmentView?.SelectedInventory;
+        if (inventory == null) return;
+
+        inventory.OnInventoryChanged += Refresh;
+        _boundInventory = inventory;
+    }
+
+    private void UnbindSelectedInventory()
+    {
+        if (_boundInventory != null)
+            _boundInventory.OnInventoryChanged -= Refresh;
+        _boundInventory = null;
+    }
 
     public void Refresh()
     {
-        if (_inventorySO == null) return;
+        if (_partyEquipmentView != null && _boundInventory != _partyEquipmentView.SelectedInventory)
+            BindSelectedInventory();
 
-        int? idx = _inventorySO.GetEquippedIndex(_slot);
+        InventorySO inventory = _partyEquipmentView != null
+            ? _partyEquipmentView.SelectedInventory
+            : null;
 
-        if (idx.HasValue && idx.Value < _inventorySO.Items.Count)
+        if (inventory == null)
         {
-            InventoryItemData data = _inventorySO.Items[idx.Value];
+            ShowEmpty();
+            return;
+        }
+
+        string ownerId = _partyEquipmentView.SelectedOwnerId;
+        if (string.IsNullOrEmpty(ownerId))
+        {
+            ShowEmpty();
+            return;
+        }
+
+        int? idx = inventory.GetEquippedIndex(_slot, ownerId);
+
+        if (idx.HasValue && idx.Value < inventory.Items.Count)
+        {
+            InventoryItemData data = inventory.Items[idx.Value];
             ShowItem(data);
         }
         else
