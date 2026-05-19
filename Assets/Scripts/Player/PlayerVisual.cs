@@ -45,11 +45,11 @@ public class PlayerVisual : MonoBehaviour
     {
         if (!flipRight)
         {
-            _sprite.transform.localScale = new Vector3(-_originScale.x, _originScale.y, 1);
+            _sprite.transform.localScale = new Vector2(-_originScale.x, _originScale.y);
         }
         else if (flipRight)
         {
-            _sprite.transform.localScale = new Vector3(_originScale.x, _originScale.y, 1);
+            _sprite.transform.localScale = new Vector2(_originScale.x, _originScale.y);
         }
     }
 

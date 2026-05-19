@@ -87,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
         {
             _lastMovementDirection = _inputVector;
         }
-
-        _rb.transform.position = (_rb.position + _inputVector * (_speed * Time.fixedDeltaTime));
+        Vector3 move = _rb.position + _inputVector * (_speed * Time.fixedDeltaTime);
+        _rb.transform.position = (move);
         if (Mathf.Abs(_inputVector.x) > _minMovingSpeed || Mathf.Abs(_inputVector.y) > _minMovingSpeed)
         {
             _isRunning = true;

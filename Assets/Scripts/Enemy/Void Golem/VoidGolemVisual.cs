@@ -66,7 +66,7 @@ public class VoidGolemVisual : MonoBehaviour
     }
     private IEnumerator StartChargeNextFrame()
     {
-        yield return null; // ждём один кадр чтобы аниматор обновил StateInfo
+        yield return null; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ StateInfo
         float remainingTime = GetRemainingAnimationTime();
         _chargeVisual?.StartCharge(remainingTime);
     }

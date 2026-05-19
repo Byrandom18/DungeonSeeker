@@ -67,7 +67,7 @@ public class Sword : WeaponBase
         if (Owner != null)
             return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
 
-        // Fallback для совместимости пока не все персонажи переведены
+        // Fallback пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         return 1f;
     }
 
