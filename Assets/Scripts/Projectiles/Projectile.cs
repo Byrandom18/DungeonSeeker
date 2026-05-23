@@ -91,6 +91,11 @@ public class Projectile : MonoBehaviour
     }
     private void PenetrationUpdate()
     {
+        if (!_touchDamage)
+        { 
+            SetDestroy(); 
+            return; 
+        }    
         if (!_unlimitedPenetrate)
         {
             Penetrate -= 1;
