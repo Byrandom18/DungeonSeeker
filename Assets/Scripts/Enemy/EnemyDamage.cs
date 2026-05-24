@@ -14,17 +14,17 @@ public class EnemyDamage : MonoBehaviour
 
     [SerializeField] private Slider _healthBar;
 
-    public bool InStagger         = false;
-    public bool CanReceiveStagger = true;
-    public bool IsAlive           = true;
-    public bool IsChasing         = false;
+    public bool InStagger         { get; private set; } = false;
+    public bool CanReceiveStagger { get; private set; } = true;
+    public bool IsAlive           { get; private set; } = true;
+    public bool InCombat          { get; private set; } = false;
+    public float CurrentAttack    { get; private set; }
 
     public float KnockbackMultiplier = 1f;
 
     // Runtime stats
     private float _currentHealth;
     private float _baseAttack;
-    public  float CurrentAttack;
 
     private float _knockbackResist;
     private float _staggerEndTime;
@@ -77,16 +77,15 @@ public class EnemyDamage : MonoBehaviour
         UpdateHealthBar();
         if (isStaggeringAttack) ApplyStagger();
 
-        IsChasing = true;
+        InCombat = true;
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
         DetectDeath();
     }
-
-    public EnemySO GetEnemySO()
-    {
-        return _enemySO;
-    }
+    
+    public EnemySO GetEnemySO() => _enemySO;
+    public void SetCanReceiveStagger(bool value) => CanReceiveStagger = value;
+    public void SetCombat(bool value) => InCombat = value;
 
     private void ApplyStagger()
     {

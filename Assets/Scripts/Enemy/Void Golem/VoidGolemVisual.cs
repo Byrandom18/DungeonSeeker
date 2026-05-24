@@ -105,9 +105,9 @@ public class VoidGolemVisual : MonoBehaviour
 
     public IEnumerator StaggerReturnRoutine()
     {
-        _enemyDamage.CanReceiveStagger = false;
+        _enemyDamage.SetCanReceiveStagger(false);
         yield return new WaitForSeconds(GetRemainingAnimationTime());
-        _enemyDamage.CanReceiveStagger = true;
+        _enemyDamage.SetCanReceiveStagger(true);
     }
 
     // ============= Hit / Death =====================================================

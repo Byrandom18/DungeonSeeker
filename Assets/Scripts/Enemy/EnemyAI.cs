@@ -205,11 +205,11 @@ public class EnemyAI : MonoBehaviour
             float dist = DistanceToTarget();
             if (_isChasingEnemy)
             {
-                if (_enemyDamage.IsChasing) newState = State.Chasing;
+                if (_enemyDamage.InCombat) newState = State.Chasing;
                 else if (dist <= _chasingDistance)
                 {
                     newState = State.Chasing;
-                    _enemyDamage.IsChasing = true;
+                    _enemyDamage.SetCombat(true);
                 }
             }
             if (_isAttackingEnemy && dist <= _attackDistance) 

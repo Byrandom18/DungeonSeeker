@@ -24737,6 +24737,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7ff67b16112d64e8e08342d8bfef0e, type: 3}
+--- !u!1 &485191748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+  m_PrefabInstance: {fileID: 7616474764164253468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &485191756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485191748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 2131317397241458869, guid: 33b082e958d753f459ddb7b3f3d4fd3a, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 4774638598538919980
+  - rid: 4774638598538919981
+  - rid: 4774638598538919982
+  - rid: 4774638598538919983
+  m_OriginalGraph: {fileID: 2131317397241458869, guid: 33b082e958d753f459ddb7b3f3d4fd3a, type: 2}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4774638598538919980
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 485191748}
+    - rid: 4774638598538919981
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 8543892346889989294
+          m_Value1: 10740017001804148399
+        Name: Player
+        m_Value: {fileID: 1165228978}
+    - rid: 4774638598538919982
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 4651873441142764580
+          m_Value1: 8145118158452271682
+        Name: Health percent
+        m_Value: 100
+    - rid: 4774638598538919983
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 13624181131504333940
+          m_Value1: 4992749633439574406
+        Name: Attack Distance
+        m_Value: 3
+--- !u!114 &485191759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485191748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01e85ad86311de459f38fbebf36e15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &489312201
 GameObject:
   m_ObjectHideFlags: 0
@@ -31316,7 +31389,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.083333336
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
@@ -32838,6 +32911,11 @@ Transform:
   - {fileID: 1869606075}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1165228978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5587898423507220203, guid: ec62c6effe9de5a419438a1580034fa4, type: 3}
+  m_PrefabInstance: {fileID: 2895726549865576213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1176557061
 GameObject:
   m_ObjectHideFlags: 0
@@ -45020,7 +45098,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2956748589928971081, guid: ec62c6effe9de5a419438a1580034fa4, type: 3}
   m_PrefabInstance: {fileID: 2895726549865576213}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1165228978}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d99fb4bf0c6b5c64fa99cfd19394ced5, type: 3}
@@ -46196,15 +46274,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3489064745212772560, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.93
+      value: 0.62
       objectReference: {fileID: 0}
     - target: {fileID: 3489064745212772560, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.1
+      value: -3.16
       objectReference: {fileID: 0}
     - target: {fileID: 3489064745212772560, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.524316
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3489064745212772560, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_LocalRotation.w
@@ -46236,7 +46314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4319880779792716077, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7390837497783994804, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: _ownerStats
@@ -46248,12 +46326,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 938558879764530852, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+    - {fileID: 226344803008862144, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 485191756}
+    - targetCorrespondingSourceObject: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 485191759}
   m_SourcePrefab: {fileID: 100100000, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
