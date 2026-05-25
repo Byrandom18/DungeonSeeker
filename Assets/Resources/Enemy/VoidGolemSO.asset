@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VoidGolemSO
   m_EditorClassIdentifier: 
   EnemyName: Void Golem
-  EnemyMaxHealth: 100
+  EnemyMaxHealth: 1000
   EnemyBaseAttack: 1
   EnableRoam: 1
   EnableChangeStartPos: 1
@@ -25,6 +25,10 @@ MonoBehaviour:
   EnableChase: 1
   ChasingSpeed: 3
   ChasingDistance: 5
+  UseSteppedChase: 0
+  StepDistance: 1.5
+  StepSpread: 45
+  StepPauseDuration: 0.5
   EnableAttack: 1
   AttackDistance: 2
   AttackRate: 3
@@ -34,3 +38,5 @@ MonoBehaviour:
   EnableKnockback: 1
   KnockbackMultiplier: 1
   KnockbackResist: 0
+  KnockbackSelfForce: 2
+  KnockbackDuration: 0.3

@@ -91,26 +91,27 @@ public partial class RetreatAction : Action
         if (retreatDir == Vector3.zero)
             return false;
 
-        Vector3 destination = agentPos + retreatDir * k_ProjectDistance;
-
         if (m_NavMeshAgent != null)
         {
-            if (!NavMesh.SamplePosition(destination, out NavMeshHit hit, k_SampleRadius, NavMesh.AllAreas))
+            Vector3? validDestination = FindWalkableDestination(agentPos, retreatDir);
+
+            if (validDestination == null)
                 return false;
 
             if (Retreats.Value == RetreatMode.Retreat)
             {
-                float dist2D = Vector2.Distance(Agent.Value.transform.position, Target.Value.transform.position);
-                float safedist = SafeDistance.Value;
-                float t = Mathf.Clamp01((safedist - dist2D) / Mathf.Max(0.01f, safedist));
+                float dist2D = Vector2.Distance(agentPos, targetPos);
+                float safeDist = SafeDistance.Value;
+                float t = Mathf.Clamp01((safeDist - dist2D) / Mathf.Max(0.01f, safeDist));
                 m_NavMeshAgent.speed = Mathf.Max(Speed.Value * 0.1f, Speed.Value * t);
             }
 
             m_NavMeshAgent.isStopped = false;
-            m_NavMeshAgent.SetDestination(hit.position);
+            m_NavMeshAgent.SetDestination(validDestination.Value);
         }
         else
         {
+            Vector3 destination = agentPos + retreatDir * k_ProjectDistance;
             Agent.Value.transform.position = Vector3.MoveTowards(
                 agentPos, destination, Speed.Value * Time.deltaTime);
         }
@@ -135,7 +136,7 @@ public partial class RetreatAction : Action
         Vector3 toAlly = GetDirectionToNearestAlly(agentPos);
 
         if (toAlly == Vector3.zero)
-            return awayFromTarget; // no ally — Retreat
+            return awayFromTarget; // no ally - Retreat
 
         Vector3 combined = (awayFromTarget + toAlly).normalized;
         return combined == Vector3.zero ? awayFromTarget : combined;
@@ -167,6 +168,49 @@ public partial class RetreatAction : Action
         Vector3 dir = nearest.Transform.position - agentPos;
         dir.z = 0f;
         return dir.normalized;
+    }
+
+    private Vector3? FindWalkableDestination(Vector3 agentPos, Vector3 retreatDir)
+    {
+        float[] distances = { k_ProjectDistance, k_ProjectDistance * 0.66f, k_ProjectDistance * 0.33f };
+        foreach (float dist in distances)
+        {
+            Vector3 candidate = agentPos + retreatDir * dist;
+            if (IsReachable(agentPos, candidate, out Vector3 hit))
+                return hit;
+        }
+
+        int[] angles = { 30, -30, 60, -60 };
+        foreach (int angle in angles)
+        {
+            Vector3 rotated = Quaternion.Euler(0f, 0f, angle) * retreatDir;
+            Vector3 candidate = agentPos + rotated * k_ProjectDistance;
+            if (IsReachable(agentPos, candidate, out Vector3 hit))
+                return hit;
+        }
+
+        return null;
+    }
+
+    private bool IsReachable(Vector3 agentPos, Vector3 candidate, out Vector3 validPoint)
+    {
+        validPoint = candidate;
+
+        if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, k_SampleRadius, NavMesh.AllAreas))
+            return false;
+
+        if ((hit.mask & NavMesh.AllAreas) == 0)
+            return false;
+
+        NavMeshPath path = new NavMeshPath();
+        if (!NavMesh.CalculatePath(agentPos, hit.position, NavMesh.AllAreas, path))
+            return false;
+
+        if (path.status != NavMeshPathStatus.PathComplete)
+            return false;
+
+        validPoint = hit.position;
+        return true;
     }
 }
 

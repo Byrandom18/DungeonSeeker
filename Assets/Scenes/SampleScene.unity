@@ -24760,6 +24760,9 @@ MonoBehaviour:
   - rid: 4774638598538919981
   - rid: 4774638598538919982
   - rid: 4774638598538919983
+  - rid: 4774638623640519280
+  - rid: 4774638623640519281
+  - rid: 4774638623640519282
   m_OriginalGraph: {fileID: 2131317397241458869, guid: 33b082e958d753f459ddb7b3f3d4fd3a, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -24797,7 +24800,31 @@ MonoBehaviour:
           m_Value0: 13624181131504333940
           m_Value1: 4992749633439574406
         Name: Attack Distance
-        m_Value: 3
+        m_Value: 1
+    - rid: 4774638623640519280
+      type: {class: 'BlackboardVariable`1[[PlayerStats, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 9080246345700948752
+          m_Value1: 2359177932301008381
+        Name: Stats
+        m_Value: {fileID: 485191767}
+    - rid: 4774638623640519281
+      type: {class: 'BlackboardVariable`1[[AbilitySystem, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14277485159977594216
+          m_Value1: 3177044518164904256
+        Name: Ability System
+        m_Value: {fileID: 485191766}
+    - rid: 4774638623640519282
+      type: {class: 'BlackboardVariable`1[[ActiveWeapon, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 8926088696945389822
+          m_Value1: 700259157119276319
+        Name: Active Weapon
+        m_Value: {fileID: 582462048}
 --- !u!114 &485191759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24808,6 +24835,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a01e85ad86311de459f38fbebf36e15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &485191766 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2325282206180609601, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+  m_PrefabInstance: {fileID: 7616474764164253468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485191748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e034d40954f6174aa97abc99e6f4814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &485191767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4373343529425937186, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+  m_PrefabInstance: {fileID: 7616474764164253468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485191748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99fb4bf0c6b5c64fa99cfd19394ced5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &489312201
@@ -25193,6 +25242,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7ff67b16112d64e8e08342d8bfef0e, type: 3}
+--- !u!114 &582462048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7390837497783994804, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+  m_PrefabInstance: {fileID: 7616474764164253468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166cb990b2269f240b052592bc729f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &608839641
 GameObject:
   m_ObjectHideFlags: 0

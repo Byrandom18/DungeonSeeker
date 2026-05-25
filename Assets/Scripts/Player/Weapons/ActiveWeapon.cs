@@ -134,7 +134,7 @@ public class ActiveWeapon : MonoBehaviour
             return Vector2.right;
 
         Vector3 dWorld = _worldAimTarget.position - transform.position;
-        Vector2 d = new Vector2(dWorld.x, dWorld.y);
+        Vector2 d = new Vector2(dWorld.x, dWorld.y + 0.5f);
         if (d.sqrMagnitude <= 1e-6f)
             return Vector2.right;
         return d.normalized;

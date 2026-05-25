@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponSprite: {fileID: -929794979, guid: fe9de3c15b20d0942b1a8ad13b3214c5, type: 3}
   DisplayName: Bow
   DamageMultiplier: 1
-  AttackCooldown: 0.5
+  AttackCooldown: 1
   RotationEnabled: 1
   LockRotationOnSwing: 0
   ProjectilePrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
