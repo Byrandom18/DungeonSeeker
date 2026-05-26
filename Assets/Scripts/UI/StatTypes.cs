@@ -54,7 +54,7 @@ public struct BonusOption
 [Serializable]
 public struct StatBonusPoolEntry
 {
-    [Header("Характеристика")]
+    [Header("Stats")]
     public StatType Type;
     [Range(0f, 100f)]
     public float TypeWeight;

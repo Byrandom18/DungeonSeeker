@@ -49,7 +49,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     public float Defence => StatSystem.GetFinalValue(StatType.DefenceFlat);
     public float CritChance => StatSystem.GetFinalValue(StatType.CritChance);
     public float CritDamage => StatSystem.GetFinalValue(StatType.CritDamage);
-    public float MoveSpeed => StatSystem.GetFinalValue(StatType.BaseAttackSpeedMod);
+    public float AttackSpeed => StatSystem.GetFinalValue(StatType.BaseAttackSpeedMod);
     public float Luck => StatSystem.GetFinalValue(StatType.Luck);
 
     private BoxCollider2D _collisionCollider;

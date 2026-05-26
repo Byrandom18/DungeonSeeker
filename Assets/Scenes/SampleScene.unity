@@ -45477,6 +45477,10 @@ PrefabInstance:
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 1985297730}
+    - target: {fileID: 2956748589928971081, guid: ec62c6effe9de5a419438a1580034fa4, type: 3}
+      propertyPath: _baseAttack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3981377112082874515, guid: ec62c6effe9de5a419438a1580034fa4, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -46374,7 +46378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4319880779792716077, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7390837497783994804, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: _ownerStats
@@ -46386,7 +46390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 938558879764530852, guid: b14f560240798b140ab4055c0eb9b296, type: 3}

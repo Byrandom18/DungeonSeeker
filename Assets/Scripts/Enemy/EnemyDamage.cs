@@ -72,7 +72,7 @@ public class EnemyDamage : MonoBehaviour
         bool isStaggeringAttack)
     {
         if (!IsAlive) return;
-
+        Debug.Log(gameObject.name + " receive " + damage);
         _currentHealth -= damage;
         UpdateHealthBar();
         if (isStaggeringAttack) ApplyStagger();

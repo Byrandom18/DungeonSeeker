@@ -142,9 +142,57 @@ public class StatSystem
     {
         foreach (var m in list)
         {
-            if (m.Type != type) continue;
-            if (m.IsPercent) percentSum += m.Value;
-            else flatSum += m.Value;
+            // 1) Modifiers that directly target this stat type
+            if (m.Type == type)
+            {
+                if (m.IsPercent) percentSum += m.Value;
+                else flatSum += m.Value;
+                continue;
+            }
+
+            // 2) Percent modifiers on the paired "*Mod" stat should affect the
+            //    corresponding "*Flat" stat:
+            //      AttackMod   -> AttackFlat
+            //      HealthMod   -> HealthFlat
+            //      DefenceMod  -> DefenceFlat
+            //
+            //    This matches the convention:
+            //      "*Mod"  = percentage bonuses
+            //      "*Flat" = flat bonuses
+            //
+            //    For example, an item with AttackMod = 0.2f (+20% ATK) will now
+            //    correctly scale the final AttackFlat value.
+            if (m.IsPercent && TryGetFlatPairForPercentStat(m.Type, out StatType flatType))
+            {
+                if (flatType == type)
+                    percentSum += m.Value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns the corresponding "*Flat" stat for a given percent "*Mod" stat.
+    /// For example:
+    ///   AttackMod  -> AttackFlat
+    ///   HealthMod  -> HealthFlat
+    ///   DefenceMod -> DefenceFlat
+    /// </summary>
+    private static bool TryGetFlatPairForPercentStat(StatType percentType, out StatType flatType)
+    {
+        switch (percentType)
+        {
+            case StatType.AttackMod:
+                flatType = StatType.AttackFlat;
+                return true;
+            case StatType.HealthMod:
+                flatType = StatType.HealthFlat;
+                return true;
+            case StatType.DefenceMod:
+                flatType = StatType.DefenceFlat;
+                return true;
+            default:
+                flatType = default;
+                return false;
         }
     }
 

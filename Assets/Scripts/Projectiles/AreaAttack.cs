@@ -69,6 +69,7 @@ public class AreaAttack : MonoBehaviour
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, radius, _enemyLayer);
             foreach (Collider2D hitCollider in hitEnemies)
             {
+                if (!hitCollider.isTrigger) continue;
                 if (hitCollider.transform.TryGetComponent(out EnemyDamage enemy))
                     enemy.TakeDamage(_damage, _damageSource, _knockbackMultiplier, _staggerApply);
             }
@@ -78,6 +79,7 @@ public class AreaAttack : MonoBehaviour
             Collider2D[] hitCharacters = Physics2D.OverlapCircleAll(transform.position, radius, _characterLayer);
             foreach (Collider2D hitCollider in hitCharacters)
             {
+                if (!hitCollider.isTrigger) continue;
                 if (hitCollider.transform.TryGetComponent(out ICharacterEntity character))
                     character.TakeDamage(_damage, _damageSource, _knockbackMultiplier);
             }
