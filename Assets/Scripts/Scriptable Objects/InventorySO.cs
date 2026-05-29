@@ -275,7 +275,7 @@ public class InventorySO : ScriptableObject
             return false;
         }
 
-        return recipe.CanUpgrade(data.UpgradeLevel + 1, _items);
+        return recipe.CanUpgrade(data.UpgradeLevel + 1, data.Rarity, _items);
     }
 
     public bool UpgradeItem(int itemIndex)
@@ -301,12 +301,15 @@ public class InventorySO : ScriptableObject
                 newBonus.Add(rolled);
         }
 
+        UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
+        if (recipe != null && !recipe.CanUpgrade(newLevel, data.Rarity, _items))
+            return false;
+
         _items[itemIndex] = data.WithUpgrade(newLevel, newMain, newBonus);
 
-        UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
         if (recipe != null)
         {
-            var ingredients = recipe.GetIngredientsForLevel(newLevel);
+            var ingredients = recipe.GetIngredientsForLevel(newLevel, data.Rarity);
             if (ingredients != null)
             {
                 foreach (var ingredient in ingredients)
@@ -481,7 +484,7 @@ public struct InventoryItemData
         _bonusStats = new List<BonusStatInstance>();
 
         _mainStat = item.MainStatPool != null
-            ? item.MainStatPool.Roll()
+            ? item.MainStatPool.Roll(rarity)
             : default;
     }
 

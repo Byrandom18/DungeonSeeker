@@ -115,7 +115,7 @@ public class InventoryPage : MonoBehaviour
         _activeTab = tab;
         _activeSlotFilter = null;
         bool isEquip = tab == Tab.Equipment;
-        if (_subFilterPanel) _subFilterPanel.SetActive(isEquip);
+        //if (_subFilterPanel) _subFilterPanel.SetActive(isEquip);
         _selectedItem?.Deselect();
         _selectedItem = null;
         ReSortAndRefresh();

@@ -13,14 +13,66 @@ MonoBehaviour:
   m_Name: DropTableSO
   m_EditorClassIdentifier: 
   _resourceDrops:
+  - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
+    Weight: 1
+    MinQuantity: 0
+    MaxQuantity: 0
+    UseRarityQuantity: 1
+    RarityQuantities:
+    - Rarity: 1
+      MinQuantity: 1
+      MaxQuantity: 2
+    - Rarity: 2
+      MinQuantity: 2
+      MaxQuantity: 4
+    - Rarity: 3
+      MinQuantity: 4
+      MaxQuantity: 8
+    - Rarity: 4
+      MinQuantity: 8
+      MaxQuantity: 16
+    - Rarity: 5
+      MinQuantity: 16
+      MaxQuantity: 32
+    - Rarity: 6
+      MinQuantity: 32
+      MaxQuantity: 64
   - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-    Weight: 10
+    Weight: 1
     MinQuantity: 1
-    MaxQuantity: 3
-  - Resource: {fileID: 11400000, guid: 1298fa8236deda44cbb15d0528d56cdb, type: 2}
-    Weight: 3
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
+  - Resource: {fileID: 11400000, guid: 23c7cf976e6550b4a94251e6329e9d2c, type: 2}
+    Weight: 1
     MinQuantity: 1
-    MaxQuantity: 3
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
+  - Resource: {fileID: 11400000, guid: 80214b1f0710e58408c6ea922e3eaa93, type: 2}
+    Weight: 1
+    MinQuantity: 1
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
+  - Resource: {fileID: 11400000, guid: 452fa1c5f8c1c2e4b8971e9e04e78231, type: 2}
+    Weight: 1
+    MinQuantity: 1
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
+  - Resource: {fileID: 11400000, guid: f0ec0b0bb1b85da4a97ea912b515f70f, type: 2}
+    Weight: 1
+    MinQuantity: 1
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
+  - Resource: {fileID: 11400000, guid: 80214b1f0710e58408c6ea922e3eaa93, type: 2}
+    Weight: 1
+    MinQuantity: 1
+    MaxQuantity: 1
+    UseRarityQuantity: 0
+    RarityQuantities: []
   _equipmentDrops:
   - Equipment: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
     Weight: 1

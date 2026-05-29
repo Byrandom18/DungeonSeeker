@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 
@@ -17,25 +18,56 @@ public struct UpgradeStep
     public List<UpgradeIngredient> Ingredients;
 }
 
+[Serializable]
+public struct RarityIngredient
+{
+    public ItemRarity Rarity;
+    public ItemSO Resource;
+    public int Quantity;
+}
+
+
 [CreateAssetMenu(fileName = "UpgradeRecipeSO", menuName = "Scriptable Objects/UpgradeRecipeSO")]
 public class UpgradeRecipeSO : ScriptableObject
 {
     [SerializeField] private List<UpgradeStep> _steps = new List<UpgradeStep>();
 
-    public List<UpgradeIngredient> GetIngredientsForLevel(int targetLevel)
+    [Header("Rarity-based extra ingredients")]
+    [SerializeField] private List<RarityIngredient> _rarityIngredients = new List<RarityIngredient>();
+
+
+    public List<UpgradeIngredient> GetIngredientsForLevel(int targetLevel, ItemRarity rarity)
     {
+        var result = new List<UpgradeIngredient>();
+
         foreach (var step in _steps)
         {
-            if (step.Level == targetLevel)
-                return step.Ingredients;
+            if (step.Level == targetLevel && step.Ingredients != null)
+            {
+                result.AddRange(step.Ingredients);
+                break;
+            }
         }
-        return null;
+
+        foreach (var ri in _rarityIngredients)
+        {
+            if (ri.Rarity == rarity && ri.Resource != null)
+            {
+                result.Add(new UpgradeIngredient
+                {
+                    Resource = ri.Resource,
+                    Quantity = ri.Quantity
+                });
+                break;
+            }
+        }
+
+        return result;
     }
 
-    public bool CanUpgrade(int targetLevel, IReadOnlyList<InventoryItemData> items)
+    public bool CanUpgrade(int targetLevel, ItemRarity rarity, IReadOnlyList<InventoryItemData> items)
     {
-        var ingredients = GetIngredientsForLevel(targetLevel);
-        if (ingredients == null) return true;
+        var ingredients = GetIngredientsForLevel(targetLevel, rarity);
 
         foreach (var ingredient in ingredients)
         {

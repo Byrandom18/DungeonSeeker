@@ -128,7 +128,7 @@ public class StatSystem
             AccumulateMods(_talentMods, type, ref flatSum, ref percentSum);
             AccumulateMods(_runBuffMods, type, ref flatSum, ref percentSum);
 
-            _cache[type] = (baseVal + flatSum) * (1f + percentSum);
+            _cache[type] = (baseVal + flatSum) * (1f + percentSum/100);
         }
 
         _cacheDirty = false;

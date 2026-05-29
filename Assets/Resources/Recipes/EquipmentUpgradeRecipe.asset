@@ -15,25 +15,44 @@ MonoBehaviour:
   _steps:
   - Level: 1
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
       Quantity: 1
   - Level: 2
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
       Quantity: 3
   - Level: 3
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-      Quantity: 5
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
+      Quantity: 9
   - Level: 4
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-      Quantity: 7
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
+      Quantity: 27
   - Level: 5
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-      Quantity: 9
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
+      Quantity: 81
   - Level: 5
     Ingredients:
-    - Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
-      Quantity: 15
+    - Resource: {fileID: 11400000, guid: 2b209994c02773643b8b0f7cd9143f95, type: 2}
+      Quantity: 243
+  _rarityIngredients:
+  - Rarity: 1
+    Resource: {fileID: 11400000, guid: b890edd385465744a9b25cbec7c1bf10, type: 2}
+    Quantity: 1
+  - Rarity: 2
+    Resource: {fileID: 11400000, guid: 23c7cf976e6550b4a94251e6329e9d2c, type: 2}
+    Quantity: 1
+  - Rarity: 3
+    Resource: {fileID: 11400000, guid: 80214b1f0710e58408c6ea922e3eaa93, type: 2}
+    Quantity: 1
+  - Rarity: 4
+    Resource: {fileID: 11400000, guid: 452fa1c5f8c1c2e4b8971e9e04e78231, type: 2}
+    Quantity: 1
+  - Rarity: 5
+    Resource: {fileID: 11400000, guid: f0ec0b0bb1b85da4a97ea912b515f70f, type: 2}
+    Quantity: 1
+  - Rarity: 6
+    Resource: {fileID: 11400000, guid: 1298fa8236deda44cbb15d0528d56cdb, type: 2}
+    Quantity: 1

@@ -84,7 +84,13 @@ public class InventoryDescription : MonoBehaviour
 
     private void FillResourcePanel(InventoryItemData data)
     {
-        if (_equipmentPanel) _equipmentPanel.SetActive(false);
+        //if (_equipmentPanel) _equipmentPanel.SetActive(false);
+
+        // Obviously hiding everything related to the equipment
+        if (_mainStatsText) _mainStatsText.gameObject.SetActive(false);
+        if (_bonusStatsText) _bonusStatsText.gameObject.SetActive(false);
+        if (_bonusStatsHeader) _bonusStatsHeader.SetActive(false);
+
         if (_upgradeLevelText)
         {
             _upgradeLevelText.gameObject.SetActive(true);
@@ -96,13 +102,14 @@ public class InventoryDescription : MonoBehaviour
 
     private void SetPanelsActive(ItemType type, bool hasData)
     {
-        if (_equipmentPanel) _equipmentPanel.SetActive(hasData && type == ItemType.Equipment);
+        //if (_equipmentPanel) _equipmentPanel.SetActive(hasData && type == ItemType.Equipment);
         if (_upgradeLevelText) _upgradeLevelText.gameObject.SetActive(hasData);
     }
 
     private void FillEquipmentPanel(ItemSO item, InventoryItemData data, System.Action onEquipClicked, bool isEquippedOnSelectedCharacter)
     {
         if (_equipmentPanel) _equipmentPanel.SetActive(true);
+        if (_mainStatsText) _mainStatsText.gameObject.SetActive(true);
         if (_slotText) _slotText.text = item.EquipmentSlot.ToString();
         if (_upgradeLevelText) _upgradeLevelText.text = $"+{data.UpgradeLevel}";
         // main stat

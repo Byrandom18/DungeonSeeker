@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88186f58a84c8eb42b8a6dbfb3de5838, type: 3}
-  m_Name: Gem2
+  m_Name: Unique material
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: -762891210, guid: d06cf72127ca74c46ac220341097dbb1, type: 3}
-  <Name>k__BackingField: Expensive Gem
-  <Description>k__BackingField: Very expensive
+  <Sprite>k__BackingField: {fileID: -1945429786, guid: d06cf72127ca74c46ac220341097dbb1, type: 3}
+  <Name>k__BackingField: "\u0412\u0435\u043B\u0438\u043A\u0438\u0439 \u0440\u0443\u0431\u0438\u043D"
+  <Description>k__BackingField: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0441\u044F
+    \u0434\u043B\u044F \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F \u0443\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u043E\u0433\u043E
+    \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u044F"
   <ItemType>k__BackingField: 0
-  <Rarity>k__BackingField: 5
+  <Rarity>k__BackingField: 6
   <IsStackable>k__BackingField: 1
   <EquipmentSlot>k__BackingField: 0
   <MaxUpgradeLevel>k__BackingField: 6
@@ -25,3 +27,4 @@ MonoBehaviour:
   _firstBonusAtLevel: 1
   _bonusEveryNLevels: 1
   _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}
+  _weaponSO: {fileID: 0}

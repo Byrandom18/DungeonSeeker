@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88186f58a84c8eb42b8a6dbfb3de5838, type: 3}
+  m_Name: Uncommon material
+  m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: -1458352550, guid: d06cf72127ca74c46ac220341097dbb1, type: 3}
+  <Name>k__BackingField: "\u041A\u0443\u0441\u043E\u0447\u0435\u043A \u0438\u0437\u0443\u043C\u0440\u0443\u0434\u0430"
+  <Description>k__BackingField: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0441\u044F
+    \u0434\u043B\u044F \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F \u043D\u0435\u043E\u0431\u044B\u0447\u043D\u043E\u0433\u043E
+    \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u044F"
+  <ItemType>k__BackingField: 0
+  <Rarity>k__BackingField: 2
+  <IsStackable>k__BackingField: 1
+  <EquipmentSlot>k__BackingField: 0
+  <MaxUpgradeLevel>k__BackingField: 6
+  _mainStatPool: {fileID: 11400000, guid: 16267304d521a1946bf3679d63510306, type: 2}
+  _bonusStatPool: {fileID: 11400000, guid: f9b58a24cf73da541a5b8efad5b2a0b6, type: 2}
+  _firstBonusAtLevel: 1
+  _bonusEveryNLevels: 1
+  _upgradeRecipe: {fileID: 11400000, guid: 2a9eb014f5860164bbe8bacb55bcfe67, type: 2}
+  _weaponSO: {fileID: 0}

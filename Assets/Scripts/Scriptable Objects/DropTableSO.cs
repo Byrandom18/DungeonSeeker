@@ -28,6 +28,18 @@ public class DropTableSO : ScriptableObject
         [Range(0f, 100f)] public float Weight;
         [Min(1)] public int MinQuantity;
         [Min(1)] public int MaxQuantity;
+
+        [Header("Override quantity by rolled rarity (optional)")]
+        public bool UseRarityQuantity;
+        public List<RarityQuantityOverride> RarityQuantities;
+    }
+
+    [Serializable]
+    public struct RarityQuantityOverride
+    {
+        public ItemRarity Rarity;
+        [Min(1)] public int MinQuantity;
+        [Min(1)] public int MaxQuantity;
     }
 
     [Serializable]
@@ -81,7 +93,13 @@ public class DropTableSO : ScriptableObject
 
         foreach (var entry in _resourceDrops)
         {
-            if (entry.Resource != null && entry.Resource.Rarity == rarity)
+            if (entry.Resource == null) continue;
+
+            // A regular resource with matching rarity OR a resource with userityquantity
+            bool matchesRarity = entry.Resource.Rarity == rarity && !entry.UseRarityQuantity;
+            bool isRarityQuantity = entry.UseRarityQuantity;
+
+            if (matchesRarity || isRarityQuantity)
             {
                 candidates.Add(entry);
                 totalWeight += entry.Weight;
@@ -98,14 +116,43 @@ public class DropTableSO : ScriptableObject
             cumulative += entry.Weight;
             if (roll <= cumulative)
             {
-                int quantity = UnityEngine.Random.Range(entry.MinQuantity, entry.MaxQuantity + 1);
+                int quantity;
+
+                if (entry.UseRarityQuantity && entry.RarityQuantities != null)
+                {
+                    var rarityOverride = entry.RarityQuantities.Find(r => r.Rarity == rarity);
+
+                    // If there is no record for a rare item, we take the nearest smaller one.
+                    if (rarityOverride.MinQuantity == 0)
+                        rarityOverride = GetFallbackRarityOverride(entry.RarityQuantities, rarity);
+
+                    quantity = UnityEngine.Random.Range(rarityOverride.MinQuantity, rarityOverride.MaxQuantity + 1);
+                }
+                else
+                {
+                    quantity = UnityEngine.Random.Range(entry.MinQuantity, entry.MaxQuantity + 1);
+                }
+
                 quantity = Mathf.Max(1, quantity);
 
+                // Редкость дропа всегда из ItemSO
                 var data = new InventoryItemData(entry.Resource, quantity, entry.Resource.Rarity, (int)entry.Resource.Rarity);
                 onEachDrop?.Invoke(data);
                 return;
             }
         }
+    }
+
+    private RarityQuantityOverride GetFallbackRarityOverride(List<RarityQuantityOverride> overrides, ItemRarity target)
+    {
+        // nearest rarity below the target
+        RarityQuantityOverride best = overrides[0];
+        foreach (var o in overrides)
+        {
+            if (o.Rarity <= target && o.Rarity >= best.Rarity)
+                best = o;
+        }
+        return best;
     }
 
     private void TryRollEquipment(float totalRarity, Action<InventoryItemData> onEachDrop)

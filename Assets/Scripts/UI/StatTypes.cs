@@ -20,7 +20,8 @@ public enum StatType
     BaseAttackDamageMod,
     BaseAttackSpeedMod,
     CooldownReduction,
-    Luck
+    Luck,
+    Speed
 }
 
 [Serializable]
@@ -68,7 +69,7 @@ public struct MainStatInstance
     public float BaseValue;
     public float ValueScalePerLevel;
 
-    public float GetValue(int upgradeLevel) => BaseValue + BaseValue * ValueScalePerLevel * upgradeLevel;
+    public float GetValue(int upgradeLevel) => BaseValue * Mathf.Pow(1 + ValueScalePerLevel, upgradeLevel);
 }
 
 /// <summary>exited stat storing in InventoryItemData.</summary>
@@ -83,4 +84,20 @@ public struct BonusStatInstance
         Type = type;
         Value = value;
     }
+}
+
+public static class RarityStatMultiplier
+{
+    private static readonly Dictionary<ItemRarity, float> _multipliers = new()
+    {
+        { ItemRarity.Common,    0.5f },
+        { ItemRarity.Uncommon,  0.6f },
+        { ItemRarity.Rare,      0.7f },
+        { ItemRarity.Epic,      0.8f },
+        { ItemRarity.Legendary, 0.9f },
+        { ItemRarity.Unique,    1.0f }
+    };
+
+    public static float Get(ItemRarity rarity) =>
+        _multipliers.TryGetValue(rarity, out var m) ? m : 1f;
 }
