@@ -67,11 +67,18 @@ public class EnemyDamage : MonoBehaviour
 
     public void TakeDamage(
         float damage,
+        float critRate,
+        float critDamage,
         Vector3 knockbackSource,
         float knockbackMultiplier,
         bool isStaggeringAttack)
     {
         if (!IsAlive) return;
+        float critRoll = UnityEngine.Random.Range(0f, 100f);
+        if (critRoll <= critRate)
+        {
+            damage *= 1 + critDamage / 100;
+        }
         Debug.Log(gameObject.name + " receive " + damage);
         _currentHealth -= damage;
         UpdateHealthBar();

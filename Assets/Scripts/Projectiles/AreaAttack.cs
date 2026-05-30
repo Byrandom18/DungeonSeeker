@@ -34,7 +34,7 @@ public class AreaAttack : MonoBehaviour
         }
     }
 
-    public void Configure(
+    public void Configure(// TODO: constructor + crits
         float damage,
         float baseRadius,
         float areaMuliplier,
@@ -45,7 +45,7 @@ public class AreaAttack : MonoBehaviour
     {
         _damage = damage;
         _radius = baseRadius;
-        transform.localScale = Vector2.one * areaMuliplier;  //tdl
+        transform.localScale = Vector2.one * areaMuliplier;
         _enemyLaunch = enemyLaunch;
         _staggerApply = staggerApply;
         _knockbackMultiplier = knockbackMultiplier;
@@ -71,8 +71,8 @@ public class AreaAttack : MonoBehaviour
             {
                 if (!hitCollider.isTrigger) continue;
                 if (hitCollider.transform.TryGetComponent(out EnemyDamage enemy))
-                    enemy.TakeDamage(_damage, _damageSource, _knockbackMultiplier, _staggerApply);
-            }
+                    enemy.TakeDamage(_damage, 0, 0, _damageSource, _knockbackMultiplier, _staggerApply);
+            } //                          TODO: crits
         }
         else
         {

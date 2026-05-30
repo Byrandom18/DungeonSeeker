@@ -17,6 +17,7 @@ public class AbilitySO : ScriptableObject
 
     [Header("Stats")]
     public float DamageMultiplier = 1f;
+    public float BaseScale = 1f;
     public float AreaOfEffect = 1f;
     public float KnockbackMultiplier = 1f;
     public bool StaggerApply;

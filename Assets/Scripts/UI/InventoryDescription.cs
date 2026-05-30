@@ -148,7 +148,7 @@ public class InventoryDescription : MonoBehaviour
         StatType.DefenceMod          => "DEF%",
         StatType.DefenceFlat         => "DEF",
         StatType.Resistance          => "Resist",
-        StatType.CritChance          => "Crit. Rate",
+        StatType.CritRate          => "Crit. Rate",
         StatType.CritDamage          => "Crit. DMG",
         StatType.SizeMod             => "AOE",
         StatType.ManaFlat            => "Mana",

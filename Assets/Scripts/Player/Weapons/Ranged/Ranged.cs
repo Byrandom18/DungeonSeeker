@@ -44,18 +44,23 @@ public class Ranged : WeaponBase
         OnRangedAttack?.Invoke(this, EventArgs.Empty);
 
         Vector2 baseDirection = ResolveAimDirection();
-        float damage = GetOwnerAttack() * DamageMulti;
-
-        SpawnProjectiles(baseDirection, damage);
+        
+        SpawnProjectiles(baseDirection);
     }
 
 
     // =========== Projectiles =================================================================
-    private void SpawnProjectiles(Vector3 baseDirection, float damage)
+    private void SpawnProjectiles(Vector3 baseDirection)
     {
+        float baseAttackMod = 1 + GetOwnerStat(StatType.BaseAttackDamageMod) / 100;
+        float damage = GetOwnerStat(StatType.AttackFlat) * baseAttackMod * DamageMulti;
+        float critRate = GetOwnerStat(StatType.CritRate);
+        float critDamage = GetOwnerStat(StatType.CritDamage);
+        float size = 1 + GetOwnerStat(StatType.SizeMod) / 100;
+
         if (_projectileCount == 1)
         {
-            SpawnSingle(baseDirection, damage);
+            SpawnSingle(baseDirection, damage, critRate, critDamage, size);
             return;
         }
 
@@ -70,12 +75,12 @@ public class Ranged : WeaponBase
             Vector2 dir = new Vector2(
                 Mathf.Cos(finalDeg * Mathf.Deg2Rad),
                 Mathf.Sin(finalDeg * Mathf.Deg2Rad));
-            SpawnSingle(dir, damage);
+            SpawnSingle(dir, damage, critRate, critDamage, size);
         }
     }
 
 
-    private void SpawnSingle(Vector2 direction, float damage)
+    private void SpawnSingle(Vector2 direction, float damage, float critRate, float critDamage, float size)
     {
         float   angle      = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Vector3 spawnPos   = transform.position;
@@ -87,17 +92,19 @@ public class Ranged : WeaponBase
         {
             var config = new ProjectileConfig
             {
-                Speed = _projectileSpeed,
-                Lifetime = _projectileLifetime,
-                Damage = damage,
-                Penetrate = _penetrate,
-                KnockbackMultiplier = _knockbackMultiplier,
-                Size = _sizeMultiplier,
-                AreaModifier = _sizeMultiplier,
-                StaggerApply = _applyStagger,
-                EnemyLaunch = false,
-                Direction = direction,
-                StartPosition = transform.position
+                Speed =                 _projectileSpeed,
+                Lifetime =              _projectileLifetime,
+                Damage =                damage,
+                CritRate =              critRate,
+                CritDamage =            critDamage,
+                Penetrate =             _penetrate,
+                KnockbackMultiplier =   _knockbackMultiplier,
+                Size =                  size,
+                AreaModifier =          size,
+                StaggerApply =          _applyStagger,
+                EnemyLaunch =           false,
+                Direction =             direction,
+                StartPosition =         transform.position
             };
 
             p.Configure(config);
@@ -126,10 +133,10 @@ public class Ranged : WeaponBase
         return Vector2.right;
     }
 
-    private float GetOwnerAttack()
+    private float GetOwnerStat(StatType type)
     {
         if (Owner != null)
-            return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
+            return Owner.StatSystem.GetFinalValue(type);
         return 1f;
     }
 }

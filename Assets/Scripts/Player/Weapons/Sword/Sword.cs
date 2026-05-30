@@ -51,9 +51,11 @@ public class Sword : WeaponBase
     {
         if (collision.TryGetComponent(out EnemyDamage enemy))
         {
-            float damage = DamageMulti * GetOwnerAttack();
+            float damage = DamageMulti * GetOwnerStat(StatType.AttackFlat);
+            float critRate = GetOwnerStat(StatType.CritRate);
+            float critDamage = GetOwnerStat(StatType.CritDamage);
             float knockbackMulti = WeaponData != null ? WeaponData.KnockbackMultiplier : 1f;
-            enemy.TakeDamage(damage, transform.position, knockbackMulti, true);
+            enemy.TakeDamage(damage, critRate, critDamage, transform.position, knockbackMulti, true);
         }
 
         if (collision.TryGetComponent(out DestructibleEnvironment env))
@@ -62,12 +64,11 @@ public class Sword : WeaponBase
 
     
 
-    private float GetOwnerAttack()
+    private float GetOwnerStat(StatType type)
     {
         if (Owner != null)
-            return Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
+            return Owner.StatSystem.GetFinalValue(type);
 
-        // Fallback ��� ������������� ���� �� ��� ��������� ����������
         return 1f;
     }
 

@@ -199,16 +199,6 @@ public class EquipmentComponent : MonoBehaviour
         StatType.AttackMod => true,
         StatType.HealthMod => true,
         StatType.DefenceMod => true,
-        StatType.SizeMod => true,
-        StatType.ManaRegenMod => true,
-        StatType.SpellDamageMod => true,
-        StatType.BaseAttackDamageMod => true,
-        StatType.BaseAttackSpeedMod => true,
-        StatType.CooldownReduction => true,
-        StatType.Luck => true,
-        StatType.Resistance => true,
-        StatType.CritChance => true,
-        StatType.CritDamage => true,
         _ => false
     };
 }

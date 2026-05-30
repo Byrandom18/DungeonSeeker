@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class FireballAbility : AbilityBase
 {
@@ -14,7 +13,11 @@ public class FireballAbility : AbilityBase
         if (Data.EffectPrefab == null) return;
 
         Vector3 dir = (ctx.AimPosition - ctx.Owner.Transform.position).normalized;
-        float atk = ctx.Owner.StatSystem.GetFinalValue(StatType.AttackFlat);
+        float spellDamageMod = 1 + ctx.Owner.StatSystem.GetFinalValue(StatType.SpellDamageMod) / 100;
+        float damage = ctx.Owner.StatSystem.GetFinalValue(StatType.AttackFlat) * spellDamageMod * Data.DamageMultiplier;
+        float critRate = ctx.Owner.StatSystem.GetFinalValue(StatType.CritRate);
+        float critDamage = ctx.Owner.StatSystem.GetFinalValue(StatType.CritDamage);
+        float size = 1 + ctx.Owner.StatSystem.GetFinalValue(StatType.SizeMod) / 100;
         Vector3 spawnPosition = ctx.Owner.Transform.position;
         spawnPosition.y += 0.5f;
 
@@ -29,17 +32,19 @@ public class FireballAbility : AbilityBase
         {
             var config = new ProjectileConfig
             {
-                Speed = Data.ProjectileSpeed,
-                Lifetime = Data.ProjectileLifetime,
-                Damage = atk * Data.DamageMultiplier,
-                Penetrate = Data.Penetrate,
-                KnockbackMultiplier = Data.KnockbackMultiplier,
-                Size = Data.AreaOfEffect,
-                AreaModifier = Data.AreaOfEffect,
-                StaggerApply = Data.StaggerApply,
-                EnemyLaunch = false,
-                Direction = dir,
-                StartPosition = ctx.Owner.Transform.position
+                Speed =                  Data.ProjectileSpeed,
+                Lifetime =               Data.ProjectileLifetime,
+                Damage =                 damage,
+                CritRate =               critRate,
+                CritDamage =             critDamage,
+                Penetrate =              Data.Penetrate,
+                KnockbackMultiplier =    Data.KnockbackMultiplier,
+                Size =                   Data.BaseScale * size,
+                AreaModifier =           Data.AreaOfEffect * size,
+                StaggerApply =           Data.StaggerApply,
+                EnemyLaunch =            false,
+                Direction =              dir,
+                StartPosition =          ctx.Owner.Transform.position
             };
 
             p.Configure(config);

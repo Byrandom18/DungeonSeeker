@@ -10,9 +10,12 @@ public class Projectile : MonoBehaviour
     public float Penetrate           { get; private set; }
     public float KnockbackMultiplier { get; private set; }
     public float AreaModifier        { get; private set; }
+    public float CritRate            { get; private set; }
+    public float CritDamage          { get; private set; }
     public bool EnemyLaunch          { get; private set; }
     public bool StaggerApply         { get; private set; }
     public Vector2 StartPosition     { get; private set; }
+    
 
     [Header("Base Settings")] // edit only in inspector for each projectile variant
     [SerializeField] private bool  _unlimitedPenetrate  = false;
@@ -36,16 +39,18 @@ public class Projectile : MonoBehaviour
 
     public void Configure(ProjectileConfig config)
     {
-        Speed = config.Speed;
-        Lifetime = config.Lifetime;
-        Damage = config.Damage;
-        Penetrate = config.Penetrate;
-        KnockbackMultiplier = config.KnockbackMultiplier;
-        transform.localScale = Vector2.one * config.Size;
-        AreaModifier = config.AreaModifier;
+        Speed =                 config.Speed;
+        Lifetime =              config.Lifetime;
+        Damage =                config.Damage;
+        Penetrate =             config.Penetrate;
+        KnockbackMultiplier =   config.KnockbackMultiplier;
+        transform.localScale =  Vector2.one * config.Size;
+        AreaModifier =          config.AreaModifier;
+        CritRate =              config.CritRate;
+        CritDamage =            config.CritDamage;
 
-        StaggerApply = config.StaggerApply;
-        EnemyLaunch = config.EnemyLaunch;
+        StaggerApply =          config.StaggerApply;
+        EnemyLaunch =           config.EnemyLaunch;
 
         SetDirection(config.Direction, config.StartPosition);
 
@@ -74,7 +79,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent(out EnemyDamage enemy))
             {
-                if (_touchDamage) enemy.TakeDamage(Damage, StartPosition, KnockbackMultiplier, StaggerApply);
+                if (_touchDamage) enemy.TakeDamage(Damage, CritRate, CritDamage, StartPosition, KnockbackMultiplier, StaggerApply);
                 PenetrationUpdate();
                 return;
             }
@@ -128,6 +133,8 @@ public struct ProjectileConfig
     public float KnockbackMultiplier;
     public float Size;         // for self scale
     public float AreaModifier; // for children objects scale (explosion, etc)
+    public float CritRate;
+    public float CritDamage;
 
     public bool StaggerApply;
     public bool EnemyLaunch;
@@ -140,6 +147,8 @@ public struct ProjectileConfig
         Speed = speed;
         Lifetime = lifetime;
         Damage = damage;
+        CritRate = 0;
+        CritDamage = 0;
 
         Penetrate = 0;
         KnockbackMultiplier = 1f;

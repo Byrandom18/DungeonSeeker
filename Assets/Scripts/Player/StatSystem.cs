@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 
 
 /// <summary>
-/// Modifier source — defines the group to be deleted en masse.
+/// Modifier source â€” defines the group to be deleted en masse.
 /// For example, when removing all equipment, we delete only the Equipment group,
 /// the talents and buffs of the race remain intact.
 /// <summary>
@@ -45,7 +45,7 @@ public class StatSystem
     // Basic values (from character class / initial values)
     private readonly Dictionary<StatType, float> _baseValues = new Dictionary<StatType, float>();
 
-    // Modifiers by source — three separate lists for quick
+    // Modifiers by source â€” three separate lists for quick
     // mass removal when changing equipment, resetting talents, etc.
     private readonly List<StatModifier> _equipmentMods = new List<StatModifier>();
     private readonly List<StatModifier> _talentMods = new List<StatModifier>();
@@ -98,7 +98,7 @@ public class StatSystem
 
     /// <summary>
     /// Returns the final value of the stat, taking into account all modifiers.
-    /// The result is cached — repeated calls without changes are free.
+    /// The result is cached â€” repeated calls without changes are free.
     /// </summary>
     public float GetFinalValue(StatType type)
     {
@@ -142,30 +142,21 @@ public class StatSystem
     {
         foreach (var m in list)
         {
-            // 1) Modifiers that directly target this stat type
-            if (m.Type == type)
-            {
-                if (m.IsPercent) percentSum += m.Value;
-                else flatSum += m.Value;
-                continue;
-            }
-
-            // 2) Percent modifiers on the paired "*Mod" stat should affect the
-            //    corresponding "*Flat" stat:
-            //      AttackMod   -> AttackFlat
-            //      HealthMod   -> HealthFlat
-            //      DefenceMod  -> DefenceFlat
-            //
-            //    This matches the convention:
-            //      "*Mod"  = percentage bonuses
-            //      "*Flat" = flat bonuses
-            //
-            //    For example, an item with AttackMod = 0.2f (+20% ATK) will now
-            //    correctly scale the final AttackFlat value.
+            // Percent *Mod stats (AttackMod, HealthMod, DefenceMod) are redirected
+            // to their paired *Flat stat and must NOT be accumulated on their own type.
             if (m.IsPercent && TryGetFlatPairForPercentStat(m.Type, out StatType flatType))
             {
                 if (flatType == type)
                     percentSum += m.Value;
+                // Skip â€” this modifier belongs to the paired *Flat stat only.
+                continue;
+            }
+
+            // All other modifiers apply directly to their own stat type.
+            if (m.Type == type)
+            {
+                if (m.IsPercent) percentSum += m.Value;
+                else flatSum += m.Value;
             }
         }
     }

@@ -10,9 +10,11 @@ public class PeriodicDamageZone : MonoBehaviour
 {
     [Header("Damage")]
     [SerializeField] private float _damagePerTick = 10f;
-    [SerializeField] private float _knockbackMultiplier;
+    [SerializeField] private float _knockbackMultiplier = 1;
     [SerializeField] private bool _staggerApply;
     [SerializeField] private bool _enemyLaunch;
+    [SerializeField] private float _critRate;
+    [SerializeField] private float _critDamage;
 
     [Header("Timing")]
     [SerializeField] private float _tickInterval = 0.5f;
@@ -71,11 +73,13 @@ public class PeriodicDamageZone : MonoBehaviour
     /// <summary>
     /// Call after instantiate if the zone should use owner position for knockback direction.
     /// </summary>
-    public void Configure(
+    public void Configure( // TODO: make constructor
         float damagePerTick,
         float tickInterval,
         float duration,
         float size,
+        float critRate,
+        float critDamage,
         bool enemyLaunch,
         bool staggerApply,
         float knockbackMultiplier,
@@ -85,6 +89,8 @@ public class PeriodicDamageZone : MonoBehaviour
         _tickInterval = Mathf.Max(0.05f, tickInterval);
         _duration = duration;
         transform.localScale = Vector2.one * size;
+        _critRate = critRate;
+        _critDamage = critDamage;
         _enemyLaunch = enemyLaunch;
         _staggerApply = staggerApply;
         _knockbackMultiplier = knockbackMultiplier;
@@ -103,7 +109,7 @@ public class PeriodicDamageZone : MonoBehaviour
         else
         {
             if (collision.TryGetComponent(out EnemyDamage enemy) && enemy.IsAlive)
-                enemy.TakeDamage(_damagePerTick, _damageSource, _knockbackMultiplier, _staggerApply);
+                enemy.TakeDamage(_damagePerTick, _critRate, _critDamage, _damageSource, _knockbackMultiplier, _staggerApply);
         }
         if (collision.TryGetComponent(out DestructibleEnvironment env))
             env.TakeDamage();

@@ -11,7 +11,7 @@ public enum StatType
     DefenceMod,
     DefenceFlat,
     Resistance,
-    CritChance,
+    CritRate,
     CritDamage,
     SizeMod,
     ManaFlat,

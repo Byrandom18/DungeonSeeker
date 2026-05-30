@@ -27,7 +27,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     [SerializeField] private float _baseHealth = 100f;
     [SerializeField] private float _baseAttack = 10f;
     [SerializeField] private float _baseDefence;
-    [SerializeField] private float _baseCritChance = 5f;
+    [SerializeField] private float _baseCritRate = 5f;
     [SerializeField] private float _baseCritDamage = 50f;
     [SerializeField] private float _baseResistance;
     [SerializeField] private float _baseSizeMod;
@@ -58,7 +58,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     public float MaxHealth =>               StatSystem.GetFinalValue(StatType.HealthFlat);
     public float Attack =>                  StatSystem.GetFinalValue(StatType.AttackFlat);
     public float Defence =>                 StatSystem.GetFinalValue(StatType.DefenceFlat);
-    public float CritChance =>              StatSystem.GetFinalValue(StatType.CritChance);
+    public float CritRate =>                StatSystem.GetFinalValue(StatType.CritRate);
     public float CritDamage =>              StatSystem.GetFinalValue(StatType.CritDamage);
     public float Resistance =>              StatSystem.GetFinalValue(StatType.Resistance);
     public float SizeMod =>                 StatSystem.GetFinalValue(StatType.SizeMod);
@@ -158,7 +158,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         (StatType.AttackFlat,         _baseAttack),
         (StatType.DefenceFlat,        _baseDefence),
         (StatType.BaseAttackSpeedMod, _baseBaseAttackSpeedMod),
-        (StatType.CritChance,         _baseCritChance),
+        (StatType.CritRate,           _baseCritRate),
         (StatType.CritDamage,         _baseCritDamage),
         (StatType.Resistance,         _baseResistance),
         (StatType.SizeMod,            _baseSizeMod),
