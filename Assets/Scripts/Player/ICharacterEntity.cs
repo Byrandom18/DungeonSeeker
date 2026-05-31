@@ -12,5 +12,6 @@ public interface ICharacterEntity
     Transform Transform { get; }
 
     void TakeDamage(float damage, Vector3 knockbackSource, float knockbackMultiplier);
+    bool ConsumeMana(float value);
     void Heal(float amount);
 }

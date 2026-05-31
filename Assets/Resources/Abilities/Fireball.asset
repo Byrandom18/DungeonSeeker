@@ -18,10 +18,11 @@ MonoBehaviour:
   AbilityType: 0
   RequiredWeapon: 2
   RequiresWeapon: 1
-  Cooldown: 0
-  ManaCost: 0
+  Cooldown: 3
+  ManaCost: 10
   EffectPrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
   DamageMultiplier: 1
+  BaseScale: 1
   AreaOfEffect: 1
   KnockbackMultiplier: 3
   StaggerApply: 0

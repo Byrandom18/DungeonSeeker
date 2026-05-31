@@ -34,6 +34,7 @@ public class InventoryPage : MonoBehaviour
     private List<InventoryItemData> _currentView = new List<InventoryItemData>();
     private List<int> _currentViewSourceIndices = new List<int>(); // maps _currentView[i] -> _inventorySO.Items[j]
 
+    private UpgradeTooltipTrigger _upgradeTrigger;
     private InventoryItem _selectedItem;
 
     private enum Tab { Resources, Equipment }
@@ -46,6 +47,14 @@ public class InventoryPage : MonoBehaviour
         _itemDescription.ResetDescription();
         SetActionButtonsVisible(false);
         BindTabButtons();
+        if (_upgradeButton != null)
+        {
+            _upgradeTrigger = _upgradeButton.GetComponent<UpgradeTooltipTrigger>();
+            if (_upgradeTrigger == null)
+                _upgradeTrigger = _upgradeButton.gameObject.AddComponent<UpgradeTooltipTrigger>();
+
+            _upgradeTrigger.DataProvider = BuildUpgradeIngredientData;
+        }
     }
 
     private void OnEnable()
@@ -378,6 +387,42 @@ public class InventoryPage : MonoBehaviour
         }
         int sourceIdx = _selectedItem.InventoryIndex;
         _upgradeButton.interactable = _inventorySO.CanUpgradeItem(sourceIdx);
+    }
+
+    private List<(Sprite icon, int have, int need)> BuildUpgradeIngredientData()
+    {
+        var result = new List<(Sprite, int, int)>();
+
+        if (_selectedItem == null || _inventorySO == null) return result;
+
+        int sourceIdx = _selectedItem.InventoryIndex;
+        if (sourceIdx < 0 || sourceIdx >= _inventorySO.Items.Count) return result;
+
+        InventoryItemData data = _inventorySO.Items[sourceIdx];
+        UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
+        if (recipe == null) return result;
+
+        int targetLevel = data.UpgradeLevel + 1;
+        var ingredients = recipe.GetIngredientsForLevel(targetLevel, data.Rarity);
+
+        foreach (var ingredient in ingredients)
+        {
+            if (ingredient.Resource == null) continue;
+
+            int have = 0;
+            foreach (var inventoryItem in _inventorySO.Items)
+            {
+                if (inventoryItem.Item == ingredient.Resource)
+                {
+                    have = inventoryItem.Quantity;
+                    break;
+                }
+            }
+
+            result.Add((ingredient.Resource.Sprite, have, ingredient.Quantity));
+        }
+
+        return result;
     }
 
     private void BindTabButtons()

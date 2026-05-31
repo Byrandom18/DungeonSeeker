@@ -19,7 +19,8 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     private Knockback _knockback;
     private EquipmentComponent _equipment;
     [SerializeField] private Slider _healthBar;
-    
+    [SerializeField] private Slider _manaBar;
+
     public event EventHandler OnPlayerDeath;
     public event EventHandler OnFlashBlink;
 
@@ -119,12 +120,14 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         InitializeBaseStats();
         StatSystem.OnStatsChanged += OnStatsChanged;
         Health = MaxHealth;
+        Mana = MaxMana;
         UpdateUI();
     }
 
     private void Update()
     {
         RegenerateMana();
+        UpdateUI();
     }
 
     public void TakeDamage(float rawDamage, Vector3 knockbackSource, float knockbackMultiplier)
@@ -141,6 +144,16 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         if (Health <= 0f) Die();
         else _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, 0f);
         UpdateUI();
+    }
+
+    public bool ConsumeMana(float value)
+    {
+        Debug.Log("value: " + value);
+        if (value > Mana)
+            return false;
+        Mana -= value;
+        Debug.Log("Mana: " + Mana);
+        return true;
     }
 
     public void Heal(float amount)
@@ -188,8 +201,16 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private void UpdateUI()
     {
-        _healthBar.maxValue = MaxHealth;
-        _healthBar.value = Health;
+        if (_healthBar)
+        {
+            _healthBar.maxValue = MaxHealth;
+            _healthBar.value = Health;
+        }
+        if (_manaBar)
+        {
+            _manaBar.maxValue = MaxMana;
+            _manaBar.value = Mana;
+        }
     }
 
     private void RegenerateMana()

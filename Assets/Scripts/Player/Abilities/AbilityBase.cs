@@ -31,7 +31,7 @@ public abstract class AbilityBase
     {
         if (!IsReady) return false;
         if (!CanActivate(context)) return false;
-
+        if (!Owner.ConsumeMana(Data.ManaCost)) return false;
         Activate(context);
         Cooldown = Data.Cooldown;
         return true;
