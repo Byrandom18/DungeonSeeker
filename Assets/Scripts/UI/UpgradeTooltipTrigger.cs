@@ -11,30 +11,57 @@ using UnityEngine.EventSystems;
 public class UpgradeTooltipTrigger : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler
 {
-    // InventoryPage выставляет этот делегат после инициализации
-    public Func<List<(Sprite icon, int have, int need)>> DataProvider;
+    public Func<(List<(Sprite icon, int have, int need)> ingredients, string message)> DataProvider;
 
     private RectTransform _rt;
 
+    private bool _isHovered;
+
     private void Awake() => _rt = GetComponent<RectTransform>();
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (UpgradeTooltip.Instance == null || DataProvider == null) return;
-
-        var data = DataProvider.Invoke();
-        if (data == null || data.Count == 0) return;
-
-        UpgradeTooltip.Instance.Show(_rt, data);
+        _isHovered = true;
+        RefreshTooltip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        _isHovered = false;
         UpgradeTooltip.Instance?.Hide();
     }
 
     private void OnDisable()
     {
+        _isHovered = false;
         UpgradeTooltip.Instance?.Hide();
+    }
+
+    private void Update()
+    {
+        if (_isHovered)
+            RefreshTooltip();
+    }
+
+    private void RefreshTooltip()
+    {
+        if (UpgradeTooltip.Instance == null || DataProvider == null) return;
+
+        var (ingredients, message) = DataProvider.Invoke();
+
+        if (!string.IsNullOrEmpty(message))
+        {
+            UpgradeTooltip.Instance.ShowMessage(_rt, message);
+            return;
+        }
+
+        if (ingredients == null || ingredients.Count == 0)
+        {
+            UpgradeTooltip.Instance.Hide();
+            return;
+        }
+
+        UpgradeTooltip.Instance.ShowIngredients(_rt, ingredients);
     }
 }

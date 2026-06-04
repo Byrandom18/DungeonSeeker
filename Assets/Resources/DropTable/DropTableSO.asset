@@ -76,7 +76,7 @@ MonoBehaviour:
   _equipmentDrops:
   - Equipment: {fileID: 11400000, guid: 463247f5d72eed4428cdad19af641dba, type: 2}
     Weight: 1
-  - Equipment: {fileID: 11400000, guid: dc20de5ced3efda4c9a57e7d1e633243, type: 2}
+  - Equipment: {fileID: 11400000, guid: 611a08572d0f8584ea5bbd9c7a82cfbe, type: 2}
     Weight: 1
   - Equipment: {fileID: 11400000, guid: 9f875c93b6c80154b80028772cdd44b6, type: 2}
     Weight: 1

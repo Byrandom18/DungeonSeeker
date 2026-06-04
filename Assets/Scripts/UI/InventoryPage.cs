@@ -389,21 +389,26 @@ public class InventoryPage : MonoBehaviour
         _upgradeButton.interactable = _inventorySO.CanUpgradeItem(sourceIdx);
     }
 
-    private List<(Sprite icon, int have, int need)> BuildUpgradeIngredientData()
+    private (List<(Sprite icon, int have, int need)> ingredients, string message) BuildUpgradeIngredientData()
     {
-        var result = new List<(Sprite, int, int)>();
+        var empty = (new List<(Sprite, int, int)>(), (string)null);
 
-        if (_selectedItem == null || _inventorySO == null) return result;
+        if (_selectedItem == null || _inventorySO == null) return empty;
 
         int sourceIdx = _selectedItem.InventoryIndex;
-        if (sourceIdx < 0 || sourceIdx >= _inventorySO.Items.Count) return result;
+        if (sourceIdx < 0 || sourceIdx >= _inventorySO.Items.Count) return empty;
 
         InventoryItemData data = _inventorySO.Items[sourceIdx];
+
+        if (data.UpgradeLevel >= data.MaxUpgradeLevel)
+            return (null, UpgradeTooltip.Instance != null ? UpgradeTooltip.Instance.MaxLevelMessage : "Max Level");
+
         UpgradeRecipeSO recipe = data.Item.UpgradeRecipe;
-        if (recipe == null) return result;
+        if (recipe == null) return empty;
 
         int targetLevel = data.UpgradeLevel + 1;
         var ingredients = recipe.GetIngredientsForLevel(targetLevel, data.Rarity);
+        var result = new List<(Sprite, int, int)>();
 
         foreach (var ingredient in ingredients)
         {
@@ -422,7 +427,7 @@ public class InventoryPage : MonoBehaviour
             result.Add((ingredient.Resource.Sprite, have, ingredient.Quantity));
         }
 
-        return result;
+        return (result, null);
     }
 
     private void BindTabButtons()
@@ -451,8 +456,6 @@ public class InventoryPage : MonoBehaviour
         int sourceIdx = _selectedItem.InventoryIndex;
 
         if (!_inventorySO.UpgradeItem(sourceIdx)) return;
-
-        int updatedIdx = _selectedItem.InventoryIndex;
 
         RefreshSelectedItemDescription();
         RefreshUpgradeButton();

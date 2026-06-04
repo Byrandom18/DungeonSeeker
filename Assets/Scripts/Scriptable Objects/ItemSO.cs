@@ -21,12 +21,10 @@ public enum EquipmentSlot
 {
     None,
     Helmet,
-    Armor,
+    Body,
     Boots,
-    Gloves,
+    Offhand,
     Weapon,
-    Ring,
-    Amulet
 }
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Objects/ItemSO")]

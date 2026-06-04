@@ -3,22 +3,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Singleton-like tooltip panel. Place it on a root Canvas child
-/// so it always renders on top. Assign via Inspector or find via FindAnyObjectByType.
-/// </summary>
 public class UpgradeTooltip : MonoBehaviour
 {
     [Header("Layout")]
-    [SerializeField] private GameObject _root;          // панель целиком
-    [SerializeField] private Transform _ingredientsContainer; // HorizontalLayoutGroup
+    [SerializeField] private GameObject _root;
+    [SerializeField] private Transform _ingredientsContainer;
+    [SerializeField] private TextMeshProUGUI _messageLabel;
 
     [Header("Prefab")]
-    [SerializeField] private UpgradeTooltipIngredient _ingredientPrefab; // см. скрипт ниже
+    [SerializeField] private UpgradeTooltipIngredient _ingredientPrefab;
+
+    [Header("Messages")]
+    [SerializeField] private string _maxLevelMessage = "Max Level";
 
     [Header("Follow settings")]
     [SerializeField] private Vector2 _offset = new Vector2(0f, 60f);
-    [SerializeField] private RectTransform _canvasRect; // корневой Canvas RectTransform
+    [SerializeField] private RectTransform _canvasRect;
+
+    public string MaxLevelMessage => _maxLevelMessage;
 
     private readonly List<UpgradeTooltipIngredient> _pool = new();
 
@@ -30,38 +32,41 @@ public class UpgradeTooltip : MonoBehaviour
         Hide();
     }
 
-    /// <summary>
-    /// Показывает тултип у позиции кнопки.
-    /// ingredients: список (спрайт, имеющееся кол-во, необходимое кол-во)
-    /// </summary>
-    public void Show(
-        RectTransform anchor,
-        List<(Sprite icon, int have, int need)> ingredients)
+    public void ShowIngredients(RectTransform anchor, List<(Sprite icon, int have, int need)> ingredients)
     {
-        // Заполняем пул
+        _ingredientsContainer.gameObject.SetActive(true);
+        _messageLabel.gameObject.SetActive(false);
+
+        foreach (var cell in _pool)
+            cell.gameObject.SetActive(false);
+
         while (_pool.Count < ingredients.Count)
         {
             var cell = Instantiate(_ingredientPrefab, _ingredientsContainer);
             _pool.Add(cell);
         }
 
-        for (int i = 0; i < _pool.Count; i++)
+        for (int i = 0; i < ingredients.Count; i++)
         {
-            if (i < ingredients.Count)
-            {
-                _pool[i].gameObject.SetActive(true);
-                var (icon, have, need) = ingredients[i];
-                _pool[i].SetData(icon, have, need);
-            }
-            else
-            {
-                _pool[i].gameObject.SetActive(false);
-            }
+            _pool[i].gameObject.SetActive(true);
+            var (icon, have, need) = ingredients[i];
+            _pool[i].SetData(icon, have, need);
         }
 
         _root.SetActive(true);
+        PositionNear(anchor);
+    }
 
-        // Позиционирование рядом с кнопкой
+    public void ShowMessage(RectTransform anchor, string message)
+    {
+        foreach (var cell in _pool)
+            cell.gameObject.SetActive(false);
+
+        _ingredientsContainer.gameObject.SetActive(false);
+        _messageLabel.gameObject.SetActive(true);
+        _messageLabel.text = message;
+
+        _root.SetActive(true);
         PositionNear(anchor);
     }
 
@@ -73,12 +78,9 @@ public class UpgradeTooltip : MonoBehaviour
     private void PositionNear(RectTransform anchor)
     {
         var rt = _root.GetComponent<RectTransform>();
-
-        // Конвертируем мировую позицию якоря в локальную позицию канваса
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, anchor.position);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             _canvasRect, screenPoint, null, out Vector2 localPoint);
-
         rt.anchoredPosition = localPoint + _offset;
     }
 }
