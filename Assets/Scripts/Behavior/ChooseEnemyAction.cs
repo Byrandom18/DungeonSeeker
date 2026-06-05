@@ -11,6 +11,9 @@ public partial class ChooseEnemyAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Enemy;
     [SerializeReference] public BlackboardVariable<bool> Combat;
     [SerializeReference] public BlackboardVariable<float> Radius = new BlackboardVariable<float>(10f);
+    [SerializeReference] public BlackboardVariable<float> HealthPercent;
+    [SerializeReference] public BlackboardVariable<float> AttackDistance;
+    [SerializeReference] public BlackboardVariable<float> RetreatUrgency;
 
     private readonly Collider2D[] _overlapBuffer = new Collider2D[32];
 
@@ -25,7 +28,34 @@ public partial class ChooseEnemyAction : Action
         if (owner == null)
             return Status.Failure;
 
-        int count = GatherEnemyColliders(owner.transform.position);
+        if (owner.TryGetComponent(out AllyAIBrain brain))
+        {
+            TargetSelectionResult result = brain.SelectWeaponTarget(forceRefresh: true);
+            CombatSnapshot snapshot = brain.Snapshot;
+
+            SyncBlackboard(brain);
+            Combat.Value = snapshot.EnemyCount > 0;
+
+            if (!result.HasTarget)
+            {
+                Enemy.Value = null;
+                return Status.Failure;
+            }
+
+            Enemy.Value = result.Target.gameObject;
+            return Status.Success;
+        }
+
+        return SelectNearestFallback(owner);
+    }
+
+    protected override void OnEnd()
+    {
+    }
+
+    private Status SelectNearestFallback(GameObject owner)
+    {
+        int count = EnemyPhysics2D.OverlapCircle(owner.transform.position, Radius.Value, _overlapBuffer);
         SelectBestTarget(count, owner.transform.position, out Transform best, out bool anyInCombat);
 
         Combat.Value = anyInCombat;
@@ -37,17 +67,7 @@ public partial class ChooseEnemyAction : Action
         }
 
         Enemy.Value = best.gameObject;
-
         return Status.Success;
-    }
-
-    protected override void OnEnd()
-    {
-    }
-
-    private int GatherEnemyColliders(Vector2 center)
-    {
-        return EnemyPhysics2D.OverlapCircle(center, Radius.Value, _overlapBuffer);
     }
 
     private void SelectBestTarget(int count, Vector3 origin, out Transform best, out bool anyInCombat)
@@ -74,9 +94,20 @@ public partial class ChooseEnemyAction : Action
         }
     }
 
+    private void SyncBlackboard(AllyAIBrain brain)
+    {
+        if (HealthPercent != null)
+            HealthPercent.Value = brain.HealthPercent * 100f;
+
+        if (AttackDistance != null)
+            AttackDistance.Value = brain.AttackDistance;
+
+        if (RetreatUrgency != null && brain.TryGetComponent(out AllyMLBridge mlBridge))
+            RetreatUrgency.Value = mlBridge.RetreatUrgency * 100f;
+    }
+
     private GameObject GetOwner()
     {
         return GameObject;
     }
 }
-

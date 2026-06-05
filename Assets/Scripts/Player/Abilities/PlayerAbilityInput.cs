@@ -18,9 +18,8 @@ public class PlayerAbilityInput : MonoBehaviour
 
     private void OnAbilityUsed(int slotIndex)
     {
-        Vector3 mouseScreen = GameInput.Instance.GetMousePosition();
-        Vector3 aimWorld = _cam.ScreenToWorldPoint(
-                                  new Vector3(mouseScreen.x, mouseScreen.y, _cam.nearClipPlane));
+        Vector2 mouseScreen = GameInput.Instance.GetMousePosition();
+        Vector3 aimWorld = AbilityTargetHelper.ScreenToGameplayPlane(_cam, mouseScreen, transform);
         _abilitySystem.UseAbility(slotIndex, aimWorld);
     }
 

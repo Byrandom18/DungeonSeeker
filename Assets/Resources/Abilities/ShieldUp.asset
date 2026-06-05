@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c14cb4df75a660429fad7abb3e29836, type: 3}
+  m_Name: ShieldUp
+  m_EditorClassIdentifier: 
+  DisplayName: Divine Heal
+  Icon: {fileID: -319125763, guid: d06cf72127ca74c46ac220341097dbb1, type: 3}
+  Description: 
+  AbilityType: 2
+  RequiredWeapon: 2
+  RequiresWeapon: 1
+  BehaviorTag: 4
+  TargetType: 2
+  OptimalRange: 5
+  MaxRange: 8
+  MinRange: 0
+  MinEnemiesForAoE: 2
+  AllyHealThreshold: 0.5
+  SelfDefenceThreshold: 0.9
+  HealAmount: 30
+  ShieldAmount: 40
+  ShieldDuration: 10
+  ZoneTickInterval: 0.5
+  ZoneDuration: 2
+  Cooldown: 5
+  ManaCost: 50
+  EffectPrefab: {fileID: 3577658362219106299, guid: 1c8230e6135c71e4ca0dfd28e3e0ce33, type: 3}
+  DamageMultiplier: 1
+  BaseScale: 1
+  AreaOfEffect: 1
+  KnockbackMultiplier: 3
+  StaggerApply: 0
+  ProjectileSpeed: 1
+  ProjectileLifetime: 100
+  Penetrate: 0
+  UnlimitedPenetrate: 0
+  CanPenetrateWall: 0
+  DelayedDestroy: 1
+  DelayEntering: 0.25

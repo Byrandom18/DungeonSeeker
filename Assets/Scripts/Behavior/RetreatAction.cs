@@ -56,6 +56,10 @@ public partial class RetreatAction : Action
             return Status.Failure;
 
         float dist2D = Vector2.Distance(Agent.Value.transform.position, Target.Value.transform.position);
+
+        if (Agent.Value.TryGetComponent(out AllyMLBridge mlBridge) && mlBridge.ShouldForceRetreat)
+            return Status.Running;
+
         if (dist2D >= SafeDistance.Value)
             return Status.Success;
 

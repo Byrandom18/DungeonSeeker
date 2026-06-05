@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 public class PlayerStats : MonoBehaviour, ICharacterEntity
 {
@@ -20,6 +20,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     private EquipmentComponent _equipment;
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Slider _manaBar;
+    [SerializeField] private Slider _shieldBar;
 
     public event EventHandler OnPlayerDeath;
     public event EventHandler OnFlashBlink;
@@ -72,6 +73,25 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     public float Luck =>                    StatSystem.GetFinalValue(StatType.Luck);
     public float Speed =>                   StatSystem.GetFinalValue(StatType.Speed);
 
+    public float ShieldTotal
+    {
+        get
+        {
+            PurgeExpiredShields();
+            float total = 0f;
+            for (int i = 0; i < _shieldStacks.Count; i++)
+                total += _shieldStacks[i].Amount;
+            return total;
+        }
+    }
+
+    private struct ShieldStack
+    {
+        public float Amount;
+        public float ExpireTime;
+    }
+
+    private readonly List<ShieldStack> _shieldStacks = new List<ShieldStack>();
 
     private BoxCollider2D _collisionCollider;
     private CircleCollider2D _hitboxCollider;
@@ -126,7 +146,21 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private void Update()
     {
+        PurgeExpiredShields();
         RegenerateMana();
+        UpdateUI();
+    }
+
+    public void ApplyShield(float amount, float duration)
+    {
+        if (!IsAlive || amount <= 0f) return;
+
+        _shieldStacks.Add(new ShieldStack
+        {
+            Amount = amount,
+            ExpireTime = Time.time + Mathf.Max(0.01f, duration)
+        });
+
         UpdateUI();
     }
 
@@ -136,6 +170,11 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
         float damage = Mathf.Max(0f, rawDamage - Defence);
         damage *= Mathf.Max(0f, 1f - Resistance/100);
+        damage = AbsorbDamageWithShields(damage);
+
+        if (damage <= 0f)
+            return;
+
         Health -= damage;
         Health = Mathf.Max(0f, Health);
 
@@ -211,6 +250,14 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
             _manaBar.maxValue = MaxMana;
             _manaBar.value = Mana;
         }
+
+        if (_shieldBar)
+        {
+            _shieldBar.gameObject.SetActive(ShieldTotal > 0);
+            float shield = ShieldTotal;
+            _shieldBar.maxValue = MaxHealth;
+            _shieldBar.value = Mathf.Min(shield, MaxHealth);
+        }
     }
 
     private void RegenerateMana()
@@ -226,6 +273,58 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     {
         if (PartyManager.Instance != null)
             PartyManager.Instance.Register(this);
+    }
+
+    private void PurgeExpiredShields()
+    {
+        float now = Time.time;
+        for (int i = _shieldStacks.Count - 1; i >= 0; i--)
+        {
+            if (_shieldStacks[i].Amount <= 0f || now >= _shieldStacks[i].ExpireTime)
+                _shieldStacks.RemoveAt(i);
+        }
+    }
+
+    private float AbsorbDamageWithShields(float damage)
+    {
+        if (damage <= 0f)
+            return 0f;
+
+        PurgeExpiredShields();
+
+        while (damage > 0f && _shieldStacks.Count > 0)
+        {
+            int index = FindShieldClosestToExpiry();
+            ShieldStack stack = _shieldStacks[index];
+
+            float absorbed = Mathf.Min(stack.Amount, damage);
+            stack.Amount -= absorbed;
+            damage -= absorbed;
+
+            if (stack.Amount <= 0f)
+                _shieldStacks.RemoveAt(index);
+            else
+                _shieldStacks[index] = stack;
+        }
+
+        return damage;
+    }
+
+    private int FindShieldClosestToExpiry()
+    {
+        int bestIndex = 0;
+        float bestExpireTime = _shieldStacks[0].ExpireTime;
+
+        for (int i = 1; i < _shieldStacks.Count; i++)
+        {
+            if (_shieldStacks[i].ExpireTime < bestExpireTime)
+            {
+                bestExpireTime = _shieldStacks[i].ExpireTime;
+                bestIndex = i;
+            }
+        }
+
+        return bestIndex;
     }
 
     private void OnDestroy()

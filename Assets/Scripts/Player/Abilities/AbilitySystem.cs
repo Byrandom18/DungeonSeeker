@@ -53,6 +53,32 @@ public class AbilitySystem : MonoBehaviour
         return used;
     }
 
+    public bool CanUseSlot(int slotIndex, ActiveWeapon activeWeapon)
+    {
+        if (slotIndex < 0 || slotIndex >= _abilities.Length) return false;
+        if (_abilities[slotIndex] == null) return false;
+
+        AbilitySO data = _abilitySlots[slotIndex];
+        if (data == null) return false;
+        if (_owner != null && _owner is PlayerStats stats && stats.Mana < data.ManaCost)
+            return false;
+
+        var ctx = new AbilityContext
+        {
+            AimPosition = transform.position,
+            Owner = _owner,
+            ActiveWeapon = activeWeapon != null ? activeWeapon.GetActiveWeapon() : _activeWeapon?.GetActiveWeapon()
+        };
+
+        return _abilities[slotIndex].CanActivateWithoutCost(ctx);
+    }
+
+    public bool IsSlotReady(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= _abilities.Length) return false;
+        return _abilities[slotIndex]?.IsReady == true;
+    }
+
     /// <summary>
     /// Returns the ScriptableObject for a given slot (null if slot is empty).
     /// Used by AbilityBarUI to read icon / mana cost / display name.

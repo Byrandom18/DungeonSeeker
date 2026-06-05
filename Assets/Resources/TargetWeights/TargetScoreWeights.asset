@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbfe325ad5cdc7e418aa32ab050ae91d, type: 3}
+  m_Name: TargetScoreWeights
+  m_EditorClassIdentifier: 
+  DistanceWeight: 1
+  LowHealthWeight: 0.8
+  ThreatWeight: 0.6
+  FocusFireWeight: 0.4
+  Sword:
+    PreferCloser: 1
+    DistanceWeightScale: 1.2
+    LowHealthWeightScale: 0.7
+    ThreatWeightScale: 1
+  Bow:
+    PreferCloser: 0.5
+    DistanceWeightScale: 1
+    LowHealthWeightScale: 1
+    ThreatWeightScale: 0.7
+  Staff:
+    PreferCloser: 0.5
+    DistanceWeightScale: 1
+    LowHealthWeightScale: 1
+    ThreatWeightScale: 0.7
+  Talisman:
+    PreferCloser: 0.5
+    DistanceWeightScale: 1
+    LowHealthWeightScale: 1
+    ThreatWeightScale: 0.7

@@ -6,10 +6,10 @@ public static class AbilityFactory
     {
         AbilityBase ability = data.AbilityType switch
         {
-            //AbilityType.Dash => new DashAbility(dashForce: 15f),
             AbilityType.Fireball => new FireballAbility(),
-            //AbilityType.Shield => new ShieldAbility(),
-            //AbilityType.Heal => new HealAbility(),
+            AbilityType.Heal => new HealAbility(),
+            AbilityType.Shield => new ShieldAbility(),
+            AbilityType.GroundAoE => new GroundAoEAbility(),
             _ => null
         };
 
@@ -20,5 +20,8 @@ public static class AbilityFactory
 
 public enum AbilityType
 {
-    Fireball
+    Fireball,
+    Heal,
+    Shield,
+    GroundAoE
 }

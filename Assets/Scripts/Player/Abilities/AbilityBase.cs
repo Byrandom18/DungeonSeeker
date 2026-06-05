@@ -37,6 +37,12 @@ public abstract class AbilityBase
         return true;
     }
 
+    public bool CanActivateWithoutCost(AbilityContext context)
+    {
+        if (!IsReady) return false;
+        return CanActivate(context);
+    }
+
     protected virtual bool CanActivate(AbilityContext context) => true;
     protected abstract void Activate(AbilityContext context);
 }

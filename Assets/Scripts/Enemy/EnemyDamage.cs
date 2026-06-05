@@ -19,11 +19,13 @@ public class EnemyDamage : MonoBehaviour
     public bool IsAlive           { get; private set; } = true;
     public bool InCombat          { get; private set; } = false;
     public float CurrentAttack    { get; private set; }
+    public float CurrentHealth    { get; private set; }
+    public float MaxHealth        => _enemySO != null ? _enemySO.EnemyMaxHealth : 1f;
+    public float HealthPercent    => MaxHealth > 0f ? CurrentHealth / MaxHealth : 0f;
 
     public float KnockbackMultiplier = 1f;
 
     // Runtime stats
-    private float _currentHealth;
     private float _baseAttack;
 
     private float _knockbackResist;
@@ -80,7 +82,7 @@ public class EnemyDamage : MonoBehaviour
             damage *= 1 + critDamage / 100;
         }
         Debug.Log(gameObject.name + " receive " + damage);
-        _currentHealth -= damage;
+        CurrentHealth -= damage;
         UpdateHealthBar();
         if (isStaggeringAttack) ApplyStagger();
 
@@ -110,7 +112,7 @@ public class EnemyDamage : MonoBehaviour
 
     private void InitializeStats()
     {
-        _currentHealth = _enemySO.EnemyMaxHealth;
+        CurrentHealth = _enemySO.EnemyMaxHealth;
 
         _baseAttack   = _enemySO.EnemyBaseAttack;
         CurrentAttack = _baseAttack;
@@ -135,7 +137,7 @@ public class EnemyDamage : MonoBehaviour
             return;
         }
         _healthBar.maxValue = _enemySO.EnemyMaxHealth;
-        _healthBar.value = _currentHealth;
+        _healthBar.value = CurrentHealth;
         _healthBar.gameObject.SetActive(false);
     }
 
@@ -143,12 +145,12 @@ public class EnemyDamage : MonoBehaviour
     {
         if (_healthBar == null) return;
         _healthBar.gameObject.SetActive(true);
-        _healthBar.value = _currentHealth;
+        _healthBar.value = CurrentHealth;
     }
 
     private void DetectDeath()
     {
-        if (_currentHealth <= 0f) Death();
+        if (CurrentHealth <= 0f) Death();
     }
 
     private void Death()

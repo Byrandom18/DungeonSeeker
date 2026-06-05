@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c14cb4df75a660429fad7abb3e29836, type: 3}
+  m_Name: Fire Ground
+  m_EditorClassIdentifier: 
+  DisplayName: Fire Ground
+  Icon: {fileID: 612620300, guid: d06cf72127ca74c46ac220341097dbb1, type: 3}
+  Description: 
+  AbilityType: 3
+  RequiredWeapon: 2
+  RequiresWeapon: 1
+  BehaviorTag: 1
+  TargetType: 3
+  OptimalRange: 8
+  MaxRange: 12
+  MinRange: 0
+  MinEnemiesForAoE: 2
+  AllyHealThreshold: 0.5
+  SelfDefenceThreshold: 0.3
+  HealAmount: 30
+  ShieldAmount: 40
+  ShieldDuration: 4
+  ZoneTickInterval: 0.5
+  ZoneDuration: 10
+  Cooldown: 3
+  ManaCost: 10
+  EffectPrefab: {fileID: 3059025230421411463, guid: 1e92cd286aba3494a845e57077612bf6, type: 3}
+  DamageMultiplier: 1
+  BaseScale: 1
+  AreaOfEffect: 1
+  KnockbackMultiplier: 3
+  StaggerApply: 0
+  ProjectileSpeed: 1
+  ProjectileLifetime: 100
+  Penetrate: 0
+  UnlimitedPenetrate: 0
+  CanPenetrateWall: 0
+  DelayedDestroy: 1
+  DelayEntering: 0.25
