@@ -40,6 +40,17 @@ public class GameInput : MonoBehaviour
         }
     }
 
+    public InputAction GetAbilityAction(int index)
+    {
+        return index switch
+        {
+            0 => _inputActions.Player.Ability1,
+            1 => _inputActions.Player.Ability2,
+            2 => _inputActions.Player.Ability3,
+            _ => null
+        };
+    }
+
     public Vector2 GetMousePosition()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();

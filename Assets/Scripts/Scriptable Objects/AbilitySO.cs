@@ -32,3 +32,11 @@ public class AbilitySO : ScriptableObject
     public float DelayEntering = 0.25f;
 }
 
+public enum AbilityBehaviorTag
+{
+    SingleTarget,
+    MultiTarget,
+    Defence,
+    Support,
+    Heal
+}
