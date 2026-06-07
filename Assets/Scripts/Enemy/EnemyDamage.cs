@@ -39,6 +39,8 @@ public class EnemyDamage : MonoBehaviour
     public event EventHandler OnTakeHit;
     public event EventHandler OnDeath;
 
+    public ICharacterEntity LastAttacker { get; private set; }
+
     private void Awake()
     {
         _knockback = GetComponent<Knockback>();
@@ -87,6 +89,7 @@ public class EnemyDamage : MonoBehaviour
         if (isStaggeringAttack) ApplyStagger();
 
         InCombat = true;
+        LastAttacker = ResolveAttacker(knockbackSource);
         OnTakeHit?.Invoke(this, EventArgs.Empty);
         _knockback.GetKnockedBack(knockbackSource, knockbackMultiplier, _knockbackResist);
         DetectDeath();
@@ -95,6 +98,45 @@ public class EnemyDamage : MonoBehaviour
     public EnemySO GetEnemySO() => _enemySO;
     public void SetCanReceiveStagger(bool value) => CanReceiveStagger = value;
     public void SetCombat(bool value) => InCombat = value;
+
+    public void ResetForTraining()
+    {
+        IsAlive = true;
+        InCombat = false;
+        LastAttacker = null;
+        CurrentHealth = MaxHealth;
+
+        if (_hitBox != null) _hitBox.enabled = true;
+        if (_collisionBox != null) _collisionBox.enabled = true;
+
+        InitializeStats();
+        UpdateHealthBar();
+        if (_healthBar != null)
+            _healthBar.gameObject.SetActive(false);
+    }
+
+    private ICharacterEntity ResolveAttacker(Vector3 knockbackSource)
+    {
+        if (PartyManager.Instance == null)
+            return null;
+
+        ICharacterEntity best = null;
+        float bestSq = 4f;
+
+        foreach (ICharacterEntity member in PartyManager.Instance.Members)
+        {
+            if (member == null || !member.IsAlive) continue;
+
+            float sq = ((Vector2)member.Transform.position - (Vector2)knockbackSource).sqrMagnitude;
+            if (sq < bestSq)
+            {
+                bestSq = sq;
+                best = member;
+            }
+        }
+
+        return best;
+    }
 
     private void ApplyStagger()
     {

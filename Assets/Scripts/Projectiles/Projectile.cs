@@ -37,6 +37,17 @@ public class Projectile : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    private void OnEnable()
+    {
+        if (EnemyLaunch)
+            EnemyProjectileRegistry.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        EnemyProjectileRegistry.Unregister(this);
+    }
+
     public void Configure(ProjectileConfig config)
     {
         Speed =                 config.Speed;
@@ -51,6 +62,9 @@ public class Projectile : MonoBehaviour
 
         StaggerApply =          config.StaggerApply;
         EnemyLaunch =           config.EnemyLaunch;
+
+        if (EnemyLaunch)
+            EnemyProjectileRegistry.Register(this);
 
         SetDirection(config.Direction, config.StartPosition);
 

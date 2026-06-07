@@ -24,6 +24,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     public event EventHandler OnPlayerDeath;
     public event EventHandler OnFlashBlink;
+    public event Action<float, float> OnCombatDamage;
 
     [Header("Base stats")]
     [SerializeField] private float _baseHealth = 100f;
@@ -170,7 +171,13 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
         float damage = Mathf.Max(0f, rawDamage - Defence);
         damage *= Mathf.Max(0f, 1f - Resistance/100);
+
+        float shieldBefore = ShieldTotal;
         damage = AbsorbDamageWithShields(damage);
+        float shieldAbsorbed = Mathf.Max(0f, shieldBefore - ShieldTotal);
+
+        if (shieldAbsorbed > 0f || damage > 0f)
+            OnCombatDamage?.Invoke(damage, shieldAbsorbed);
 
         if (damage <= 0f)
             return;
@@ -199,6 +206,24 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
     {
         if (!IsAlive) return;
         Health = Mathf.Min(Health + amount, MaxHealth);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Resets runtime pools for ML training episodes.
+    /// </summary>
+    public void ResetForTraining(bool restoreAlive = true)
+    {
+        if (restoreAlive)
+        {
+            IsAlive = true;
+            if (_hitboxCollider != null) _hitboxCollider.enabled = true;
+            if (_collisionCollider != null) _collisionCollider.enabled = true;
+        }
+
+        _shieldStacks.Clear();
+        Health = MaxHealth;
+        Mana = MaxMana;
         UpdateUI();
     }
 

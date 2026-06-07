@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// A common interface for all combat members of the group —
+/// A common interface for all combat members of the group ï¿½
 /// player and bot allies. Enemies only work with this
 /// interface and don't know about specific classes.
 /// </summary>

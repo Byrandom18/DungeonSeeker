@@ -55,6 +55,9 @@ public partial class RetreatAction : Action
         if (Agent.Value == null || Target.Value == null)
             return Status.Failure;
 
+        if (Agent.Value.TryGetComponent(out AllyMLMovementModifier mlMovement) && mlMovement.IsControllingMovement)
+            return Status.Running;
+
         float dist2D = Vector2.Distance(Agent.Value.transform.position, Target.Value.transform.position);
 
         if (Agent.Value.TryGetComponent(out AllyMLBridge mlBridge) && mlBridge.ShouldForceRetreat)

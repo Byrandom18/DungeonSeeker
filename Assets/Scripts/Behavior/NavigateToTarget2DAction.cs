@@ -54,6 +54,9 @@ public partial class NavigateToTarget2DAction : Action
             return Status.Failure;
         }
 
+        if (Agent.Value.TryGetComponent(out AllyMLMovementModifier mlMovement) && mlMovement.IsControllingMovement)
+            return Status.Running;
+
         // Check if the target position has changed.
         bool boolUpdateTargetPosition =
             !Mathf.Approximately(m_LastTargetPosition.x, Target.Value.transform.position.x)

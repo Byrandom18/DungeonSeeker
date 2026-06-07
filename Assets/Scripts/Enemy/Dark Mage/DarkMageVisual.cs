@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class DarkMageVisual : MonoBehaviour
@@ -6,7 +7,7 @@ public class DarkMageVisual : MonoBehaviour
     [SerializeField] private EnemyAI _enemyAI;
     [SerializeField] private EnemyDamage _enemyDamage;
     [SerializeField] private DarkMageCombat _enemyCombat;
-    
+
     private SpriteRenderer _sprite;
     private Vector2 _originScale;
     private Animator _animator;
@@ -18,10 +19,15 @@ public class DarkMageVisual : MonoBehaviour
     private static readonly int HIT = Animator.StringToHash("TakeHit");
     private static readonly int DIE = Animator.StringToHash("Death");
 
+
+    [SerializeField] private AttackChargeVisual _chargeVisual;
+
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
+        if (_chargeVisual == null) Debug.LogError($"[VoidGolemVisual] chargeVisual not assigned on {gameObject.name}");
     }
 
     private void Start()
@@ -40,7 +46,12 @@ public class DarkMageVisual : MonoBehaviour
     }
 
     // ============= Attack ============================================================
-
+    private IEnumerator StartChargeNextFrame()
+    {
+        yield return null; // ��� ���� ���� ����� �������� ������� StateInfo
+        float remainingTime = GetRemainingAnimationTime();
+        _chargeVisual?.StartCharge(remainingTime);
+    }
     private void EnemyAI_OnEnemyAttack(object sender, EventArgs e)
     {
         _animator.SetTrigger(ATTACK_HASH);
@@ -51,11 +62,21 @@ public class DarkMageVisual : MonoBehaviour
         Vector3 dir = targetPos - transform.position;
         _enemyAI.IsFacingRight = dir.x > 0;
         UpdateSpriteDirection();
+
+        StartCoroutine(StartChargeNextFrame());
     }
 
     public void AttackStart() => _enemyCombat.Shoot(_enemyDamage.CurrentAttack);
-    public void AttackCancelled() => _enemyAI.IsAttacking = false;
-    public void AttackEnd() => _enemyAI.IsAttacking = false;
+    public void AttackCancelled()
+    {
+        _enemyAI.IsAttacking = false;
+        _chargeVisual?.StopCharge();
+    }
+    public void AttackEnd()
+    {
+        _enemyAI.IsAttacking = false;
+        _chargeVisual?.StopCharge();
+    }
 
     // =========== Hit / Death =====================================================
     private void EnemyDamage_OnTakeHit(object sender, EventArgs e)
@@ -88,6 +109,14 @@ public class DarkMageVisual : MonoBehaviour
     }
 
     // ============ Helpers ===========================================================
+    private float GetRemainingAnimationTime()
+    {
+        AnimatorStateInfo info = _animator.GetCurrentAnimatorStateInfo(0);
+        if (info.length <= 0 || (!info.loop && info.normalizedTime >= 1f)) return 0f;
+        float current = (info.normalizedTime % 1f) * info.length;
+        return info.length - current;
+    }
+
     private Vector3 GetNearestTargetPosition()
     {
         if (PartyManager.Instance != null)

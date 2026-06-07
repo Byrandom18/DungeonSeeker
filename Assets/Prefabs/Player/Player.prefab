@@ -119,12 +119,24 @@ MonoBehaviour:
   _registerAsPrimaryPlayer: 1
   _characterName: Player
   _healthBar: {fileID: 0}
+  _manaBar: {fileID: 0}
+  _shieldBar: {fileID: 0}
   _baseHealth: 100
   _baseAttack: 1
   _baseDefence: 0
-  _baseSpeed: 3
-  _baseCritChance: 5
+  _baseCritRate: 5
   _baseCritDamage: 50
+  _baseResistance: 0
+  _baseSizeMod: 0
+  _baseManaFlat: 100
+  _baseManaRegenMod: 0
+  _baseSpellDamageMod: 0
+  _baseBaseAttackDamageMod: 0
+  _baseBaseAttackSpeedMod: 0
+  _baseCooldownReduction: 0
+  _baseLuck: 0
+  _baseSpeed: 3
+  _baseManaRegenPercent: 0.05
   KnockbackResist: 0
   KnockbackMultiplier: 1
 --- !u!114 &6202332600653099240
@@ -140,7 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _abilitySlots:
-  - {fileID: 11400000, guid: 057eb1928db1f5744a42af49d4189f10, type: 2}
+  - {fileID: 11400000, guid: e2a63fe9375f94a45b39d83171fe41b7, type: 2}
+  - {fileID: 11400000, guid: 2c8b6b82a2d2c7a46a70e501a47dad55, type: 2}
+  - {fileID: 11400000, guid: 43155e4cef835d849ac17a114850ad52, type: 2}
   _activeWeapon: {fileID: 3209685162060536118}
 --- !u!114 &8825754334688464123
 MonoBehaviour:

@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 568837710742752056, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1218495228056247004, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: _enemySO
       value: 
@@ -30,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 677004727, guid: 7e54c17eac981934ea310f6a52f2d35a, type: 3}
     - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 7.09
       objectReference: {fileID: 0}
     - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.27
       objectReference: {fileID: 0}
     - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -67,6 +71,10 @@ PrefabInstance:
     - target: {fileID: 4895861295162030034, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913705616073877853, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: KnockbackForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5267373375929859351, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_Name
@@ -125,6 +133,7 @@ MonoBehaviour:
   _enemyAI: {fileID: 3760755744166378360}
   _enemyDamage: {fileID: 3545943149726631314}
   _enemyCombat: {fileID: 7900328459039562990}
+  _chargeVisual: {fileID: 8187727777626316231}
 --- !u!1 &7908723048241487027 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5267373375929859351, guid: 8df8648e39c5577438019a4df791995e, type: 3}
@@ -147,3 +156,14 @@ MonoBehaviour:
   _baseProjectileSpeed: 8
   _baseProjectileLifetime: 3
   _sizeMultiplier: 1
+--- !u!114 &8187727777626316231 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6158868822809197667, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+  m_PrefabInstance: {fileID: 2654895725980606884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987399016429981697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f538d8110d8a724589568c6bd78d2b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

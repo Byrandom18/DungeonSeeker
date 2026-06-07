@@ -18,6 +18,19 @@ MonoBehaviour:
   AbilityType: 0
   RequiredWeapon: 2
   RequiresWeapon: 1
+  BehaviorTag: 0
+  TargetType: 0
+  OptimalRange: 8
+  MaxRange: 12
+  MinRange: 0
+  MinEnemiesForAoE: 2
+  AllyHealThreshold: 0.5
+  SelfDefenceThreshold: 0.3
+  HealAmount: 30
+  ShieldAmount: 40
+  ShieldDuration: 4
+  ZoneTickInterval: 0.5
+  ZoneDuration: 2
   Cooldown: 3
   ManaCost: 10
   EffectPrefab: {fileID: 1686295038552914446, guid: 68f25f95803f7354d8b0a66b492c78a5, type: 3}
@@ -26,8 +39,8 @@ MonoBehaviour:
   AreaOfEffect: 1
   KnockbackMultiplier: 3
   StaggerApply: 0
-  ProjectileSpeed: 1
-  ProjectileLifetime: 100
+  ProjectileSpeed: 10
+  ProjectileLifetime: 10
   Penetrate: 0
   UnlimitedPenetrate: 0
   CanPenetrateWall: 0

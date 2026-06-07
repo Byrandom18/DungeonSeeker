@@ -8,6 +8,7 @@ public class Sword : WeaponBase
     private PolygonCollider2D _attackBox;
 
     private TrailRenderer _trail;
+    private bool _applyStagger;
     //public float Cooldown = 0.5f;
     //public bool RotationEnabled = false;
 
@@ -32,6 +33,7 @@ public class Sword : WeaponBase
         if (_attackBox != null)
         {
             float scaleFactor = data.MeleeRange; // * sizeMod
+            _applyStagger = data.ApplyStagger;
             _attackBox.transform.localScale = Vector3.one * scaleFactor;
             if (_trail != null) _trail.widthMultiplier = scaleFactor;
         }
@@ -55,7 +57,7 @@ public class Sword : WeaponBase
             float critRate = GetOwnerStat(StatType.CritRate);
             float critDamage = GetOwnerStat(StatType.CritDamage);
             float knockbackMulti = WeaponData != null ? WeaponData.KnockbackMultiplier : 1f;
-            enemy.TakeDamage(damage, critRate, critDamage, transform.position, knockbackMulti, true);
+            enemy.TakeDamage(damage, critRate, critDamage, transform.position, knockbackMulti, _applyStagger);
         }
 
         if (collision.TryGetComponent(out DestructibleEnvironment env))
