@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
 {
+    private const string IsMovingParam = "IsMoving";
+    private const string DeathParam = "Death";
+    private const string IdleState = "Idle";
+
+    private static readonly int DeathHash = Animator.StringToHash(DeathParam);
+    private static readonly int IsMovingHash = Animator.StringToHash(IsMovingParam);
+    private static readonly int IdleHash = Animator.StringToHash(IdleState);
+
     private SpriteRenderer _sprite;
     private Vector2 _originScale;
     private Animator _animator;
@@ -9,52 +17,60 @@ public class PlayerVisual : MonoBehaviour
     [SerializeField] private PlayerStats _ownerStats;
     private PlayerMovement _movement;
 
-    private static readonly int DIE = Animator.StringToHash(DEATH);
-    private static readonly int MOVE = Animator.StringToHash(IS_MOVING);
-
-    private const string IS_MOVING = "IsMoving";
-    private const string DEATH = "Death";
-
     private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
         _originScale = transform.localScale;
         _animator = GetComponent<Animator>();
+
         if (_ownerStats == null)
             _ownerStats = GetComponentInParent<PlayerStats>();
+
         _movement = GetComponentInParent<PlayerMovement>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _ownerStats.OnPlayerDeath += PlayerStats_OnPlayerDeath;
+        if (_ownerStats != null)
+            _ownerStats.OnPlayerDeath += HandlePlayerDeath;
     }
 
-    private void PlayerStats_OnPlayerDeath(object sender, System.EventArgs e)
+    private void OnDisable()
     {
-        _animator.SetTrigger(DIE);
+        if (_ownerStats != null)
+            _ownerStats.OnPlayerDeath -= HandlePlayerDeath;
+    }
+
+    private void HandlePlayerDeath(object sender, System.EventArgs e)
+    {
+        if (_animator != null)
+            _animator.SetTrigger(DeathHash);
+    }
+
+    public void ResetToIdle()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.ResetTrigger(DeathHash);
+        _animator.SetBool(IsMovingHash, false);
+        _animator.Rebind();
+        _animator.Update(0f);
+        _animator.Play(IdleHash, 0, 0f);
+        _animator.Update(0f);
     }
 
     private void Update()
     {
-        if (_movement != null)
-            _animator.SetBool(MOVE, _movement.IsRunning());
+        if (_movement != null && _animator != null)
+            _animator.SetBool(IsMovingHash, _movement.IsRunning());
     }
 
     public void UpdateSpriteDirection(bool flipRight)
     {
         if (!flipRight)
-        {
             _sprite.transform.localScale = new Vector2(-_originScale.x, _originScale.y);
-        }
-        else if (flipRight)
-        {
+        else
             _sprite.transform.localScale = new Vector2(_originScale.x, _originScale.y);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        _ownerStats.OnPlayerDeath -= PlayerStats_OnPlayerDeath;
     }
 }

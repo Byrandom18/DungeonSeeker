@@ -69,6 +69,7 @@ public class AllyPositionAgent : Agent
         _hadHighThreatLastStep = false;
         _tookDamageThisStep = false;
         _brain?.RefreshSnapshot();
+        _stats?.ResetVisualsForTraining();
     }
 
     public override void CollectObservations(VectorSensor sensor)

@@ -21,12 +21,11 @@ public partial class RetreatAction : Action
     [SerializeReference] public BlackboardVariable<float> SafeDistance;
     [SerializeReference] public BlackboardVariable<float> Speed = new BlackboardVariable<float>(3f);
 
-    private const float k_SampleRadius = 2f; // How far are we looking for a point of departure from the agent's current position using NavMesh
-    private const float k_ProjectDistance = 1.5f; // Step forward along the retreat vector when searching for a point on the NavMesh
+    private const float k_SampleRadius = 2f;
+    private const float k_ProjectDistance = 1.5f;
     private NavMeshAgent m_NavMeshAgent;
     [CreateProperty] private float m_OriginalSpeed = -1f;
     [CreateProperty] private float m_OriginalStoppingDistance = -1f;
-
 
     protected override Status OnStart()
     {
@@ -68,7 +67,6 @@ public partial class RetreatAction : Action
 
         if (!UpdateDestination())
             return Status.Failure;
-
 
         return Status.Running;
     }
@@ -132,18 +130,17 @@ public partial class RetreatAction : Action
         awayFromTarget.z = 0f;
 
         if (awayFromTarget == Vector3.zero)
-            awayFromTarget = Vector3.right; // fallback
+            awayFromTarget = Vector3.right;
 
         awayFromTarget.Normalize();
 
         if (Retreats.Value == RetreatMode.Retreat)
             return awayFromTarget;
 
-        // Escape
         Vector3 toAlly = GetDirectionToNearestAlly(agentPos);
 
         if (toAlly == Vector3.zero)
-            return awayFromTarget; // no ally - Retreat
+            return awayFromTarget;
 
         Vector3 combined = (awayFromTarget + toAlly).normalized;
         return combined == Vector3.zero ? awayFromTarget : combined;
@@ -220,4 +217,3 @@ public partial class RetreatAction : Action
         return true;
     }
 }
-

@@ -61,7 +61,7 @@ public class AllyMLRewardForwarder : MonoBehaviour
     private void HandleEnemyKilled(EnemyDamage enemy, ICharacterEntity killer)
     {
         if (_agent == null || _stats == null || enemy == null) return;
-        if (killer != _stats) return;
+        if (!ReferenceEquals(killer, _stats)) return;
 
         _agent.ReportEnemyKill(enemy.MaxHealth);
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,6 +97,7 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     private BoxCollider2D _collisionCollider;
     private CircleCollider2D _hitboxCollider;
+    private Coroutine _visualResetRoutine;
 
     [Header("Knockback settings")]
     public float KnockbackResist;
@@ -225,6 +227,28 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         Health = MaxHealth;
         Mana = MaxMana;
         UpdateUI();
+        ResetVisualsForTraining();
+    }
+
+    public void ResetVisualsForTraining()
+    {
+        PlayerVisual[] visuals = GetComponentsInChildren<PlayerVisual>(true);
+        for (int i = 0; i < visuals.Length; i++)
+            visuals[i].ResetToIdle();
+
+        if (_visualResetRoutine != null)
+            StopCoroutine(_visualResetRoutine);
+
+        _visualResetRoutine = StartCoroutine(ResetVisualsNextFrame());
+    }
+
+    private IEnumerator ResetVisualsNextFrame()
+    {
+        yield return null;
+        PlayerVisual[] visuals = GetComponentsInChildren<PlayerVisual>(true);
+        for (int i = 0; i < visuals.Length; i++)
+            visuals[i].ResetToIdle();
+        _visualResetRoutine = null;
     }
 
     private void InitializeBaseStats()

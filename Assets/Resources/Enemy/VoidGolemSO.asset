@@ -24,7 +24,7 @@ MonoBehaviour:
   IdleDuration: 2
   EnableChase: 1
   ChasingSpeed: 3
-  ChasingDistance: 5
+  ChasingDistance: 100
   UseSteppedChase: 0
   StepDistance: 1.5
   StepSpread: 45
