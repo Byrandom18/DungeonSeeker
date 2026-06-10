@@ -48,10 +48,6 @@ public partial class AllyMLCombatMovementAction : Action
 
         SyncMovementContext(brain, modifier);
         SyncTarget(brain);
-
-        if (!modifier.ShouldControlMovement())
-            return Status.Success;
-
         return Status.Running;
     }
 

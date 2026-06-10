@@ -43,7 +43,7 @@ public partial class ChooseEnemyAction : Action
             }
 
             Enemy.Value = result.Target.gameObject;
-            return Status.Success;
+            return Status.Running;
         }
 
         return SelectNearestFallback(owner);
@@ -67,7 +67,7 @@ public partial class ChooseEnemyAction : Action
         }
 
         Enemy.Value = best.gameObject;
-        return Status.Success;
+        return Status.Running;
     }
 
     private void SelectBestTarget(int count, Vector3 origin, out Transform best, out bool anyInCombat)

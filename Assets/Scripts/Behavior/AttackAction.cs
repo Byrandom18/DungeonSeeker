@@ -43,7 +43,7 @@ public partial class AttackAction : Action
         Agent.Value.GetComponent<MonoBehaviour>()
             .StartCoroutine(ExecuteAttack(Weapon.Value, weapon));
 
-        return Status.Success;
+        return Status.Running;
     }
 
     protected override void OnEnd()

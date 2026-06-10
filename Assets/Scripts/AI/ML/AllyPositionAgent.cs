@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -36,6 +37,8 @@ public class AllyPositionAgent : Agent
     [SerializeField] private float _evadeWhileAttackingReward = 0.003f;
     [SerializeField] private float _nearMissReward = 0.08f;
     [SerializeField] private float _nearMissDistance = 1.5f;
+
+    [SerializeField] private TMP_Text _rewardText;
 
     private CombatPerception _perception;
     private bool _hadHighThreatLastStep;
@@ -160,7 +163,7 @@ public class AllyPositionAgent : Agent
     public void ReportDamageTaken(float damage)
     {
         _tookDamageThisStep = true;
-        AddReward(-damage * 0.015f);
+        AddReward(-damage * 0.1f);
     }
 
     public void ReportShieldAbsorbed(float absorbed)
@@ -170,12 +173,13 @@ public class AllyPositionAgent : Agent
 
     public void ReportEnemyKill(float enemyMaxHealth)
     {
-        AddReward(enemyMaxHealth * 0.02f);
+        AddReward(enemyMaxHealth * 0.01f);
     }
 
     public void ReportSelfDeath()
     {
-        AddReward(-1f);
+        AddReward(-5f);
+        Debug.Log("Reward: " + GetCumulativeReward());
         EndEpisode();
     }
 
@@ -183,7 +187,7 @@ public class AllyPositionAgent : Agent
     {
         if (successBonus)
             AddReward(0.5f);
-
+        Debug.Log("Reward: " + GetCumulativeReward());
         EndEpisode();
     }
 
@@ -220,7 +224,7 @@ public class AllyPositionAgent : Agent
         {
             AddReward(_nearMissReward * threat.IncomingThreatUrgency);
         }
-
+        if (_rewardText != null) _rewardText.text = GetCumulativeReward().ToString();
         _hadHighThreatLastStep = threat.IncomingThreatUrgency >= 0.5f;
     }
 

@@ -35,6 +35,8 @@ public class AllyTrainingEnvironment : MonoBehaviour
 
     private void Awake()
     {
+        //Application.runInBackground = true;
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

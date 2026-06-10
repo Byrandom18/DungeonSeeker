@@ -26,13 +26,13 @@ public partial class AbilityPerformAction : Action
 
         AbilityDecision decision = brain.SelectAbility(forceRefresh: true);
         if (!decision.IsValid)
-            return Status.Failure;
+            return Status.Running;
 
         if (!Agent.Value.TryGetComponent(out AbilitySystem abilitySystem))
             return Status.Failure;
 
         if (!abilitySystem.UseAbility(decision.SlotIndex, decision.AimPosition))
-            return Status.Failure;
+            return Status.Running;
 
         if (AbilitySlot != null)
             AbilitySlot.Value = decision.SlotIndex;
@@ -40,7 +40,7 @@ public partial class AbilityPerformAction : Action
         if (Target != null && decision.Target != null)
             Target.Value = decision.Target.gameObject;
 
-        return Status.Success;
+        return Status.Running;
     }
 
     protected override void OnEnd()
@@ -59,8 +59,7 @@ public partial class AbilityPerformAction : Action
         if (Target.Value != null)
             aim = Target.Value.transform.position;
 
-        return abilitySystem.UseAbility(AbilitySlot.Value, aim)
-            ? Status.Success
-            : Status.Failure;
+        abilitySystem.UseAbility(AbilitySlot.Value, aim);
+        return Status.Running;
     }
 }

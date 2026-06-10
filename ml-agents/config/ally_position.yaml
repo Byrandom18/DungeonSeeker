@@ -22,7 +22,7 @@ behaviors:
         gamma: 0.99
         strength: 1.0
     keep_checkpoints: 5
-    max_steps: 2000000
+    max_steps: 1000000
     time_horizon: 128
     summary_freq: 10000
     threaded: false
@@ -33,22 +33,25 @@ environment_parameters:
       - name: Lesson0
         completion_criteria:
           measure: progress
-          threshold: 0.3
-          min_lesson_length: 50000
+          behavior: AllyPosition
+          threshold: 0.2
+          min_lesson_length: 25000
           signal_smoothing: true
         value: 0
       - name: Lesson1
         completion_criteria:
           measure: progress
-          threshold: 0.25
-          min_lesson_length: 100000
+          behavior: AllyPosition
+          threshold: 0.2
+          min_lesson_length: 50000
           signal_smoothing: true
         value: 1
       - name: Lesson2
         completion_criteria:
           measure: progress
+          behavior: AllyPosition
           threshold: 0.2
-          min_lesson_length: 150000
+          min_lesson_length: 75000
           signal_smoothing: true
         value: 2
       - name: Lesson3

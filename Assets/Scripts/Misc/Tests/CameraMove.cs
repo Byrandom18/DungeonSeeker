@@ -9,6 +9,7 @@ public class CameraMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+
     private void FixedUpdate()
     {
         Vector3 move = rb.position + GameInput.Instance.GetMovementVector() * (3f * Time.fixedDeltaTime);

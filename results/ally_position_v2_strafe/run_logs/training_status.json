@@ -1,0 +1,68 @@
+{
+    "curriculum_level": {
+        "lesson_num": 0
+    },
+    "AllyPosition": {
+        "checkpoints": [
+            {
+                "steps": 103345,
+                "file_path": "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-103345.onnx",
+                "reward": 3.056384265422821,
+                "creation_time": 1781046553.9358146,
+                "auxillary_file_paths": [
+                    "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-103345.pt"
+                ]
+            },
+            {
+                "steps": 134790,
+                "file_path": "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-134790.onnx",
+                "reward": 2.1865920275449753,
+                "creation_time": 1781047913.9286969,
+                "auxillary_file_paths": [
+                    "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-134790.pt"
+                ]
+            },
+            {
+                "steps": 499919,
+                "file_path": "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-499919.onnx",
+                "reward": 2.285149295540417,
+                "creation_time": 1781057582.0626655,
+                "auxillary_file_paths": [
+                    "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-499919.pt"
+                ]
+            },
+            {
+                "steps": 999998,
+                "file_path": "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-999998.onnx",
+                "reward": 2.369998425245285,
+                "creation_time": 1781069838.915356,
+                "auxillary_file_paths": [
+                    "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-999998.pt"
+                ]
+            },
+            {
+                "steps": 1000019,
+                "file_path": "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-1000019.onnx",
+                "reward": 2.2077598770459494,
+                "creation_time": 1781069839.051995,
+                "auxillary_file_paths": [
+                    "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-1000019.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000019,
+            "file_path": "results\\ally_position_v2_strafe\\AllyPosition.onnx",
+            "reward": 2.2077598770459494,
+            "creation_time": 1781069839.051995,
+            "auxillary_file_paths": [
+                "results\\ally_position_v2_strafe\\AllyPosition\\AllyPosition-1000019.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

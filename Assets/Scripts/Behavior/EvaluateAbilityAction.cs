@@ -29,7 +29,7 @@ public partial class EvaluateAbilityAction : Action
             AbilityScore.Value = decision.Score;
 
         if (!decision.IsValid)
-            return Status.Failure;
+            return Status.Running;
 
         if (AbilitySlot != null)
             AbilitySlot.Value = decision.SlotIndex;
@@ -37,7 +37,7 @@ public partial class EvaluateAbilityAction : Action
         if (Target != null && decision.Target != null)
             Target.Value = decision.Target.gameObject;
 
-        return Status.Success;
+        return Status.Running;
     }
 
     protected override void OnEnd()
