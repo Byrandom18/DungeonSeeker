@@ -46,4 +46,40 @@ public class WeaponSO : ScriptableObject
 
     [Header("Melee settings (Sword / Dagger)")]
     public float MeleeRange = 1f;
+
+    [Header("AI combat distance")]
+    [Tooltip("Maximum effective combat range for ally AI (positioning, target scoring). 0 = weapon-type default.")]
+    public float MaxCombatRange;
+    [Tooltip("Preferred stand-off distance for ally AI and ML reward shaping. 0 = weapon-type default.")]
+    public float OptimalCombatRange;
+
+    public float ResolveMaxCombatRange()
+    {
+        if (MaxCombatRange > 0f)
+            return MaxCombatRange;
+
+        return WeaponType switch
+        {
+            WeaponType.Sword => MeleeRange > 0f ? MeleeRange : 1.5f,
+            WeaponType.Bow => 10f,
+            WeaponType.Staff => 8f,
+            WeaponType.Talisman => 6f,
+            _ => 2f
+        };
+    }
+
+    public float ResolveOptimalCombatRange()
+    {
+        if (OptimalCombatRange > 0f)
+            return OptimalCombatRange;
+
+        return WeaponType switch
+        {
+            WeaponType.Sword => MeleeRange > 0f ? MeleeRange * 0.8f : 1.2f,
+            WeaponType.Bow => 6f,
+            WeaponType.Staff => 5f,
+            WeaponType.Talisman => 4f,
+            _ => 2f
+        };
+    }
 }

@@ -10,4 +10,9 @@ public struct ThreatSnapshot
 
     public bool NearestEnemyAttacking;
     public float NearestEnemyBearing;
+
+    public int AttackingEnemyCount;
+    public int AttackingSelfCount;
+    public bool AnyEnemyAttackingSelf;
+    public float AttackingSelfUrgency;
 }

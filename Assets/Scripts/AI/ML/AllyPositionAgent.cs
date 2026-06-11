@@ -30,6 +30,9 @@ public class AllyPositionAgent : Agent
     [SerializeField] private ThreatPerception _threatPerception;
 
     [Header("Reward tuning")]
+    [SerializeField] private float _damageReceivePenalty = 0.1f;
+    [SerializeField] private float _enemyKillRewardPerHP = 0.01f;
+    [SerializeField] private float _deathPenalty = 10f;
     [SerializeField] private float _stepPenalty = 0.001f;
     [SerializeField] private float _distanceRewardScale = 0.01f;
     [SerializeField] private float _followLeaderPenaltyScale = 0.005f;
@@ -66,8 +69,6 @@ public class AllyPositionAgent : Agent
     {
         if (AllyTrainingEnvironment.Instance != null)
             AllyTrainingEnvironment.Instance.ResetEpisode(this);
-        else
-            _mlBridge?.SetMode(AllyMLMode.Heuristic);
 
         _hadHighThreatLastStep = false;
         _tookDamageThisStep = false;
@@ -95,8 +96,8 @@ public class AllyPositionAgent : Agent
         sensor.AddObservation(GetProfileObservation());
         sensor.AddObservation(GetWeaponTypeObservation());
 
-        sensor.AddObservation(threat.NearestEnemyAttacking ? 1f : 0f);
-        sensor.AddObservation(threat.NearestEnemyBearing);
+        sensor.AddObservation(NormalizeCount(threat.AttackingSelfCount, 4));
+        sensor.AddObservation(NormalizeCount(threat.AttackingEnemyCount, 8));
         sensor.AddObservation(threat.IncomingThreatUrgency);
         sensor.AddObservation(NormalizeSigned(threat.ThreatDirection.x));
         sensor.AddObservation(NormalizeSigned(threat.ThreatDirection.y));
@@ -142,11 +143,16 @@ public class AllyPositionAgent : Agent
                 retreat = 0.6f;
         }
 
-        if (threat.HasIncomingThreat)
+        if (threat.HasIncomingThreat || threat.AnyEnemyAttackingSelf)
         {
-            strafeIntensity = Mathf.Clamp01(threat.IncomingThreatUrgency);
-            Vector2 lateral = new Vector2(-threat.ThreatDirection.y, threat.ThreatDirection.x);
-            strafeDir = lateral.x >= 0f ? 0.75f : 0.25f;
+            strafeIntensity = Mathf.Clamp01(Mathf.Max(threat.IncomingThreatUrgency, threat.AttackingSelfUrgency));
+            if (threat.ThreatDirection.sqrMagnitude > 0.0001f)
+            {
+                Vector2 lateral = new Vector2(-threat.ThreatDirection.y, threat.ThreatDirection.x);
+                strafeDir = lateral.x >= 0f ? 0.75f : 0.25f;
+            }
+            if (threat.AnyEnemyAttackingSelf)
+                retreat = Mathf.Max(retreat, 0.45f + threat.AttackingSelfUrgency * 0.35f);
         }
         else if (snapshot.EnemyCount > 0)
         {
@@ -163,7 +169,7 @@ public class AllyPositionAgent : Agent
     public void ReportDamageTaken(float damage)
     {
         _tookDamageThisStep = true;
-        AddReward(-damage * 0.1f);
+        AddReward(-damage * _damageReceivePenalty);
     }
 
     public void ReportShieldAbsorbed(float absorbed)
@@ -173,21 +179,32 @@ public class AllyPositionAgent : Agent
 
     public void ReportEnemyKill(float enemyMaxHealth)
     {
-        AddReward(enemyMaxHealth * 0.01f);
+        AddReward(enemyMaxHealth * _enemyKillRewardPerHP);
     }
 
     public void ReportSelfDeath()
     {
-        AddReward(-5f);
+        AddReward(-_deathPenalty);
         Debug.Log("Reward: " + GetCumulativeReward());
         EndEpisode();
     }
 
     public void ForceEndEpisode(bool successBonus)
     {
+        if (successBonus && AllyTrainingEnvironment.Instance != null)
+        {
+            AllyTrainingEnvironment env = AllyTrainingEnvironment.Instance;
+            AddReward(0.25f * (env.CurriculumLevel + 1));
+            AddReward(0.08f * env.LastWaveEnemyCount);
+        }
+
         if (successBonus)
             AddReward(0.5f);
-        Debug.Log("Reward: " + GetCumulativeReward());
+
+        Debug.Log(
+            $"[AllyTraining] Episode end success={successBonus}, " +
+            $"curriculum={(AllyTrainingEnvironment.Instance != null ? AllyTrainingEnvironment.Instance.CurriculumLevel : -1)}, " +
+            $"reward={GetCumulativeReward():0.###}");
         EndEpisode();
     }
 
@@ -216,8 +233,8 @@ public class AllyPositionAgent : Agent
                 AddReward(-_followLeaderPenaltyScale * (dist - _maxLeaderFollowDistance));
         }
 
-        if (threat.NearestEnemyAttacking && !_tookDamageThisStep)
-            AddReward(_evadeWhileAttackingReward);
+        if ((threat.AnyEnemyAttackingSelf || threat.AttackingEnemyCount > 0) && !_tookDamageThisStep)
+            AddReward(_evadeWhileAttackingReward * (1f + threat.AttackingSelfUrgency));
 
         if (_hadHighThreatLastStep && !_tookDamageThisStep && threat.NearestThreatDistance > 0f
             && threat.NearestThreatDistance <= _nearMissDistance)
@@ -225,7 +242,7 @@ public class AllyPositionAgent : Agent
             AddReward(_nearMissReward * threat.IncomingThreatUrgency);
         }
         if (_rewardText != null) _rewardText.text = GetCumulativeReward().ToString();
-        _hadHighThreatLastStep = threat.IncomingThreatUrgency >= 0.5f;
+        _hadHighThreatLastStep = threat.IncomingThreatUrgency >= 0.5f || threat.AttackingSelfUrgency >= 0.5f;
     }
 
     private float GetShieldPercent()

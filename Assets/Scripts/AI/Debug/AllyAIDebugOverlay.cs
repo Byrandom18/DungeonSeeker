@@ -61,7 +61,7 @@ public class AllyAIDebugOverlay : MonoBehaviour
         string mlLine = _mlBridge != null
             ? $"\nML dist: {_mlBridge.PreferredDistance:0.00}  retreat: {_mlBridge.RetreatUrgency:0.00}" +
               $"\nStrafe: {_mlBridge.GetStrafeDirectionSigned():0.00} x {_mlBridge.StrafeIntensity:0.00}" +
-              $"\nThreat: {threat.IncomingThreatUrgency:0.00}  atk: {(threat.NearestEnemyAttacking ? "Y" : "N")}" +
+              $"\nThreat: {threat.IncomingThreatUrgency:0.00}  atkSelf: {threat.AttackingSelfCount}  atkAll: {threat.AttackingEnemyCount}" +
               (_movementModifier != null
                   ? $"\nML move: {(_movementModifier.IsControllingMovement ? "ON" : "off")}  mode: {_movementModifier.CurrentMode}" +
                     (_movementModifier.IsInLowHealthEscape

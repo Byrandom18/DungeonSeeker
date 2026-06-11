@@ -29,3 +29,5 @@ MonoBehaviour:
   ApplyStagger: 0
   KnockbackMultiplier: 1
   MeleeRange: 1
+  MaxCombatRange: 8
+  OptimalCombatRange: 6

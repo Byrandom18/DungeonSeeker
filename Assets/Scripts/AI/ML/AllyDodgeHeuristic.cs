@@ -1,14 +1,14 @@
 using UnityEngine;
 
 /// <summary>
-/// Fast reactive dodge layer for incoming enemy projectiles.
+/// Fast reactive dodge layer for incoming enemy attacks and projectiles.
 /// Blends with ML strafe output in <see cref="AllyMLMovementModifier"/>.
 /// </summary>
 [DisallowMultipleComponent]
 public class AllyDodgeHeuristic : MonoBehaviour
 {
     [SerializeField] private ThreatPerception _threatPerception;
-    [SerializeField] private float _urgencyThreshold = 0.45f;
+    [SerializeField] private float _urgencyThreshold = 0.35f;
     [SerializeField] private float _dodgeDistance = 1.4f;
 
     public Vector2 DodgeOffset { get; private set; }
@@ -25,19 +25,21 @@ public class AllyDodgeHeuristic : MonoBehaviour
         DodgeOffset = Vector2.zero;
         IsDodging = false;
 
-        if (!threat.HasIncomingThreat || threat.IncomingThreatUrgency < _urgencyThreshold)
+        float urgency = Mathf.Max(threat.IncomingThreatUrgency, threat.AttackingSelfUrgency);
+        if (urgency < _urgencyThreshold)
             return DodgeOffset;
 
-        Vector2 threatDir = threat.ThreatDirection;
-        if (threatDir.sqrMagnitude < 0.0001f)
+        Vector2 escapeDir = threat.ThreatDirection;
+        if (escapeDir.sqrMagnitude < 0.0001f && threat.AnyEnemyAttackingSelf)
+        {
+            escapeDir = Vector2.right;
+        }
+
+        if (escapeDir.sqrMagnitude < 0.0001f)
             return DodgeOffset;
 
-        Vector2 lateral = new Vector2(-threatDir.y, threatDir.x);
-        float side = Random.value >= 0.5f ? 1f : -1f;
-        lateral *= side;
-
-        float strength = Mathf.InverseLerp(_urgencyThreshold, 1f, threat.IncomingThreatUrgency);
-        DodgeOffset = lateral.normalized * (_dodgeDistance * strength);
+        float strength = Mathf.InverseLerp(_urgencyThreshold, 1f, urgency);
+        DodgeOffset = escapeDir.normalized * (_dodgeDistance * strength);
         IsDodging = true;
         return DodgeOffset;
     }

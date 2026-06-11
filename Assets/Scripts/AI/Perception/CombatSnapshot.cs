@@ -8,6 +8,8 @@ public struct EnemySnapshot
     public float HealthPercent;
     public bool InCombat;
     public int FocusFireCount;
+    public bool IsAttacking;
+    public bool IsAttackingSelf;
 }
 
 public struct AllySnapshot
@@ -36,6 +38,8 @@ public struct CombatSnapshot
     public bool AnyAllyLowHealth;
     public float NearestEnemyDistance;
     public bool AnyEnemyInCombat;
+    public int AttackingEnemyCount;
+    public int AttackingSelfCount;
 }
 
 public struct TargetSelectionResult

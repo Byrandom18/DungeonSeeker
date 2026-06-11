@@ -83,7 +83,7 @@ public class EnemyDamage : MonoBehaviour
         {
             damage *= 1 + critDamage / 100;
         }
-        Debug.Log(gameObject.name + " receive " + damage);
+        //Debug.Log(gameObject.name + " receive " + damage);
         CurrentHealth -= damage;
         UpdateHealthBar();
         if (isStaggeringAttack) ApplyStagger();

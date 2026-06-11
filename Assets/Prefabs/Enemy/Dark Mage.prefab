@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: _enemySO
       value: 
       objectReference: {fileID: 11400000, guid: dd58ed423f1b9b545a09fc16c182efb5, type: 2}
+    - target: {fileID: 1218495228056247004, guid: 8df8648e39c5577438019a4df791995e, type: 3}
+      propertyPath: _retreatAfterAttack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1257132027651446878, guid: 8df8648e39c5577438019a4df791995e, type: 3}
       propertyPath: m_Controller
       value: 

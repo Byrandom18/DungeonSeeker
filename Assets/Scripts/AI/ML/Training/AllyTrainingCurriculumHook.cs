@@ -7,7 +7,12 @@ using UnityEngine;
 /// </summary>
 public class AllyTrainingCurriculumHook : MonoBehaviour
 {
+    public const string ParameterName = "curriculum_level";
+
     [SerializeField] private AllyTrainingEnvironment _environment;
+    [SerializeField] private bool _logLevelChanges = true;
+
+    private int _lastAppliedLevel = int.MinValue;
 
     private void Awake()
     {
@@ -15,12 +20,37 @@ public class AllyTrainingCurriculumHook : MonoBehaviour
             _environment = GetComponent<AllyTrainingEnvironment>();
     }
 
-    private void Update()
+    private void LateUpdate()
+    {
+        ApplyCurriculumFromAcademy();
+    }
+
+    public static int ReadCurriculumLevel(int fallback = 0)
+    {
+        if (Academy.Instance == null)
+            return fallback;
+
+        return (int)Academy.Instance.EnvironmentParameters.GetWithDefault(ParameterName, fallback);
+    }
+
+    private void ApplyCurriculumFromAcademy()
     {
         if (_environment == null)
             return;
 
-        int level = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("curriculum_level", 0f);
+        int level = ReadCurriculumLevel(_environment.CurriculumLevel);
+        if (level == _lastAppliedLevel)
+            return;
+
         _environment.SetCurriculumLevel(level);
+
+        if (_logLevelChanges && _lastAppliedLevel != int.MinValue)
+        {
+            Debug.Log(
+                $"[AllyTraining] Curriculum level changed: {_lastAppliedLevel} -> {level} " +
+                $" (enemies={AllyTrainingEnvironment.GetEnemyCountForLevel(level)})");
+        }
+
+        _lastAppliedLevel = level;
     }
 }

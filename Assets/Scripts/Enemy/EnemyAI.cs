@@ -66,6 +66,15 @@ public class EnemyAI : MonoBehaviour
 
     public bool IsFacingRight = true;
     public bool IsAttacking = false;
+    public ICharacterEntity CurrentTarget => _currentTarget;
+
+    public bool IsAttackingEntity(ICharacterEntity entity)
+    {
+        if (!IsAttacking || entity == null || _currentTarget == null)
+            return false;
+
+        return _currentTarget.Transform == entity.Transform;
+    }
 
     public event EventHandler OnEnemyAttack;
     public event EventHandler OnEnemyUpdateSpriteDirection;
@@ -254,7 +263,7 @@ public class EnemyAI : MonoBehaviour
 
     private void AttackingTarget()
     {
-        if (Time.time > _nextAttackTime && _navMeshAgent.velocity == Vector3.zero && !_enemyDamage.InStagger)
+        if (Time.time > _nextAttackTime && !_enemyDamage.InStagger) // && _navMeshAgent.velocity == Vector3.zero
         {
             OnEnemyAttack?.Invoke(this, EventArgs.Empty);
             IsAttacking = true;

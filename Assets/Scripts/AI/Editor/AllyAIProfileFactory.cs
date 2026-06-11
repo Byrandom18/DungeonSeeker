@@ -53,6 +53,7 @@ public static class AllyAIProfileFactory
                 ability.Defence = 0.4f;
                 weapon.LowHealthWeight = 1f;
                 weapon.ThreatWeight = 0.8f;
+                weapon.AttackingSelfWeight = 2.2f;
                 break;
             case AllyCombatProfileType.Defensive:
                 ability.MinScoreToCast = 0.4f;
@@ -61,6 +62,7 @@ public static class AllyAIProfileFactory
                 ability.SingleTarget = 0.7f;
                 weapon.ThreatWeight = 1f;
                 weapon.DistanceWeight = 1.2f;
+                weapon.AttackingSelfWeight = 2.8f;
                 break;
             case AllyCombatProfileType.Support:
                 ability.MinScoreToCast = 0.35f;
@@ -70,6 +72,7 @@ public static class AllyAIProfileFactory
                 ability.SingleTarget = 0.6f;
                 weapon.LowHealthWeight = 0.5f;
                 weapon.FocusFireWeight = 0.2f;
+                weapon.AttackingSelfWeight = 2.5f;
                 break;
         }
     }

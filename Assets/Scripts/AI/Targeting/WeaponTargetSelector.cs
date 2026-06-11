@@ -51,15 +51,27 @@ public static class WeaponTargetSelector
             maxDist,
             profile.PreferCloser);
 
-        float lowHealthScore = 1f - Mathf.Clamp01(enemy.HealthPercent);
+        float farDampen = Mathf.Lerp(1f, 0.2f, Mathf.Clamp01(enemy.Distance / Mathf.Max(maxDist, 4f)));
+        float lowHealthScore = (1f - Mathf.Clamp01(enemy.HealthPercent)) * farDampen;
         float threatScore = enemy.InCombat ? 1f : 0f;
         float focusScore = Mathf.Clamp01(enemy.FocusFireCount / 3f);
+
+        float proximity = 1f - Mathf.Clamp01(enemy.Distance / Mathf.Max(maxDist, 0.5f));
+        float attackSelfScore = 0f;
+        if (enemy.IsAttackingSelf)
+            attackSelfScore = weights.AttackingSelfWeight * (0.55f + proximity * 0.45f);
+
+        float attackScore = enemy.IsAttacking
+            ? weights.AttackingWeight * (0.35f + proximity * 0.35f)
+            : 0f;
 
         float score =
             weights.DistanceWeight * profile.DistanceWeightScale * distanceScore +
             weights.LowHealthWeight * profile.LowHealthWeightScale * lowHealthScore +
             weights.ThreatWeight * profile.ThreatWeightScale * threatScore +
-            weights.FocusFireWeight * focusScore;
+            weights.FocusFireWeight * focusScore +
+            attackSelfScore +
+            attackScore;
 
         return score;
     }

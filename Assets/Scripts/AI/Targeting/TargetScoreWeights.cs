@@ -8,6 +8,8 @@ public class TargetScoreWeights : ScriptableObject
     [Range(0f, 2f)] public float LowHealthWeight = 0.8f;
     [Range(0f, 2f)] public float ThreatWeight = 0.6f;
     [Range(0f, 2f)] public float FocusFireWeight = 0.4f;
+    [Range(0f, 3f)] public float AttackingSelfWeight = 2.5f;
+    [Range(0f, 2f)] public float AttackingWeight = 0.5f;
 
     [Header("Per weapon type")]
     public WeaponWeightProfile Sword = WeaponWeightProfile.DefaultMelee();

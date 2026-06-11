@@ -196,11 +196,9 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
 
     public bool ConsumeMana(float value)
     {
-        Debug.Log("value: " + value);
         if (value > Mana)
             return false;
         Mana -= value;
-        Debug.Log("Mana: " + Mana);
         return true;
     }
 

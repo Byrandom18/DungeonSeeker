@@ -13,6 +13,8 @@ public class CombatPerception : MonoBehaviour
     private readonly EnemySnapshot[] _enemySnapshots = new EnemySnapshot[32];
     private readonly AllySnapshot[] _allySnapshots = new AllySnapshot[16];
 
+    private ICharacterEntity _self;
+
     public float ScanRadius => _scanRadius;
     public CombatSnapshot LastSnapshot { get; private set; }
 
@@ -22,6 +24,10 @@ public class CombatPerception : MonoBehaviour
             _stats = GetComponent<PlayerStats>();
         if (_activeWeapon == null)
             _activeWeapon = GetComponentInChildren<ActiveWeapon>(true);
+
+        _self = _stats as ICharacterEntity;
+        if (_self == null && _stats != null)
+            _self = _stats;
     }
 
     public CombatSnapshot BuildSnapshot()
@@ -55,6 +61,7 @@ public class CombatPerception : MonoBehaviour
         bool anyAllyLow = AnyAllyBelowThreshold(allyCount, _allyLowHealthThreshold);
         bool anyInCombat = AnyEnemyInCombat(enemyCount);
         float nearestDist = GetNearestEnemyDistance(enemyCount);
+        CountAttackingEnemies(enemyCount, out int attackingEnemyCount, out int attackingSelfCount);
 
         LastSnapshot = new CombatSnapshot
         {
@@ -70,7 +77,9 @@ public class CombatPerception : MonoBehaviour
             ClusteredEnemyCount = clustered,
             AnyAllyLowHealth = anyAllyLow,
             NearestEnemyDistance = nearestDist,
-            AnyEnemyInCombat = anyInCombat
+            AnyEnemyInCombat = anyInCombat,
+            AttackingEnemyCount = attackingEnemyCount,
+            AttackingSelfCount = attackingSelfCount
         };
 
         return LastSnapshot;
@@ -88,6 +97,15 @@ public class CombatPerception : MonoBehaviour
             if (!c.TryGetComponent(out EnemyDamage ed) || !ed.IsAlive) continue;
 
             float dist = Vector2.Distance(origin, c.transform.position);
+            bool isAttacking = false;
+            bool isAttackingSelf = false;
+
+            if (c.TryGetComponent(out EnemyAI ai))
+            {
+                isAttacking = ai.IsAttacking;
+                isAttackingSelf = ai.IsAttackingEntity(_self);
+            }
+
             _enemySnapshots[written++] = new EnemySnapshot
             {
                 Transform = c.transform,
@@ -95,11 +113,29 @@ public class CombatPerception : MonoBehaviour
                 Distance = dist,
                 HealthPercent = ed.HealthPercent,
                 InCombat = ed.InCombat,
-                FocusFireCount = PartyCombatCoordinator.GetFocusCount(c.transform)
+                FocusFireCount = PartyCombatCoordinator.GetFocusCount(c.transform),
+                IsAttacking = isAttacking,
+                IsAttackingSelf = isAttackingSelf
             };
         }
 
         return written;
+    }
+
+    private void CountAttackingEnemies(int enemyCount, out int attackingEnemyCount, out int attackingSelfCount)
+    {
+        attackingEnemyCount = 0;
+        attackingSelfCount = 0;
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            if (!_enemySnapshots[i].IsAttacking)
+                continue;
+
+            attackingEnemyCount++;
+            if (_enemySnapshots[i].IsAttackingSelf)
+                attackingSelfCount++;
+        }
     }
 
     private int GatherAllies(Vector3 origin)
@@ -211,25 +247,17 @@ public class CombatPerception : MonoBehaviour
 
     public static float GetWeaponRange(WeaponSO data)
     {
-        return data.WeaponType switch
-        {
-            WeaponType.Sword => data.MeleeRange > 0f ? data.MeleeRange : 1.5f,
-            WeaponType.Bow => 10f,
-            WeaponType.Staff => 8f,
-            WeaponType.Talisman => 6f,
-            _ => 2f
-        };
+        if (data == null)
+            return 1.5f;
+
+        return data.ResolveMaxCombatRange();
     }
 
     public static float GetOptimalRange(WeaponSO data)
     {
-        return data.WeaponType switch
-        {
-            WeaponType.Sword => data.MeleeRange > 0f ? data.MeleeRange * 0.8f : 1.2f,
-            WeaponType.Bow => 6f,
-            WeaponType.Staff => 5f,
-            WeaponType.Talisman => 4f,
-            _ => 2f
-        };
+        if (data == null)
+            return 1.2f;
+
+        return data.ResolveOptimalCombatRange();
     }
 }

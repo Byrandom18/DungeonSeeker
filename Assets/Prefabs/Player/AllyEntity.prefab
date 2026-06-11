@@ -612,7 +612,7 @@ MonoBehaviour:
   _aimMode: 1
   _worldAimTarget: {fileID: 0}
   _aimMovementReference: {fileID: 0}
-  _ownerStats: {fileID: 0}
+  _ownerStats: {fileID: 4373343529425937186}
   _weaponEntries:
   - Type: 0
     Weapon: {fileID: 4301442204054978962}
@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 4544900637096469671}
   - component: {fileID: 8741151472102739426}
   - component: {fileID: 6571618576632930820}
+  - component: {fileID: 5812752368313553792}
   m_Layer: 7
   m_Name: AllyEntity
   m_TagString: Untagged
@@ -1270,8 +1271,11 @@ MonoBehaviour:
   _mode: 0
   _useMLDistance: 1
   _useMLRetreat: 1
+  _useMLCombatMovement: 1
   _preferredDistance: 0.6
   _retreatUrgency: 0
+  _strafeDirection: 0.5
+  _strafeIntensity: 0
 --- !u!114 &1871443456977043264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,10 +1326,18 @@ MonoBehaviour:
   _brain: {fileID: 0}
   _mlBridge: {fileID: 0}
   _stats: {fileID: 0}
+  _threatPerception: {fileID: 0}
+  _damageReceivePenalty: 0.1
+  _enemyKillRewardPerHP: 0.01
+  _deathPenalty: 10
   _stepPenalty: 0.001
   _distanceRewardScale: 0.01
   _followLeaderPenaltyScale: 0.005
   _maxLeaderFollowDistance: 6
+  _evadeWhileAttackingReward: 0.003
+  _nearMissReward: 0.08
+  _nearMissDistance: 1.5
+  _rewardText: {fileID: 0}
 --- !u!114 &8741151472102739426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1367,34 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
+--- !u!114 &5812752368313553792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8324317741575281210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2c3acdd2cc5d4ca235be1d6c60e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _strafeRadius: 2.5
+  _distanceTolerance: 0.35
+  _destinationStep: 1.5
+  _lowHealthHysteresis: 30
+  _allyHoldRadius: 2.5
+  _maxEscapeDistanceFromParty: 5
+  _enemyThreatRadiusDuringEscape: 3.5
+  _escapeApproachStep: 1.2
+  _holdRetreatStep: 0.75
+  _followLeaderStep: 2
+  _navSampleRadius: 2
+  _destinationRefreshInterval: 0.15
+  _brain: {fileID: 0}
+  _mlBridge: {fileID: 0}
+  _threatPerception: {fileID: 0}
+  _dodgeHeuristic: {fileID: 0}
 --- !u!1 &8745472035125116731
 GameObject:
   m_ObjectHideFlags: 0

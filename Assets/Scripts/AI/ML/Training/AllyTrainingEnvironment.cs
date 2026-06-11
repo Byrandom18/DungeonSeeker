@@ -25,6 +25,7 @@ public class AllyTrainingEnvironment : MonoBehaviour
     [Header("Episode")]
     [SerializeField] private float _maxEpisodeSeconds = 90f;
     [SerializeField] private int _startingCurriculumLevel;
+    [SerializeField] private bool _logEpisodeSpawns = true;
 
     private float _episodeTimer;
     private int _curriculumLevel;
@@ -32,11 +33,11 @@ public class AllyTrainingEnvironment : MonoBehaviour
 
     public int CurriculumLevel => _curriculumLevel;
     public float EpisodeTimer => _episodeTimer;
+    public int LastWaveEnemyCount { get; private set; }
+    public string LastWaveComposition => _spawner != null ? _spawner.LastWaveCompositionLabel : string.Empty;
 
     private void Awake()
     {
-        //Application.runInBackground = true;
-
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -73,6 +74,8 @@ public class AllyTrainingEnvironment : MonoBehaviour
         _trainingAgent = agent;
         _episodeTimer = 0f;
 
+        RefreshCurriculumFromAcademy();
+
         PartyCombatCoordinator.ClearAll();
         EnemyProjectileRegistry.Clear();
 
@@ -98,6 +101,17 @@ public class AllyTrainingEnvironment : MonoBehaviour
     public void SetCurriculumLevel(int level)
     {
         _curriculumLevel = Mathf.Max(0, level);
+    }
+
+    public void RefreshCurriculumFromAcademy()
+    {
+        int level = AllyTrainingCurriculumHook.ReadCurriculumLevel(_curriculumLevel);
+        SetCurriculumLevel(level);
+    }
+
+    public static int GetEnemyCountForLevel(int level)
+    {
+        return AllyTrainingWaveComposition.GetTotalCount(level);
     }
 
     private void ResetAgent(AllyPositionAgent agent)
@@ -140,6 +154,7 @@ public class AllyTrainingEnvironment : MonoBehaviour
         int enemyCount = GetEnemyCountForLevel(_curriculumLevel);
         var spawned = _spawner.SpawnEnemies(_enemySpawnPoints, enemyCount, _curriculumLevel);
 
+        LastWaveEnemyCount = spawned.Count;
         _activeEnemies.Clear();
         _activeEnemies.AddRange(spawned);
 
@@ -148,23 +163,18 @@ public class AllyTrainingEnvironment : MonoBehaviour
             if (enemy == null) continue;
             enemy.OnDeath += (_, __) => HandleEnemyDeath(enemy);
         }
+
+        if (_logEpisodeSpawns)
+        {
+            Debug.Log(
+                $"[AllyTraining] Episode spawn: curriculum={_curriculumLevel}, " +
+                $"enemies={LastWaveEnemyCount}, wave={LastWaveComposition}");
+        }
     }
 
     private void HandleEnemyDeath(EnemyDamage enemy)
     {
         if (enemy == null) return;
         NotifyEnemyKilled(enemy, enemy.LastAttacker);
-    }
-
-    private static int GetEnemyCountForLevel(int level)
-    {
-        return level switch
-        {
-            0 => 1,
-            1 => 2,
-            2 => 3,
-            3 => 4,
-            _ => 5
-        };
     }
 }
