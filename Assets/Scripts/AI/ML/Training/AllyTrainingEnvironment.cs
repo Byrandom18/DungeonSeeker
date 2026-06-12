@@ -27,11 +27,19 @@ public class AllyTrainingEnvironment : MonoBehaviour
     [SerializeField] private int _startingCurriculumLevel;
     [SerializeField] private bool _logEpisodeSpawns = true;
 
+    [Header("Curriculum")]
+    [SerializeField] private bool _useEpisodeBasedCurriculum = true;
+    [SerializeField] private int _episodesPerCurriculumLevel = 100;
+    [SerializeField] private int _maxCurriculumLevel = 4;
+    [SerializeField] private bool _useAcademyCurriculumFallback;
+
     private float _episodeTimer;
     private int _curriculumLevel;
+    private int _episodeIndex;
     private readonly List<EnemyDamage> _activeEnemies = new List<EnemyDamage>();
 
     public int CurriculumLevel => _curriculumLevel;
+    public int EpisodeIndex => _episodeIndex;
     public float EpisodeTimer => _episodeTimer;
     public int LastWaveEnemyCount { get; private set; }
     public string LastWaveComposition => _spawner != null ? _spawner.LastWaveCompositionLabel : string.Empty;
@@ -54,12 +62,12 @@ public class AllyTrainingEnvironment : MonoBehaviour
             Instance = null;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_trainingAgent == null)
             return;
 
-        _episodeTimer += Time.deltaTime;
+        _episodeTimer += Time.fixedDeltaTime;
         if (_episodeTimer >= _maxEpisodeSeconds)
             _trainingAgent.ForceEndEpisode(false);
     }
@@ -74,10 +82,10 @@ public class AllyTrainingEnvironment : MonoBehaviour
         _trainingAgent = agent;
         _episodeTimer = 0f;
 
-        RefreshCurriculumFromAcademy();
+        AdvanceCurriculumForEpisode();
 
         PartyCombatCoordinator.ClearAll();
-        EnemyProjectileRegistry.Clear();
+        ClearEpisodeProjectiles();
 
         if (_leaderDummy != null)
             _leaderDummy.ResetToSpawn(_leaderSpawn);
@@ -106,12 +114,50 @@ public class AllyTrainingEnvironment : MonoBehaviour
     public void RefreshCurriculumFromAcademy()
     {
         int level = AllyTrainingCurriculumHook.ReadCurriculumLevel(_curriculumLevel);
-        SetCurriculumLevel(level);
+        SetCurriculumLevel(Mathf.Min(level, _maxCurriculumLevel));
+    }
+
+    private void AdvanceCurriculumForEpisode()
+    {
+        _episodeIndex++;
+
+        if (_useEpisodeBasedCurriculum)
+        {
+            int previousLevel = _curriculumLevel;
+            int episodesPerLevel = Mathf.Max(1, _episodesPerCurriculumLevel);
+            int level = _startingCurriculumLevel + (_episodeIndex - 1) / episodesPerLevel;
+            SetCurriculumLevel(Mathf.Min(level, _maxCurriculumLevel));
+
+            if (_logEpisodeSpawns && _curriculumLevel != previousLevel)
+            {
+                int nextChangeEpisode = (_curriculumLevel - _startingCurriculumLevel + 1) * episodesPerLevel + 1;
+                Debug.Log(
+                    $"[AllyTraining] Curriculum level: {previousLevel} -> {_curriculumLevel} " +
+                    $"(episode {_episodeIndex}, next at episode {nextChangeEpisode})");
+            }
+
+            return;
+        }
+
+        if (_useAcademyCurriculumFallback)
+            RefreshCurriculumFromAcademy();
     }
 
     public static int GetEnemyCountForLevel(int level)
     {
         return AllyTrainingWaveComposition.GetTotalCount(level);
+    }
+
+    private static void ClearEpisodeProjectiles()
+    {
+        Projectile[] projectiles = FindObjectsByType<Projectile>(FindObjectsSortMode.None);
+        for (int i = 0; i < projectiles.Length; i++)
+        {
+            if (projectiles[i] != null)
+                Destroy(projectiles[i].gameObject);
+        }
+
+        EnemyProjectileRegistry.Clear();
     }
 
     private void ResetAgent(AllyPositionAgent agent)

@@ -226,6 +226,13 @@ public class PlayerStats : MonoBehaviour, ICharacterEntity
         Mana = MaxMana;
         UpdateUI();
         ResetVisualsForTraining();
+        RefreshWeaponForTraining();
+    }
+
+    private void RefreshWeaponForTraining()
+    {
+        ActiveWeapon activeWeapon = GetComponentInChildren<ActiveWeapon>(true);
+        activeWeapon?.RefreshEquippedWeapon();
     }
 
     public void ResetVisualsForTraining()

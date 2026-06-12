@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Tracks active enemy-launched projectiles for ally threat perception.
@@ -28,6 +29,17 @@ public static class EnemyProjectileRegistry
 
     public static void Clear()
     {
+        if (Active.Count == 0)
+            return;
+
+        var snapshot = new Projectile[Active.Count];
+        Active.CopyTo(snapshot);
         Active.Clear();
+
+        for (int i = 0; i < snapshot.Length; i++)
+        {
+            if (snapshot[i] != null)
+                Object.Destroy(snapshot[i].gameObject);
+        }
     }
 }

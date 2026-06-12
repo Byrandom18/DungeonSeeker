@@ -85,9 +85,9 @@ public class AllyAIBrain : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        _snapshotTimer -= Time.deltaTime;
+        _snapshotTimer -= Time.fixedDeltaTime;
         if (_snapshotTimer <= 0f)
         {
             _snapshotTimer = _snapshotRefreshInterval;

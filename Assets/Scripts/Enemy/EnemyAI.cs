@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Retreat after attack")]
     [SerializeField] private bool _retreatAfterAttack = false;
-    [SerializeField] private float _retreatDistance = 3f;   // желаемая дистанция отступления
+    [SerializeField] private float _retreatDistance = 3f;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField] private float _retreatSpeed = 2f;
     [SerializeField] private float _minSafeDistance = 5f;
 

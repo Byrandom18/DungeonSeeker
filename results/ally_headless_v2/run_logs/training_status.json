@@ -1,0 +1,32 @@
+{
+    "curriculum_level": {
+        "lesson_num": 0
+    },
+    "AllyPosition": {
+        "checkpoints": [
+            {
+                "steps": 20363,
+                "file_path": "results\\ally_headless_v2\\AllyPosition\\AllyPosition-20363.onnx",
+                "reward": 2.4669292055327317,
+                "creation_time": 1781211579.594002,
+                "auxillary_file_paths": [
+                    "results\\ally_headless_v2\\AllyPosition\\AllyPosition-20363.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 20363,
+            "file_path": "results\\ally_headless_v2\\AllyPosition.onnx",
+            "reward": 2.4669292055327317,
+            "creation_time": 1781211579.594002,
+            "auxillary_file_paths": [
+                "results\\ally_headless_v2\\AllyPosition\\AllyPosition-20363.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

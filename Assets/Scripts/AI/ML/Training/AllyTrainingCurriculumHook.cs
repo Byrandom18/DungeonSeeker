@@ -2,14 +2,16 @@ using Unity.MLAgents;
 using UnityEngine;
 
 /// <summary>
-/// Reads curriculum_level from Python training config and applies it to the training environment.
-/// Add to the same GameObject as AllyTrainingEnvironment.
+/// Optional: reads curriculum_level from Python ML-Agents config.
+/// By default <see cref="AllyTrainingEnvironment"/> advances curriculum every N episodes locally.
+/// Enable only when AllyTrainingEnvironment.UseAcademyCurriculumFallback is true.
 /// </summary>
 public class AllyTrainingCurriculumHook : MonoBehaviour
 {
     public const string ParameterName = "curriculum_level";
 
     [SerializeField] private AllyTrainingEnvironment _environment;
+    [SerializeField] private bool _syncFromAcademy;
     [SerializeField] private bool _logLevelChanges = true;
 
     private int _lastAppliedLevel = int.MinValue;
@@ -22,6 +24,9 @@ public class AllyTrainingCurriculumHook : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!_syncFromAcademy)
+            return;
+
         ApplyCurriculumFromAcademy();
     }
 

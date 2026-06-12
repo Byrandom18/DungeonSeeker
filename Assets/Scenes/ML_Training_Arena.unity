@@ -619,11 +619,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871443456977043264, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871443456977043264, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_InferenceDevice
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606078218079287318, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+      propertyPath: _partyMemberId
+      value: ally_ml
       objectReference: {fileID: 0}
     - target: {fileID: 3016769487888172925, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_AnchorMax.x
@@ -675,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3866870951490737908, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: _mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4319880779792716077, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1084,6 +1088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _environment: {fileID: 1780863635}
+  _syncFromAcademy: 0
   _logLevelChanges: 1
 --- !u!1001 &1298362615
 PrefabInstance:
@@ -1249,6 +1254,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2377758808273104883, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2494477207901195938, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1403,19 +1412,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5044031751355649271, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5044031751355649271, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5044031751355649271, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 330
       objectReference: {fileID: 0}
     - target: {fileID: 5044031751355649271, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 5132563232225894750, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1495,35 +1504,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903907946484014726, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903907946484014726, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903907946484014726, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 5903907946484014726, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 6212315958577719995, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6212315958577719995, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6212315958577719995, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6212315958577719995, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70
       objectReference: {fileID: 0}
     - target: {fileID: 6251167758214105500, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1785,6 +1794,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8842371120823324071, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
+      propertyPath: _abilitySystem
+      value: 
+      objectReference: {fileID: 2011546357}
     - target: {fileID: 8942214639418080226, guid: 91e7deecaf5d25242b73255a6ac6e71d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2205,8 +2218,12 @@ MonoBehaviour:
   _leaderDummy: {fileID: 427542488}
   _trainingAgent: {fileID: 918740132}
   _maxEpisodeSeconds: 90
-  _startingCurriculumLevel: 0
-  _logEpisodeSpawns: 1
+  _startingCurriculumLevel: 3
+  _logEpisodeSpawns: 0
+  _useEpisodeBasedCurriculum: 1
+  _episodesPerCurriculumLevel: 100
+  _maxCurriculumLevel: 4
+  _useAcademyCurriculumFallback: 0
 --- !u!1 &2011546326 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8324317741575281210, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
@@ -2230,6 +2247,17 @@ MonoBehaviour:
   _maxThreatTime: 2
   _meleeThreatRadius: 4
   _maxThreatEntries: 4
+--- !u!114 &2011546357 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2325282206180609601, guid: b14f560240798b140ab4055c0eb9b296, type: 3}
+  m_PrefabInstance: {fileID: 971650940}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011546326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e034d40954f6174aa97abc99e6f4814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

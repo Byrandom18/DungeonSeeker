@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Weapon archetype — determines which WeaponBase component is activated
+/// Weapon archetype ï¿½ determines which WeaponBase component is activated
 /// and which animation/visual logic ActiveWeapon uses.
 /// </summary>
 public enum WeaponType

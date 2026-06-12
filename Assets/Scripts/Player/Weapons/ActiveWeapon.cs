@@ -159,6 +159,17 @@ public class ActiveWeapon : MonoBehaviour
         ApplyPendingWeaponChange();
     }
 
+    /// <summary>
+    /// Re-applies the equipped weapon from inventory (e.g. after ML training episode reset).
+    /// </summary>
+    public void RefreshEquippedWeapon()
+    {
+        _isMidSwing = false;
+        _pendingWeaponSO = null;
+        _pendingDeactivate = false;
+        OnInventoryChanged();
+    }
+
     private void ResolveInventoryReference()
     {
         UnbindInventory();

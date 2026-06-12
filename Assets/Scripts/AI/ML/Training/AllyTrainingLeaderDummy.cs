@@ -19,11 +19,11 @@ public class AllyTrainingLeaderDummy : MonoBehaviour
             _stats = GetComponent<PlayerStats>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_patrolRadius <= 0f) return;
 
-        _angle += _patrolSpeed * Time.deltaTime;
+        _angle += _patrolSpeed * Time.fixedDeltaTime;
         Vector3 offset = new Vector3(Mathf.Cos(_angle), Mathf.Sin(_angle), 0f) * _patrolRadius;
         transform.position = _center + offset;
     }

@@ -15,10 +15,12 @@ public partial class AttackAction : Action
     [SerializeReference] public BlackboardVariable<float> AttackCooldown;
 
     private bool _attackInProgress;
+    private bool _attackComplete;
 
     protected override Status OnStart()
     {
         _attackInProgress = false;
+        _attackComplete = false;
         return Status.Running;
     }
 
@@ -26,17 +28,20 @@ public partial class AttackAction : Action
     {
         if (Target.Value == null || Weapon.Value == null)
             return Status.Failure;
+
         WeaponBase weapon = Weapon.Value.GetActiveWeapon();
         if (weapon == null)
             return Status.Failure;
 
-        Weapon.Value.SetWorldAimTarget(Target.Value.transform);
+        if (_attackComplete)
+            return Status.Success;
 
         if (_attackInProgress)
             return Status.Running;
 
+        Weapon.Value.SetWorldAimTarget(Target.Value.transform);
         _attackInProgress = true;
-        
+
         if (AttackCooldown != null)
             AttackCooldown.Value = weapon.Cooldown;
 
@@ -49,6 +54,12 @@ public partial class AttackAction : Action
     protected override void OnEnd()
     {
         _attackInProgress = false;
+        _attackComplete = false;
+
+        // CooldownModifier reads Duration on the next OnStart; reset so a stale value
+        // does not pre-apply an extra wait before the child can run.
+        if (AttackCooldown != null)
+            AttackCooldown.Value = 0f;
     }
 
     private IEnumerator ExecuteAttack(ActiveWeapon activeWeapon, WeaponBase weapon)
@@ -60,6 +71,7 @@ public partial class AttackAction : Action
 
         activeWeapon.NotifyAttackEnded();
         _attackInProgress = false;
+        _attackComplete = true;
     }
 }
 

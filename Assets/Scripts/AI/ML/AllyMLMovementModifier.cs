@@ -78,7 +78,7 @@ public class AllyMLMovementModifier : MonoBehaviour
             component = gameObject.AddComponent<T>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!ShouldControlMovement())
         {
@@ -87,7 +87,7 @@ public class AllyMLMovementModifier : MonoBehaviour
         }
 
         IsControllingMovement = true;
-        _refreshTimer -= Time.deltaTime;
+        _refreshTimer -= Time.fixedDeltaTime;
         if (_refreshTimer > 0f)
             return;
 
