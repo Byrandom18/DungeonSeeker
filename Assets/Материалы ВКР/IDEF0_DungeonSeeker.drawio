@@ -1,0 +1,230 @@
+<mxfile host="app.diagrams.net" modified="2026-06-12T00:00:00.000Z" agent="Cursor" version="22.1.0">
+  <diagram id="A-0" name="A-0 Контекстная диаграмма">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="IDEF0. Диаграмма A-0&#xa;«Управление поведением NPC в DungeonSeeker»" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="284" y="20" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="a0box" value="A-0&#xa;Управление поведением&#xa;неигровых персонажей (NPC)&#xa;в игре DungeonSeeker" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=0;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="384" y="280" width="400" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="i1" value="Состояние&#xa;игрового мира" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="i2" value="Ввод игрока" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="i3" value="Конфигурация&#xa;профилей (SO)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ei1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="i1" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ei2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="i2" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ei3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="i3" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="o1" value="Действия NPC&#xa;(движение, атака,&#xa;способности)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="980" y="260" width="150" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="o2" value="События боя&#xa;(урон, смерть, килл)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="980" y="360" width="150" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="eo1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="a0box" target="o1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="eo2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="a0box" target="o2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c1" value="Правила Utility AI&#xa;(веса целей и способностей)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="180" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c2" value="Параметры ML&#xa;(PPO, reward shaping)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="560" y="120" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c3" value="Behavior-граф&#xa;(Ally AI.asset)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="440" y="60" width="160" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="c4" value="Баланс оружия&#xa;и способностей" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="620" y="60" width="150" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="ec1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="c1" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ec2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="c2" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ec3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="c3" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ec4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="c4" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1" value="Unity 6&#xa;(6000.0.67f1)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="500" width="120" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2" value="ML-Agents 4.0.2&#xa;(PPO / ONNX)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="500" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="m3" value="NavMesh Plus&#xa;(2D навигация)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="590" y="500" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="m4" value="Unity Behavior 1.0.15" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="740" y="500" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="em1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="m1" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="em2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="m2" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="em3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="m3" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="em4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=1;" edge="1" parent="1" source="m4" target="a0box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg" value="I — входы (слева)   O — выходы (справа)   C — управление (сверху)   M — механизмы (снизу)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="40" y="580" width="600" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="A0" name="A0 Декомпозиция">
+    <mxGraphModel dx="1800" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title2" value="IDEF0. Диаграмма A0 (декомпозиция A-0)&#xa;Функциональные блоки системы управления NPC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="350" y="15" width="700" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="parent_label" value="A-0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="55" width="240" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="a1" value="A1&#xa;Восприятие среды&#xa;(Perception)&#xa;&#xa;CombatPerception&#xa;ThreatPerception&#xa;EnemyProjectileRegistry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="180" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" value="A2&#xa;Тактические решения&#xa;(Utility AI)&#xa;&#xa;WeaponTargetSelector&#xa;UtilityAbilitySelector&#xa;PartyCombatCoordinator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="190" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" value="A3&#xa;Оркестрация поведения&#xa;(Unity Behavior)&#xa;&#xa;Граф Ally AI.asset&#xa;Attack / Ability / Navigate" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="530" y="200" width="190" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" value="A4&#xa;ML-позиционирование&#xa;(PPO AllyPosition)&#xa;&#xa;17 obs / 4 actions&#xa;AllyPositionAgent&#xa;AllyMLBridge" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="780" y="200" width="180" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a5" value="A5&#xa;Исполнение движения&#xa;(NavMesh + Dodge)&#xa;&#xa;AllyMLMovementModifier&#xa;AllyDodgeHeuristic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="200" width="180" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a6" value="A6&#xa;Управление противниками&#xa;(HFSM)&#xa;&#xa;EnemyAI&#xa;DarkMageCombat" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="280" y="480" width="190" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_i" value="Состояние мира,&#xa;ввод игрока, профили" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_o" value="Действия NPC,&#xa;события боя" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="230" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_in" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="ext_i" target="a1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" value="CombatSnapshot&#xa;ThreatSnapshot" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a1" target="a2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e23" value="Цель, способность,&#xa;AttackDistance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a2" target="a3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e34" value="Режим боя,&#xa;ML enable" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a3" target="a4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e14" value="ThreatSnapshot" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;dashed=1;" edge="1" parent="1" source="a1" target="a4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="380"/>
+              <mxPoint x="870" y="380"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e45" value="dist, retreat,&#xa;strafe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a4" target="a5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e15" value="Угрозы" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;dashed=1;" edge="1" parent="1" source="a1" target="a5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="420"/>
+              <mxPoint x="1110" y="420"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="a5" target="ext_o">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3out" value="Атака, каст" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a3" target="ext_o">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="150"/>
+              <mxPoint x="1305" y="150"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6in" value="Состояние мира" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;dashed=1;" edge="1" parent="1" source="ext_i" target="a6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="105" y="620"/>
+              <mxPoint x="240" y="620"/>
+              <mxPoint x="240" y="530"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6out" value="Действия врагов" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="a6" target="ext_o">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="375" y="650"/>
+              <mxPoint x="1305" y="650"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6a1" value="Враги, снаряды" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=9;dashed=1;" edge="1" parent="1" source="a6" target="a1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="530"/>
+              <mxPoint x="200" y="350"/>
+              <mxPoint x="130" y="350"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ctrl" value="C: Utility-веса, Behavior-граф, ML-параметры, баланс" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="100" width="320" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="ectrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="ctrl" target="a2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ectrl2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="ctrl" target="a3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ectrl3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="ctrl" target="a4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech" value="M: Unity 6, ML-Agents, NavMesh Plus, Unity Behavior" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="640" width="380" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="emech" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="mech" target="a5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Союзники: A1 → A2 → A3 → A4 → A5 (гибридный ИИ)&#xa;Противники: A6 (HFSM, параллельная ветка)" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;fontSize=10;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="400" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="ally_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="25" y="175" width="1195" height="155" as="geometry"/>
+        </mxCell>
+        <mxCell id="ally_lbl" value="ИИ союзников" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="30" y="178" width="90" height="20" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

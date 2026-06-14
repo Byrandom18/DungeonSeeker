@@ -1,0 +1,50 @@
+{
+    "curriculum_level": {
+        "lesson_num": 0
+    },
+    "AllyPosition": {
+        "checkpoints": [
+            {
+                "steps": 499884,
+                "file_path": "results\\ally_headless_v1\\AllyPosition\\AllyPosition-499884.onnx",
+                "reward": 7.070704949753625,
+                "creation_time": 1781221432.6549964,
+                "auxillary_file_paths": [
+                    "results\\ally_headless_v1\\AllyPosition\\AllyPosition-499884.pt"
+                ]
+            },
+            {
+                "steps": 999926,
+                "file_path": "results\\ally_headless_v1\\AllyPosition\\AllyPosition-999926.onnx",
+                "reward": 7.378125905990601,
+                "creation_time": 1781233134.889148,
+                "auxillary_file_paths": [
+                    "results\\ally_headless_v1\\AllyPosition\\AllyPosition-999926.pt"
+                ]
+            },
+            {
+                "steps": 1000054,
+                "file_path": "results\\ally_headless_v1\\AllyPosition\\AllyPosition-1000054.onnx",
+                "reward": 7.378125905990601,
+                "creation_time": 1781233135.0287333,
+                "auxillary_file_paths": [
+                    "results\\ally_headless_v1\\AllyPosition\\AllyPosition-1000054.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000054,
+            "file_path": "results\\ally_headless_v1\\AllyPosition.onnx",
+            "reward": 7.378125905990601,
+            "creation_time": 1781233135.0287333,
+            "auxillary_file_paths": [
+                "results\\ally_headless_v1\\AllyPosition\\AllyPosition-1000054.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

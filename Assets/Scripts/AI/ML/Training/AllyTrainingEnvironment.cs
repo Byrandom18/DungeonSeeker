@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.MLAgents;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,13 +28,15 @@ public class AllyTrainingEnvironment : MonoBehaviour
     [SerializeField] private float _maxEpisodeSeconds = 90f;
     [SerializeField] private int _startingCurriculumLevel;
     [SerializeField] private bool _logEpisodeSpawns = true;
+    [SerializeField] private TMP_Text _episodeText;
+
 
     [Header("Curriculum")]
     [SerializeField] private bool _useEpisodeBasedCurriculum = true;
     [SerializeField] private int _episodesPerCurriculumLevel = 100;
     [SerializeField] private int _maxCurriculumLevel = 4;
     [SerializeField] private bool _useAcademyCurriculumFallback;
-
+    
     private float _episodeTimer;
     private int _curriculumLevel;
     private int _episodeIndex;
@@ -94,7 +98,11 @@ public class AllyTrainingEnvironment : MonoBehaviour
         ClearEnemies();
         SpawnWaveForCurrentLevel();
 
-        agent.GetComponent<AllyMLBridge>()?.SetMode(AllyMLMode.Training);
+        // During Python PPO training the communicator is active — force Training mode.
+        // In Editor eval (Heuristic / Inference) preserve the mode set on the prefab.
+        AllyMLBridge bridge = agent.GetComponent<AllyMLBridge>();
+        if (bridge != null && Academy.Instance.IsCommunicatorOn)
+            bridge.SetMode(AllyMLMode.Training);
     }
 
     public void NotifyEnemyKilled(EnemyDamage enemy, ICharacterEntity killer)
@@ -120,7 +128,8 @@ public class AllyTrainingEnvironment : MonoBehaviour
     private void AdvanceCurriculumForEpisode()
     {
         _episodeIndex++;
-
+        if (_episodeText != null)
+            _episodeText.text = "Episode: " + _episodeIndex;
         if (_useEpisodeBasedCurriculum)
         {
             int previousLevel = _curriculumLevel;

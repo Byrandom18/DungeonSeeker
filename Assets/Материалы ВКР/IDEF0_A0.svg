@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="780" viewBox="0 0 1350 780">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <style>
+      .t { font: bold 16px Arial, sans-serif; fill: #111; }
+      .st { font: 12px Arial, sans-serif; fill: #444; }
+      .bx { fill: #dae8fc; stroke: #6c8ebf; stroke-width: 2; }
+      .bx-e { fill: #ffe6cc; stroke: #d79b00; stroke-width: 2; }
+      .bi { fill: #fff2cc; stroke: #d6b656; stroke-width: 1.5; }
+      .bo { fill: #d5e8d4; stroke: #82b366; stroke-width: 1.5; }
+      .bc { fill: #f8cecc; stroke: #b85450; stroke-width: 1.5; }
+      .bm { fill: #e1d5e7; stroke: #9673a6; stroke-width: 1.5; }
+      .tx { font: 11px Arial, sans-serif; fill: #111; }
+      .txb { font: bold 12px Arial, sans-serif; fill: #111; }
+      .ln { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arr); }
+      .ln-d { stroke: #666; stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; marker-end: url(#arr-d); }
+      .frame { fill: none; stroke: #6c8ebf; stroke-width: 2; stroke-dasharray: 8 4; }
+      .note { font: 10px Arial, sans-serif; fill: #333; }
+    </style>
+  </defs>
+
+  <text x="675" y="30" text-anchor="middle" class="t">IDEF0. 803@0<<0 A0 (45:><?>78F8O A-0)</text>
+  <text x="675" y="50" text-anchor="middle" class="st">$C=:F8>=0;L=K5 1;>:8 A8AB5<K C?@02;5=8O NPC</text>
+
+  <!-- Control -->
+  <rect x="470" y="70" width="410" height="35" class="bc"/>
+  <text x="675" y="92" text-anchor="middle" class="tx">C: Utility-25A0, Behavior-3@0D, ML-?0@0<5B@K, 10;0=A >@C68O</text>
+
+  <!-- External I/O -->
+  <rect x="30" y="120" width="140" height="50" class="bi"/>
+  <text x="100" y="142" text-anchor="middle" class="tx">!>AB>O=85 <8@0,</text>
+  <text x="100" y="158" text-anchor="middle" class="tx">22>4, ?@>D8;8</text>
+
+  <rect x="1180" y="230" width="140" height="50" class="bo"/>
+  <text x="1250" y="252" text-anchor="middle" class="tx">59AB28O NPC,</text>
+  <text x="1250" y="268" text-anchor="middle" class="tx">A>1KB8O 1>O</text>
+
+  <!-- Ally frame -->
+  <rect x="15" y="195" width="1145" height="165" class="frame"/>
+  <text x="25" y="212" class="txb" fill="#6c8ebf"> A>N7=8:>2</text>
+
+  <!-- A1 -->
+  <rect x="35" y="230" width="175" height="115" class="bx"/>
+  <text x="122" y="252" text-anchor="middle" class="txb">A1</text>
+  <text x="122" y="270" text-anchor="middle" class="tx">>A?@8OB85 A@54K</text>
+  <text x="122" y="286" text-anchor="middle" class="tx">(Perception)</text>
+  <text x="122" y="310" text-anchor="middle" class="tx">CombatPerception</text>
+  <text x="122" y="326" text-anchor="middle" class="tx">ThreatPerception</text>
+  <text x="122" y="342" text-anchor="middle" class="tx">EnemyProjectileRegistry</text>
+
+  <!-- A2 -->
+  <rect x="250" y="230" width="185" height="115" class="bx"/>
+  <text x="342" y="252" text-anchor="middle" class="txb">A2</text>
+  <text x="342" y="270" text-anchor="middle" class="tx">"0:B8G5A:85 @5H5=8O</text>
+  <text x="342" y="286" text-anchor="middle" class="tx">(Utility AI)</text>
+  <text x="342" y="310" text-anchor="middle" class="tx">WeaponTargetSelector</text>
+  <text x="342" y="326" text-anchor="middle" class="tx">UtilityAbilitySelector</text>
+  <text x="342" y="342" text-anchor="middle" class="tx">PartyCombatCoordinator</text>
+
+  <!-- A3 -->
+  <rect x="475" y="230" width="185" height="115" class="bx"/>
+  <text x="567" y="252" text-anchor="middle" class="txb">A3</text>
+  <text x="567" y="270" text-anchor="middle" class="tx">@:5AB@0F8O</text>
+  <text x="567" y="286" text-anchor="middle" class="tx">(Unity Behavior)</text>
+  <text x="567" y="310" text-anchor="middle" class="tx">@0D Ally AI.asset</text>
+  <text x="567" y="326" text-anchor="middle" class="tx">Attack / Ability /</text>
+  <text x="567" y="342" text-anchor="middle" class="tx">ML Combat Movement</text>
+
+  <!-- A4 -->
+  <rect x="700" y="230" width="175" height="115" class="bx"/>
+  <text x="787" y="252" text-anchor="middle" class="txb">A4</text>
+  <text x="787" y="270" text-anchor="middle" class="tx">ML-?>78F8>=8@>20=85</text>
+  <text x="787" y="286" text-anchor="middle" class="tx">(PPO AllyPosition)</text>
+  <text x="787" y="310" text-anchor="middle" class="tx">17 obs / 4 actions</text>
+  <text x="787" y="326" text-anchor="middle" class="tx">AllyPositionAgent</text>
+  <text x="787" y="342" text-anchor="middle" class="tx">AllyMLBridge</text>
+
+  <!-- A5 -->
+  <rect x="915" y="230" width="175" height="115" class="bx"/>
+  <text x="1002" y="252" text-anchor="middle" class="txb">A5</text>
+  <text x="1002" y="270" text-anchor="middle" class="tx">A?>;=5=85 42865=8O</text>
+  <text x="1002" y="286" text-anchor="middle" class="tx">(NavMesh + Dodge)</text>
+  <text x="1002" y="310" text-anchor="middle" class="tx">AllyMLMovementModifier</text>
+  <text x="1002" y="326" text-anchor="middle" class="tx">AllyDodgeHeuristic</text>
+
+  <!-- A6 enemy -->
+  <rect x="250" y="480" width="185" height="100" class="bx-e"/>
+  <text x="342" y="502" text-anchor="middle" class="txb">A6</text>
+  <text x="342" y="520" text-anchor="middle" class="tx">#?@02;5=85 ?@>B82=8:0<8</text>
+  <text x="342" y="536" text-anchor="middle" class="tx">(HFSM)</text>
+  <text x="342" y="558" text-anchor="middle" class="tx">EnemyAI, DarkMageCombat</text>
+
+  <!-- Mechanism -->
+  <rect x="420" y="640" width="410" height="35" class="bm"/>
+  <text x="625" y="662" text-anchor="middle" class="tx">M: Unity 6, ML-Agents, NavMesh Plus, Unity Behavior</text>
+
+  <!-- Flow arrows main chain -->
+  <line x1="170" y1="145" x2="122" y2="230" class="ln"/>
+  <line x1="210" y1="287" x2="250" y2="287" class="ln"/>
+  <text x="220" y="278" class="tx">Snapshot</text>
+  <line x1="435" y1="287" x2="475" y2="287" class="ln"/>
+  <text x="440" y="278" class="tx">&5;L, A?>A>1=>ABL</text>
+  <line x1="660" y1="287" x2="700" y2="287" class="ln"/>
+  <text x="665" y="278" class="tx"> 568< 1>O</text>
+  <line x1="875" y1="287" x2="915" y2="287" class="ln"/>
+  <text x="880" y="278" class="tx">dist, strafe</text>
+  <line x1="1090" y1="287" x2="1180" y2="255" class="ln"/>
+
+  <!-- A3 direct output -->
+  <path d="M 660 230 L 660 170 L 1250 170 L 1250 230" class="ln-d"/>
+  <text x="900" y="162" class="tx">B0:0, :0AB</text>
+
+  <!-- A1 to A4, A5 dashed -->
+  <path d="M 122 345 L 122 400 L 787 400 L 787 345" class="ln-d"/>
+  <text x="400" y="393" class="tx">ThreatSnapshot � ML obs</text>
+  <path d="M 122 345 L 122 430 L 1002 430 L 1002 345" class="ln-d"/>
+  <text x="500" y="423" class="tx">#3@>7K � Dodge</text>
+
+  <!-- A6 flows -->
+  <path d="M 100 170 L 100 530 L 250 530" class="ln-d"/>
+  <text x="110" y="400" class="tx">!>AB>O=85 <8@0</text>
+  <path d="M 342 580 L 342 650 L 1250 650 L 1250 280" class="ln-d"/>
+  <text x="700" y="643" class="tx">59AB28O 2@03>2</text>
+  <path d="M 250 530 L 200 530 L 200 360 L 122 360 L 122 345" class="ln-d"/>
+  <text x="155" y="450" class="tx">@038, A=0@O4K</text>
+
+  <!-- Control to blocks -->
+  <line x1="550" y1="105" x2="342" y2="230" class="ln-d"/>
+  <line x1="675" y1="105" x2="567" y2="230" class="ln-d"/>
+  <line x1="800" y1="105" x2="787" y2="230" class="ln-d"/>
+
+  <!-- Mechanism to A5 -->
+  <line x1="625" y1="640" x2="1002" y2="345" class="ln-d"/>
+
+  <rect x="30" y="700" width="420" height="55" fill="#f5f5f5" stroke="#999" rx="4"/>
+  <text x="40" y="720" class="note">!>N7=8:8: A1 � A2 � A3 � A4 � A5 (381@84=K9 )</text>
+  <text x="40" y="738" class="note">@>B82=8:8: A6 (HFSM, ?0@0;;5;L=0O 25B:0)</text>
+  <text x="40" y="756" class="note">A6 35=5@8@C5B 2E>4=K5 40==K5 4;O A1 (2@038, A=0@O4K)</text>
+</svg>

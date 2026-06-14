@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="arrow-dash" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <style>
+      .title { font: bold 16px Arial, sans-serif; fill: #111; }
+      .subtitle { font: 12px Arial, sans-serif; fill: #444; }
+      .box-main { fill: #dae8fc; stroke: #6c8ebf; stroke-width: 2; }
+      .box-i { fill: #fff2cc; stroke: #d6b656; stroke-width: 1.5; }
+      .box-o { fill: #d5e8d4; stroke: #82b366; stroke-width: 1.5; }
+      .box-c { fill: #f8cecc; stroke: #b85450; stroke-width: 1.5; }
+      .box-m { fill: #e1d5e7; stroke: #9673a6; stroke-width: 1.5; }
+      .text { font: 12px Arial, sans-serif; fill: #111; }
+      .text-sm { font: 11px Arial, sans-serif; fill: #333; }
+      .text-lg { font: bold 13px Arial, sans-serif; fill: #111; }
+      .line { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .line-dash { stroke: #666; stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; marker-end: url(#arrow-dash); }
+      .legend { font: italic 11px Arial, sans-serif; fill: #555; }
+    </style>
+  </defs>
+
+  <text x="550" y="35" text-anchor="middle" class="title">IDEF0. 803@0<<0 A-0</text>
+  <text x="550" y="55" text-anchor="middle" class="subtitle">�#?@02;5=85 ?>2545=85< NPC 2 DungeonSeeker�</text>
+
+  <!-- Main function box -->
+  <rect x="350" y="250" width="400" height="120" class="box-main"/>
+  <text x="550" y="285" text-anchor="middle" class="text-lg">A-0</text>
+  <text x="550" y="310" text-anchor="middle" class="text">#?@02;5=85 ?>2545=85<</text>
+  <text x="550" y="330" text-anchor="middle" class="text">=583@>2KE ?5@A>=0659 (NPC)</text>
+  <text x="550" y="350" text-anchor="middle" class="text">2 83@5 DungeonSeeker</text>
+
+  <!-- Inputs (left) -->
+  <rect x="40" y="180" width="150" height="50" class="box-i"/>
+  <text x="115" y="202" text-anchor="middle" class="text-sm">!>AB>O=85</text>
+  <text x="115" y="218" text-anchor="middle" class="text-sm">83@>2>3> <8@0</text>
+
+  <rect x="40" y="285" width="150" height="50" class="box-i"/>
+  <text x="115" y="313" text-anchor="middle" class="text-sm">2>4 83@>:0</text>
+
+  <rect x="40" y="390" width="150" height="50" class="box-i"/>
+  <text x="115" y="412" text-anchor="middle" class="text-sm">>=D83C@0F8O</text>
+  <text x="115" y="428" text-anchor="middle" class="text-sm">?@>D8;59 (SO)</text>
+
+  <line x1="190" y1="205" x2="350" y2="280" class="line"/>
+  <line x1="190" y1="310" x2="350" y2="310" class="line"/>
+  <line x1="190" y1="415" x2="350" y2="340" class="line"/>
+  <text x="250" y="195" class="text-sm">I</text>
+
+  <!-- Outputs (right) -->
+  <rect x="910" y="250" width="160" height="60" class="box-o"/>
+  <text x="990" y="275" text-anchor="middle" class="text-sm">59AB28O NPC</text>
+  <text x="990" y="292" text-anchor="middle" class="text-sm">(42865=85, 0B0:0,</text>
+  <text x="990" y="308" text-anchor="middle" class="text-sm">A?>A>1=>AB8)</text>
+
+  <rect x="910" y="340" width="160" height="55" class="box-o"/>
+  <text x="990" y="365" text-anchor="middle" class="text-sm">!>1KB8O 1>O</text>
+  <text x="990" y="382" text-anchor="middle" class="text-sm">(C@>=, A<5@BL, :8;;)</text>
+
+  <line x1="750" y1="290" x2="910" y2="280" class="line"/>
+  <line x1="750" y1="330" x2="910" y2="365" class="line"/>
+  <text x="820" y="275" class="text-sm">O</text>
+
+  <!-- Controls (top) -->
+  <rect x="320" y="90" width="190" height="45" class="box-c"/>
+  <text x="415" y="110" text-anchor="middle" class="text-sm">@028;0 Utility AI</text>
+  <text x="415" y="126" text-anchor="middle" class="text-sm">(25A0 F5;59 8 A?>A>1=>AB59)</text>
+
+  <rect x="530" y="90" width="170" height="45" class="box-c"/>
+  <text x="615" y="110" text-anchor="middle" class="text-sm">0@0<5B@K ML</text>
+  <text x="615" y="126" text-anchor="middle" class="text-sm">(PPO, reward shaping)</text>
+
+  <rect x="380" y="35" width="160" height="40" class="box-c"/>
+  <text x="460" y="52" text-anchor="middle" class="text-sm">Behavior-3@0D</text>
+  <text x="460" y="68" text-anchor="middle" class="text-sm">(Ally AI.asset)</text>
+
+  <rect x="560" y="35" width="160" height="40" class="box-c"/>
+  <text x="640" y="52" text-anchor="middle" class="text-sm">0;0=A >@C68O</text>
+  <text x="640" y="68" text-anchor="middle" class="text-sm">8 A?>A>1=>AB59</text>
+
+  <line x1="415" y1="135" x2="450" y2="250" class="line-dash"/>
+  <line x1="615" y1="135" x2="580" y2="250" class="line-dash"/>
+  <line x1="460" y1="75" x2="500" y2="250" class="line-dash"/>
+  <line x1="640" y1="75" x2="620" y2="250" class="line-dash"/>
+  <text x="300" y="170" class="text-sm">C</text>
+
+  <!-- Mechanisms (bottom) -->
+  <rect x="280" y="480" width="130" height="50" class="box-m"/>
+  <text x="345" y="502" text-anchor="middle" class="text-sm">Unity 6</text>
+  <text x="345" y="518" text-anchor="middle" class="text-sm">(6000.0.67f1)</text>
+
+  <rect x="430" y="480" width="140" height="50" class="box-m"/>
+  <text x="500" y="502" text-anchor="middle" class="text-sm">ML-Agents 4.0.2</text>
+  <text x="500" y="518" text-anchor="middle" class="text-sm">(PPO / ONNX)</text>
+
+  <rect x="590" y="480" width="140" height="50" class="box-m"/>
+  <text x="660" y="502" text-anchor="middle" class="text-sm">NavMesh Plus</text>
+  <text x="660" y="518" text-anchor="middle" class="text-sm">(2D =02830F8O)</text>
+
+  <rect x="750" y="480" width="150" height="50" class="box-m"/>
+  <text x="825" y="510" text-anchor="middle" class="text-sm">Unity Behavior 1.0.15</text>
+
+  <line x1="345" y1="480" x2="420" y2="370" class="line-dash"/>
+  <line x1="500" y1="480" x2="520" y2="370" class="line-dash"/>
+  <line x1="660" y1="480" x2="600" y2="370" class="line-dash"/>
+  <line x1="825" y1="480" x2="680" y2="370" class="line-dash"/>
+  <text x="300" y="460" class="text-sm">M</text>
+
+  <text x="40" y="580" class="legend">I  2E>4K (A;520)   O  2KE>4K (A?@020)   C  C?@02;5=85 (A25@EC, ?C=:B8@)   M  <5E0=87<K (A=87C, ?C=:B8@)</text>
+</svg>

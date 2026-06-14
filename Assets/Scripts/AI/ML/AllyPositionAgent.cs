@@ -241,7 +241,7 @@ public class AllyPositionAgent : Agent
         {
             AddReward(_nearMissReward * threat.IncomingThreatUrgency);
         }
-        if (_rewardText != null) _rewardText.text = GetCumulativeReward().ToString();
+        if (_rewardText != null) _rewardText.text = "Reward: " + GetCumulativeReward().ToString("F2");
         _hadHighThreatLastStep = threat.IncomingThreatUrgency >= 0.5f || threat.AttackingSelfUrgency >= 0.5f;
     }
 

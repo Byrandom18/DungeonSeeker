@@ -1,0 +1,102 @@
+LOG: C:\Users\byran\AppData\Local\Unity\Editor\Editor.log
+File size bytes: 295711
+Episode end lines: 46
+Death (Reward:) lines: 5
+Spawn lines: 1
+
+By curriculum:
+  level 4: episodes=46, success=46, avg_reward=4.935, min=-2.108, max=7.728
+
+Overall:
+  success_rate=100.0%
+  avg_reward=4.935
+  stdev_reward=2.041
+  last 10 episodes:
+    curr=4 reward=6.977 success=True
+    curr=4 reward=5.813 success=True
+    curr=4 reward=6.121 success=True
+    curr=4 reward=4.903 success=True
+    curr=4 reward=5.610 success=True
+    curr=4 reward=6.875 success=True
+    curr=4 reward=7.130 success=True
+    curr=4 reward=7.728 success=True
+    curr=4 reward=4.402 success=True
+    curr=4 reward=6.836 success=True
+
+Keyword mentions:
+  Inference: 16
+  Training: 493
+
+Last 20 relevant lines:
+  [AllyTraining] Episode spawn: curriculum=4, enemies=5, wave=2xVoid Golem + 3xDark Mage
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,852
+  Reward: -19,52119
+  Reward: -14,54494
+  [AllyTraining] Episode end success=True, curriculum=4, reward=-0,244
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,175
+  [AllyTraining] Episode end success=True, curriculum=4, reward=3,429
+  [AllyTraining] Episode end success=True, curriculum=4, reward=-2,108
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,993
+  [AllyTraining] Episode end success=True, curriculum=4, reward=1,958
+  [AllyTraining] Episode end success=True, curriculum=4, reward=3,431
+  [AllyTraining] Episode end success=True, curriculum=4, reward=3,074
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,713
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,556
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,145
+  [AllyTraining] Episode end success=True, curriculum=4, reward=2,034
+  [AllyTraining] Episode end success=True, curriculum=4, reward=2,49
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,143
+  [AllyTraining] Episode end success=True, curriculum=4, reward=2,208
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,411
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,157
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,482
+  Reward: -11,17981
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,522
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,084
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,254
+  Reward: -10,95495
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,36
+  [AllyTraining] Episode end success=True, curriculum=4, reward=2,621
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,23
+  Reward: -11,83311
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,169
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,634
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,513
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,006
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,957
+  [AllyTraining] Episode end success=True, curriculum=4, reward=3,458
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,324
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,211
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,588
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,099
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,707
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,977
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,813
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,121
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,903
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,61
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,875
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,13
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,728
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,402
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,836
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,634
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,513
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,006
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,957
+  [AllyTraining] Episode end success=True, curriculum=4, reward=3,458
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,324
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,211
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,588
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,099
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,707
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,977
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,813
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,121
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,903
+  [AllyTraining] Episode end success=True, curriculum=4, reward=5,61
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,875
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,13
+  [AllyTraining] Episode end success=True, curriculum=4, reward=7,728
+  [AllyTraining] Episode end success=True, curriculum=4, reward=4,402
+  [AllyTraining] Episode end success=True, curriculum=4, reward=6,836
