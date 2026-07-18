@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VoidGolemSO
   m_EditorClassIdentifier: 
   EnemyName: Void Golem
-  EnemyMaxHealth: 150
+  EnemyMaxHealth: 100
   EnemyBaseAttack: 30
   EnableRoam: 1
   EnableChangeStartPos: 1

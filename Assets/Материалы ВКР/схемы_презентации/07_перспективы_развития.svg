@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .phase { rx: 14; stroke-width: 2; }
+      .p1 { fill: #dbeafe; stroke: #2563eb; }
+      .p2 { fill: #e0e7ff; stroke: #4f46e5; }
+      .p3 { fill: #dcfce7; stroke: #16a34a; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .ln { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#arr); }
+      .dot { fill: #2563eb; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 5. 5@A?5:B82K @0728B8O Dungeon Seeker</text>
+
+  <line x1="120" y1="200" x2="780" y2="200" stroke="#cbd5e1" stroke-width="4"/>
+
+  <circle cx="150" cy="200" r="10" class="dot"/>
+  <rect x="60" y="80" width="180" height="90" class="phase p1"/>
+  <text x="150" y="108" text-anchor="middle" class="lbl">"5:CI89 MB0?</text>
+  <text x="150" y="130" text-anchor="middle" class="txt">@>B>B8? + 381@84=K9 </text>
+  <text x="150" y="150" text-anchor="middle" class="txt">ONNX Inference</text>
+  <text x="150" y="168" text-anchor="middle" class="txt">ScriptableObject-?@>D8;8</text>
+
+  <circle cx="400" cy="200" r="10" class="dot"/>
+  <line x1="160" y1="200" x2="388" y2="200" class="ln"/>
+  <rect x="300" y="230" width="200" height="100" class="phase p2"/>
+  <text x="400" y="258" text-anchor="middle" class="lbl"> 0AH8@5=85 :>=B5=B0</text>
+  <text x="400" y="280" text-anchor="middle" class="txt">=>2K5 :;0AAK 8 A?>A>1=>AB8</text>
+  <text x="400" y="300" text-anchor="middle" class="txt">?@54<5BK, 2@038, UI</text>
+  <text x="400" y="320" text-anchor="middle" class="txt">=0AB@>9:0 25A>2 Utility AI</text>
+
+  <circle cx="650" cy="200" r="10" class="dot"/>
+  <line x1="410" y1="200" x2="638" y2="200" class="ln"/>
+  <rect x="560" y="80" width="180" height="100" class="phase p2"/>
+  <text x="650" y="108" text-anchor="middle" class="lbl">@>F54C@=0O 35=5@0F8O</text>
+  <text x="650" y="130" text-anchor="middle" class="txt">A;CG09=K5 ?>475<5;LO</text>
+  <text x="650" y="150" text-anchor="middle" class="txt">@583@015;L=>ABL</text>
+  <text x="650" y="170" text-anchor="middle" class="txt">=>2K5 B@5=8@>2>G=K5 AF5=K 4;O RL</text>
+
+  <line x1="660" y1="200" x2="780" y2="200" class="ln"/>
+  <circle cx="790" cy="200" r="10" class="dot"/>
+  <rect x="700" y="230" width="160" height="100" class="phase p3"/>
+  <text x="780" y="258" text-anchor="middle" class="lbl">C;LB8?;55@</text>
+  <text x="780" y="280" text-anchor="middle" class="txt">A5@25@=0O</text>
+  <text x="780" y="300" text-anchor="middle" class="txt">8=D@0AB@C:BC@0</text>
+  <text x="780" y="320" text-anchor="middle" class="txt">3@C??>2>9 :>>?</text>
+
+  <rect x="80" y="370" width="740" height="120" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" rx="12"/>
+  <text x="450" y="398" text-anchor="middle" class="lbl">SWOT: :;NG52K5 =0?@02;5=8O</text>
+  <text x="100" y="424" class="txt">SO  70=OBL =8HC :0G5AB25==KE roguelike A C<=K<8 A>N7=8:0<8</text>
+  <text x="100" y="446" class="txt">WO  ?@82;5GL 8740B5;O, :@0C4D0=48=3 (Steam, Itch.io, Kickstarter)</text>
+  <text x="100" y="468" class="txt">WT  D>:CA =0 =8H52>9 0C48B>@88, ?>MB0?=K9 2KE>4 =0 @K=>:</text>
+</svg>

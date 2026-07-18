@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .room { fill: #f1f5f9; stroke: #64748b; stroke-width: 2; }
+      .hot { fill: #fee2e2; stroke: #ef4444; stroke-width: 1.5; }
+      .cold { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1.5; }
+      .rack { fill: #475569; }
+      .office { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; }
+      .txt { font: 12px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 13px Arial, sans-serif; fill: #0f172a; }
+      .tag { fill: #eff6ff; stroke: #2563eb; stroke-width: 1; rx: 6; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 6. 57>?0A=>ABL A5@25@=>9 8=D@0AB@C:BC@K</text>
+
+  <rect x="40" y="58" width="520" height="300" class="room" rx="8"/>
+  <text x="300" y="82" text-anchor="middle" class="lbl">!5@25@=>5 ?><5I5=85 (:0B53>@8O )</text>
+
+  <rect x="60" y="100" width="200" height="220" class="cold"/>
+  <text x="160" y="122" text-anchor="middle" class="txt" fill="#1d4ed8">%>;>4=K9 :>@84>@</text>
+  <rect x="80" y="140" width="30" height="160" class="rack"/>
+  <rect x="120" y="140" width="30" height="160" class="rack"/>
+  <rect x="160" y="140" width="30" height="160" class="rack"/>
+  <rect x="200" y="140" width="30" height="160" class="rack"/>
+
+  <rect x="280" y="100" width="200" height="220" class="hot"/>
+  <text x="380" y="122" text-anchor="middle" class="txt" fill="#b91c1c">>@OG89 :>@84>@</text>
+  <rect x="300" y="140" width="30" height="160" class="rack"/>
+  <rect x="340" y="140" width="30" height="160" class="rack"/>
+  <rect x="380" y="140" width="30" height="160" class="rack"/>
+  <rect x="420" y="140" width="30" height="160" class="rack"/>
+
+  <text x="300" y="340" text-anchor="middle" class="txt">@>E>4K e 1,0 <; ?@5F878>==>5 :>=48F8>=8@>20=85 N+1</text>
+
+  <rect x="580" y="100" width="280" height="120" class="office" rx="10"/>
+  <text x="720" y="128" text-anchor="middle" class="lbl">8A?5BG5@A:0O</text>
+  <text x="720" y="150" text-anchor="middle" class="txt">@01>G55 <5AB> >?5@0B>@0</text>
+  <text x="720" y="170" text-anchor="middle" class="txt">2=5 7>=K HC<0 7085 4</text>
+  <text x="720" y="190" text-anchor="middle" class="txt">KVM-:>=A>;L, 2022 �C</text>
+  <text x="720" y="210" text-anchor="middle" class="txt">2;06=>ABL 4060 %</text>
+
+  <rect x="580" y="240" width="130" height="36" class="tag"/>
+  <text x="645" y="263" text-anchor="middle" class="txt"># d 30 <</text>
+  <rect x="730" y="240" width="130" height="36" class="tag"/>
+  <text x="795" y="263" text-anchor="middle" class="txt">0=C;5=85</text>
+  <rect x="580" y="286" width="130" height="36" class="tag"/>
+  <text x="645" y="309" text-anchor="middle" class="txt">07>2>5 "</text>
+  <rect x="730" y="286" width="130" height="36" class="tag"/>
+  <text x="795" y="309" text-anchor="middle" class="txt">K<>2K5 </text>
+
+  <rect x="40" y="378" width="410" height="110" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5" rx="10"/>
+  <text x="245" y="404" text-anchor="middle" class="lbl">?0A=K5 D0:B>@K</text>
+  <text x="60" y="428" class="txt">" M;5:B@>B@02<K (A8;>2K5 :015;8, )</text>
+  <text x="60" y="448" class="txt">" HC<, -, ?5@53@52, =87:0O 2;06=>ABL</text>
+  <text x="60" y="468" class="txt">" ?>60@ (:015;8, ); AB0B8G5A:85 ?5@53@C7:8</text>
+
+  <rect x="470" y="378" width="390" height="110" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5" rx="10"/>
+  <text x="665" y="404" text-anchor="middle" class="lbl">5@>?@8OB8O</text>
+  <text x="490" y="428" class="txt">" 3@C??0 III ?> M;5:B@>157>?0A=>AB8</text>
+  <text x="490" y="448" class="txt">" ?5@5@K2K 15 <8= / 2 G; =0CH=8:8 A HC<>?>402;5=85<</text>
+  <text x="490" y="468" class="txt">"  e 15 <8=; LSZH-:015;8; 8=AB@C:B06 ?> "</text>
+</svg>

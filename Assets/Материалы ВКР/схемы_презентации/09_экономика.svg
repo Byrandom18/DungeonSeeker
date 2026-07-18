@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .leg { font: 12px Arial, sans-serif; fill: #334155; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 6. -:>=><8G5A:>5 >1>A=>20=85</text>
+
+  <!-- Pie chart segments (approximate) -->
+  <g transform="translate(280, 250)">
+    <path d="M 0,-120 A 120,120 0 1,1 115.9,31.2 L 0,0 Z" fill="#2563eb"/>
+    <path d="M 115.9,31.2 A 120,120 0 0,1 -73.4,94.2 L 0,0 Z" fill="#7c3aed"/>
+    <path d="M -73.4,94.2 A 120,120 0 0,1 -118.8,-17.5 L 0,0 Z" fill="#f59e0b"/>
+    <path d="M -118.8,-17.5 A 120,120 0 0,1 0,-120 L 0,0 Z" fill="#94a3b8"/>
+    <circle cx="0" cy="0" r="55" fill="#f8fafc"/>
+    <text x="0" y="-6" text-anchor="middle" class="lbl" font-size="16">816 352</text>
+    <text x="0" y="14" text-anchor="middle" class="leg">@C1.</text>
+  </g>
+
+  <rect x="500" y="80" width="360" height="200" fill="#fff" stroke="#94a3b8" stroke-width="1.5" rx="10"/>
+  <text x="680" y="108" text-anchor="middle" class="lbl">!B@C:BC@0 70B@0B</text>
+  <rect x="520" y="124" width="16" height="16" fill="#2563eb"/>
+  <text x="546" y="137" class="leg">?;0B0 B@C40 + >BG8A;5=8O  49,6% (405 267 @C1.)</text>
+  <rect x="520" y="154" width="16" height="16" fill="#7c3aed"/>
+  <text x="546" y="167" class="leg">0@:5B8=3 (3 <5A.)  36,7% (300 000 @C1.)</text>
+  <rect x="520" y="184" width="16" height="16" fill="#f59e0b"/>
+  <text x="546" y="197" class="leg">0B5@80;L=K5  11,2% (91 540 @C1.)</text>
+  <rect x="520" y="214" width="16" height="16" fill="#94a3b8"/>
+  <text x="546" y="227" class="leg"><>@B870F8O + ?@>G85  2,5%</text>
+  <text x="680" y="258" text-anchor="middle" class="txt">"@C4>Q<:>ABL: 704 G5;.-G (700 <0H8==KE)</text>
+
+  <rect x="60" y="310" width="380" height="170" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5" rx="10"/>
+  <text x="250" y="338" text-anchor="middle" class="lbl">>:070B5;8 MDD5:B82=>AB8</text>
+  <text x="80" y="366" class="txt">&5=0 83@K: 500 @C1.</text>
+  <text x="80" y="390" class="txt">!@>: >:C?05<>AB8: 6 <5AOF52</text>
+  <text x="80" y="414" class="txt">'8ABK9 48A:>=B8@>20==K9 4>E>4: 84 212 @C1.</text>
+  <text x="80" y="438" class="txt">!B02:0 48A:>=B8@>20=8O: 16,5%</text>
+  <text x="80" y="462" class="txt">8: ?@>406: 600 :>?89 2 1-9 <5AOF</text>
+
+  <rect x="460" y="310" width="400" height="170" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" rx="10"/>
+  <text x="660" y="338" text-anchor="middle" class="lbl">8=0<8:0 >:C?05<>AB8 (')</text>
+  <line x1="490" y1="450" x2="830" y2="450" stroke="#64748b" stroke-width="1.5"/>
+  <polyline points="490,450 530,420 570,430 610,440 650,445 690,448 730,449" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <circle cx="690" cy="448" r="5" fill="#16a34a"/>
+  <text x="690" y="468" text-anchor="middle" class="leg"><5AOF 6  >:C?05<>ABL</text>
+  <text x="490" y="400" class="txt">5A. 0: 516 352 @C1. (8=25AB8F88)</text>
+  <text x="490" y="420" class="txt">5A. 13: 4>E>4 + @5:;0<0 100 000 @C1./<5A.</text>
+</svg>

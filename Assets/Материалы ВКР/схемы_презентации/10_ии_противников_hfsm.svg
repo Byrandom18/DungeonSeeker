@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .state { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 20; }
+      .state-combat { fill: #fef3c7; stroke: #d97706; stroke-width: 2; rx: 20; }
+      .state-end { fill: #fee2e2; stroke: #ef4444; stroke-width: 2; rx: 20; }
+      .txt { font: 12px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 13px Arial, sans-serif; fill: #0f172a; }
+      .ln { stroke: #64748b; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title"> ?@>B82=8:>2: 85@0@E8G5A:89 :>=5G=K9 02B><0B (HFSM)</text>
+
+  <ellipse cx="150" cy="120" rx="70" ry="32" class="state"/>
+  <text x="150" y="118" text-anchor="middle" class="lbl">6840=85</text>
+  <text x="150" y="134" text-anchor="middle" class="txt">Idle</text>
+
+  <ellipse cx="350" cy="120" rx="70" ry="32" class="state"/>
+  <text x="350" y="118" text-anchor="middle" class="lbl">;C640=85</text>
+  <text x="350" y="134" text-anchor="middle" class="txt">Wander</text>
+
+  <ellipse cx="550" cy="120" rx="70" ry="32" class="state-combat"/>
+  <text x="550" y="125" text-anchor="middle" class="lbl">>9</text>
+
+  <ellipse cx="750" cy="120" rx="55" ry="32" class="state-end"/>
+  <text x="750" y="125" text-anchor="middle" class="lbl">!<5@BL</text>
+
+  <line x1="220" y1="120" x2="278" y2="120" class="ln"/>
+  <line x1="420" y1="120" x2="478" y2="120" class="ln"/>
+  <line x1="620" y1="120" x2="693" y2="120" class="ln"/>
+
+  <rect x="430" y="200" width="240" height="180" fill="#fff7ed" stroke="#ea580c" stroke-width="2" stroke-dasharray="8 4" rx="12"/>
+  <text x="550" y="226" text-anchor="middle" class="lbl">!C?5@A>AB>O=85 �>9�</text>
+
+  <ellipse cx="500" cy="280" rx="62" ry="28" class="state-combat"/>
+  <text x="500" y="285" text-anchor="middle" class="txt">@5A;54>20=85</text>
+
+  <ellipse cx="650" cy="280" rx="52" ry="28" class="state-combat"/>
+  <text x="650" y="285" text-anchor="middle" class="txt">B0:0</text>
+
+  <ellipse cx="575" cy="350" rx="62" ry="28" class="state"/>
+  <text x="575" y="355" text-anchor="middle" class="txt">BABC?;5=85</text>
+
+  <line x1="550" y1="152" x2="550" y2="198" stroke="#ea580c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="500" y1="308" x2="640" y2="308" class="ln"/>
+  <line x1="650" y1="308" x2="590" y2="322" class="ln"/>
+  <line x1="500" y1="308" x2="560" y2="322" class="ln"/>
+
+  <rect x="60" y="400" width="380" height="90" fill="#f1f5f9" stroke="#64748b" rx="10"/>
+  <text x="250" y="426" text-anchor="middle" class="lbl">5@5E>4K (Utility->F5=:8)</text>
+  <text x="80" y="450" class="txt">" 48AB0=F8O 4> F5;8 (83@>: / A>N7=8:)</text>
+  <text x="80" y="470" class="txt">" C@>25=L HP, ?5@570@O4:0 A?>A>1=>AB8</text>
+
+  <rect x="460" y="400" width="380" height="90" fill="#ecfdf5" stroke="#16a34a" rx="10"/>
+  <text x="650" y="426" text-anchor="middle" class="lbl">"8?K 2@03>2</text>
+  <text x="480" y="450" class="txt">!;09<, Void Golem  1;86=89 1>9</text>
+  <text x="480" y="470" class="txt">Dark Mage  40;L=>1>9=K5 A=0@O4K (C3@>70 4;O RL-A>N7=8:0)</text>
+</svg>

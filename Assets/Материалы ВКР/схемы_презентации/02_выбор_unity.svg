@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .hdr { font: bold 13px Arial, sans-serif; fill: #1e293b; }
+      .cell { font: 12px Arial, sans-serif; fill: #334155; }
+      .yes { fill: #dcfce7; }
+      .mid { fill: #fef9c3; }
+      .no { fill: #fee2e2; }
+      .chosen { fill: #1e40af; }
+      .chosen-t { font: bold 13px Arial, sans-serif; fill: #fff; }
+      .box { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 10; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 1. K1>@ 83@>2>3> 4286:0</text>
+
+  <rect x="40" y="58" width="180" height="32" fill="#e2e8f0" stroke="#64748b"/>
+  <rect x="220" y="58" width="210" height="32" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="325" y="79" text-anchor="middle" class="hdr">Unity 6</text>
+  <rect x="430" y="58" width="210" height="32" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="535" y="79" text-anchor="middle" class="hdr">Godot</text>
+  <rect x="640" y="58" width="210" height="32" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="745" y="79" text-anchor="middle" class="hdr">Unreal Engine</text>
+
+  <text x="130" y="110" text-anchor="middle" class="cell">2D top-down</text>
+  <rect x="220" y="92" width="210" height="28" class="yes"/><text x="325" y="110" text-anchor="middle" class="cell">B;8G=></text>
+  <rect x="430" y="92" width="210" height="28" class="yes"/><text x="535" y="110" text-anchor="middle" class="cell">%>@>H></text>
+  <rect x="640" y="92" width="210" height="28" class="mid"/><text x="745" y="110" text-anchor="middle" class="cell">71KB>G=></text>
+
+  <text x="130" y="148" text-anchor="middle" class="cell"> / Behavior</text>
+  <rect x="220" y="130" width="210" height="28" class="yes"/><text x="325" y="148" text-anchor="middle" class="cell">Unity Behavior</text>
+  <rect x="430" y="130" width="210" height="28" class="mid"/><text x="535" y="148" text-anchor="middle" class="cell">3@0=8G5==></text>
+  <rect x="640" y="130" width="210" height="28" class="yes"/><text x="745" y="148" text-anchor="middle" class="cell">Behavior Tree</text>
+
+  <text x="130" y="186" text-anchor="middle" class="cell">ML-Agents</text>
+  <rect x="220" y="168" width="210" height="28" class="yes"/><text x="325" y="186" text-anchor="middle" class="cell">D8F80;L=K9 ?0:5B</text>
+  <rect x="430" y="168" width="210" height="28" class="no"/><text x="535" y="186" text-anchor="middle" class="cell">5B</text>
+  <rect x="640" y="168" width="210" height="28" class="mid"/><text x="745" y="186" text-anchor="middle" class="cell">!B>@>==85</text>
+
+  <text x="130" y="224" text-anchor="middle" class="cell">2D NavMesh</text>
+  <rect x="220" y="206" width="210" height="28" class="yes"/><text x="325" y="224" text-anchor="middle" class="cell">NavMesh Plus</text>
+  <rect x="430" y="206" width="210" height="28" class="yes"/><text x="535" y="224" text-anchor="middle" class="cell">AB@>5==K9</text>
+  <rect x="640" y="206" width="210" height="28" class="mid"/><text x="745" y="224" text-anchor="middle" class="cell">3D->@85=B8@</text>
+
+  <text x="130" y="262" text-anchor="middle" class="cell">-:>A8AB5<0</text>
+  <rect x="220" y="244" width="210" height="28" class="yes"/><text x="325" y="262" text-anchor="middle" class="cell">@5;0O</text>
+  <rect x="430" y="244" width="210" height="28" class="mid"/><text x="535" y="262" text-anchor="middle" class="cell"> 0ABCI0O</text>
+  <rect x="640" y="244" width="210" height="28" class="yes"/><text x="745" y="262" text-anchor="middle" class="cell">AAA</text>
+
+  <rect x="120" y="300" width="660" height="56" class="chosen" rx="12"/>
+  <text x="450" y="324" text-anchor="middle" class="chosen-t">K1@0=: Unity 6 + C# + ML-Agents + Unity Behavior + NavMesh Plus</text>
+  <text x="450" y="344" text-anchor="middle" class="chosen-t" font-size="12">81@84=K9 ?>4E>4: :;0AA8G5A:89 :0@:0A + RL-<8:@>7040G0 ?>78F8>=8@>20=8O</text>
+
+  <rect x="80" y="380" width="740" height="110" class="box"/>
+  <text x="450" y="408" text-anchor="middle" class="hdr">!B5: @07@01>B:8</text>
+  <text x="200" y="438" text-anchor="middle" class="txt">Unity 6</text>
+  <text x="350" y="438" text-anchor="middle" class="txt">C#</text>
+  <text x="500" y="438" text-anchor="middle" class="txt">Python / PyTorch</text>
+  <text x="680" y="438" text-anchor="middle" class="txt">ONNX Inference</text>
+  <line x1="250" y1="448" x2="300" y2="448" stroke="#2563eb" stroke-width="2"/>
+  <line x1="400" y1="448" x2="450" y2="448" stroke="#2563eb" stroke-width="2"/>
+  <line x1="550" y1="448" x2="620" y2="448" stroke="#2563eb" stroke-width="2"/>
+  <text x="450" y="472" text-anchor="middle" class="cell">URP � Input System � AI Navigation � uGUI � Git</text>
+</svg>

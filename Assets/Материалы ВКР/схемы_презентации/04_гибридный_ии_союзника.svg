@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .box { rx: 12; stroke-width: 2; }
+      .b1 { fill: #dbeafe; stroke: #2563eb; }
+      .b2 { fill: #e0e7ff; stroke: #4f46e5; }
+      .b3 { fill: #fef3c7; stroke: #d97706; }
+      .b4 { fill: #dcfce7; stroke: #16a34a; }
+      .b5 { fill: #fce7f3; stroke: #db2777; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .ln { stroke: #2563eb; stroke-width: 2.5; fill: none; marker-end: url(#arr); }
+      .note { font: 11px Arial, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 3. 81@84=0O 0@E8B5:BC@0  A>N7=8:0</text>
+
+  <rect x="60" y="70" width="160" height="70" class="box b1"/>
+  <text x="140" y="98" text-anchor="middle" class="lbl">2>4 83@>:0</text>
+  <text x="140" y="118" text-anchor="middle" class="txt">;845@ 3@C??K</text>
+  <text x="140" y="134" text-anchor="middle" class="txt">1>520O A8BC0F8O</text>
+
+  <line x1="220" y1="105" x2="268" y2="105" class="ln"/>
+
+  <rect x="270" y="58" width="200" height="94" class="box b2"/>
+  <text x="370" y="86" text-anchor="middle" class="lbl">Unity Behavior</text>
+  <text x="370" y="106" text-anchor="middle" class="txt">>@:5AB@0F8O 459AB289</text>
+  <text x="370" y="124" text-anchor="middle" class="txt">?>8A: / 1>9 / A?>A>1=>AB8</text>
+  <text x="370" y="142" text-anchor="middle" class="txt">?0@0;;5;L=>5 2K?>;=5=85</text>
+
+  <line x1="470" y1="90" x2="518" y2="90" class="ln"/>
+  <line x1="470" y1="120" x2="518" y2="150" class="ln"/>
+
+  <rect x="520" y="58" width="170" height="64" class="box b3"/>
+  <text x="605" y="84" text-anchor="middle" class="lbl">Utility AI</text>
+  <text x="605" y="104" text-anchor="middle" class="txt">WeaponTargetSelector</text>
+  <text x="605" y="120" text-anchor="middle" class="txt">UtilityAbilitySelector</text>
+
+  <rect x="520" y="138" width="170" height="64" class="box b4"/>
+  <text x="605" y="164" text-anchor="middle" class="lbl">ML-Agents</text>
+  <text x="605" y="184" text-anchor="middle" class="txt">?>;8B8:0 AllyPosition</text>
+  <text x="605" y="200" text-anchor="middle" class="txt">17 =01;. / 4 459AB28O</text>
+
+  <line x1="690" y1="170" x2="738" y2="170" class="ln"/>
+
+  <rect x="740" y="138" width="120" height="64" class="box b5"/>
+  <text x="800" y="164" text-anchor="middle" class="lbl">NavMesh</text>
+  <text x="800" y="184" text-anchor="middle" class="txt">42865=85</text>
+  <text x="800" y="200" text-anchor="middle" class="txt">AB@59D / >BE>4</text>
+
+  <rect x="80" y="230" width="740" height="100" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" rx="12"/>
+  <text x="450" y="256" text-anchor="middle" class="lbl">AllyAIBrain  548=0O B>G:0 ?@8=OB8O @5H5=89</text>
+  <rect x="110" y="270" width="150" height="44" fill="#fff" stroke="#94a3b8" rx="6"/>
+  <text x="185" y="288" text-anchor="middle" class="txt">CombatPerception</text>
+  <text x="185" y="304" text-anchor="middle" class="txt" font-size="11">CombatSnapshot</text>
+  <rect x="290" y="270" width="150" height="44" fill="#fff" stroke="#94a3b8" rx="6"/>
+  <text x="365" y="288" text-anchor="middle" class="txt">ThreatPerception</text>
+  <text x="365" y="304" text-anchor="middle" class="txt" font-size="11">A=0@O4K, A@>G=>ABL</text>
+  <rect x="470" y="270" width="160" height="44" fill="#fff" stroke="#94a3b8" rx="6"/>
+  <text x="550" y="288" text-anchor="middle" class="txt">AllyMLMovementModifier</text>
+  <text x="550" y="304" text-anchor="middle" class="txt" font-size="11">3 @568<0 42865=8O</text>
+  <rect x="660" y="270" width="140" height="44" fill="#fff" stroke="#94a3b8" rx="6"/>
+  <text x="730" y="288" text-anchor="middle" class="txt">AllyDodgeHeuristic</text>
+  <text x="730" y="304" text-anchor="middle" class="txt" font-size="11"><3=>25==>5 C:;>=5=85</text>
+
+  <rect x="80" y="360" width="360" height="120" fill="#eff6ff" stroke="#2563eb" stroke-width="2" rx="10"/>
+  <text x="260" y="386" text-anchor="middle" class="lbl"> 0745;5=85 >B25BAB25==>AB8</text>
+  <text x="100" y="412" class="txt">" Behavior  :>340 459AB2>20BL</text>
+  <text x="100" y="432" class="txt">" Utility AI  GB> 0B0:>20BL / :0:CN A?>A>1=>ABL</text>
+  <text x="100" y="452" class="txt">" ML  :0: ?>78F8>=8@>20BLAO 2 1>N</text>
+  <text x="100" y="472" class="txt">" -2@8AB8:0  @50:F8O =0 A=0@O4K <564C H030<8 RL</text>
+
+  <rect x="460" y="360" width="360" height="120" fill="#fef9c3" stroke="#ca8a04" stroke-width="2" rx="10"/>
+  <text x="640" y="386" text-anchor="middle" class="lbl">@>B82=8:8 (HFSM)</text>
+  <text x="480" y="412" class="txt">" 1;C640=85 � ?@5A;54>20=85 � 0B0:0</text>
+  <text x="480" y="432" class="txt">" >BABC?;5=85 ?@8 =87:>< HP</text>
+  <text x="480" y="452" class="txt">" Utility->F5=:8 =0 ?5@5E>40E</text>
+  <text x="480" y="472" class="txt">" 45HQ20O <0AA>20O <>45;L 4;O CPU</text>
+</svg>

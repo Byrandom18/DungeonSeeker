@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .box { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 12; }
+      .box-goal { fill: #1e40af; stroke: #1e3a8a; stroke-width: 2; rx: 14; }
+      .box-result { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 14; }
+      .txt { font: 14px Arial, sans-serif; fill: #1e293b; }
+      .txt-w { font: bold 15px Arial, sans-serif; fill: #ffffff; }
+      .txt-sm { font: 12px Arial, sans-serif; fill: #334155; }
+      .ln { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="36" text-anchor="middle" class="title">&5;L 8 7040G8  </text>
+
+  <rect x="300" y="58" width="300" height="56" class="box-goal"/>
+  <text x="450" y="82" text-anchor="middle" class="txt-w">&5;L</text>
+  <text x="450" y="102" text-anchor="middle" class="txt-w" font-size="13">Dungeon Seeker + 8=B5;;5:BC0;L=0O A8AB5<0 NPC</text>
+
+  <line x1="450" y1="114" x2="450" y2="138" class="ln"/>
+
+  <rect x="60" y="148" width="130" height="44" class="box"/>
+  <text x="125" y="175" text-anchor="middle" class="txt-sm">1. K1>@ AB5:0</text>
+  <rect x="210" y="148" width="130" height="44" class="box"/>
+  <text x="275" y="175" text-anchor="middle" class="txt-sm">2. @E8B5:BC@0</text>
+  <rect x="360" y="148" width="130" height="44" class="box"/>
+  <text x="425" y="175" text-anchor="middle" class="txt-sm">3.  NPC</text>
+  <rect x="510" y="148" width="130" height="44" class="box"/>
+  <text x="575" y="175" text-anchor="middle" class="txt-sm">4. "5AB8@>20=85</text>
+  <rect x="660" y="148" width="130" height="44" class="box"/>
+  <text x="725" y="168" text-anchor="middle" class="txt-sm">5. 5@A?5:B82K</text>
+  <text x="725" y="184" text-anchor="middle" class="txt-sm">@0728B8O</text>
+
+  <rect x="360" y="210" width="180" height="44" class="box"/>
+  <text x="450" y="230" text-anchor="middle" class="txt-sm">6. >:C<5=B0F8O,</text>
+  <text x="450" y="246" text-anchor="middle" class="txt-sm">, M:>=><8:0</text>
+
+  <line x1="450" y1="254" x2="450" y2="300" class="ln"/>
+
+  <rect x="250" y="310" width="400" height="70" class="box-result"/>
+  <text x="450" y="338" text-anchor="middle" class="txt" font-weight="bold"> 57C;LB0B</text>
+  <text x="450" y="358" text-anchor="middle" class="txt-sm">3@>2>9 ?@>B>B8? A 381@84=K<  A>N7=8:0 8 ?@>B82=8:>2</text>
+  <text x="450" y="374" text-anchor="middle" class="txt-sm">ONNX-<>45;L, ?>4B25@64Q==0O M:A?5@8<5=B><</text>
+
+  <rect x="40" y="410" width="820" height="88" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1" rx="10"/>
+  <text x="450" y="436" text-anchor="middle" class="txt-sm" font-weight="bold">1J5:B:  2D-83@K 8 <>45;8 ?>2545=8O NPC</text>
+  <text x="450" y="458" text-anchor="middle" class="txt-sm">@54<5B: <5B>4K 3@C??>2>3> C?@02;5=8O 1>B0<8 2 48=0<8G5A:>9 A@545</text>
+  <text x="450" y="480" text-anchor="middle" class="txt-sm">5B>4K: BT, Utility AI, HFSM, >1CG5=85 A ?>4:@5?;5=85< (PPO)</text>
+</svg>

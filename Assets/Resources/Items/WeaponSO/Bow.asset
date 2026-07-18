@@ -23,7 +23,7 @@ MonoBehaviour:
   ProjectileSpeed: 8
   ProjectileLifetime: 3
   SizeMultiplier: 1
-  ProjectileCount: 5
+  ProjectileCount: 3
   SpreadAngle: 5
   Penetrate: 0
   ApplyStagger: 0

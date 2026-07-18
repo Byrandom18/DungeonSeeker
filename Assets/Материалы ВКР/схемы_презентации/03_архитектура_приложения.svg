@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .layer { stroke-width: 2; rx: 10; }
+      .l1 { fill: #dbeafe; stroke: #2563eb; }
+      .l2 { fill: #e0e7ff; stroke: #4f46e5; }
+      .l3 { fill: #fef3c7; stroke: #d97706; }
+      .l4 { fill: #dcfce7; stroke: #16a34a; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .mod { fill: #fff; stroke: #94a3b8; stroke-width: 1; rx: 6; }
+      .ln { stroke: #64748b; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 2. @E8B5:BC@0 Dungeon Seeker</text>
+
+  <rect x="60" y="58" width="780" height="72" class="layer l1"/>
+  <text x="80" y="82" class="lbl">UI 8 :>=B5=B</text>
+  <rect x="200" y="72" width="110" height="44" class="mod"/><text x="255" y="99" text-anchor="middle" class="txt">=25=B0@L</text>
+  <rect x="330" y="72" width="110" height="44" class="mod"/><text x="385" y="99" text-anchor="middle" class="txt">-:8?8@>2:0</text>
+  <rect x="460" y="72" width="110" height="44" class="mod"/><text x="515" y="99" text-anchor="middle" class="txt">!?>A>1=>AB8</text>
+  <rect x="590" y="72" width="110" height="44" class="mod"/><text x="645" y="99" text-anchor="middle" class="txt">VFX / URP</text>
+  <rect x="720" y="72" width="100" height="44" class="mod"/><text x="770" y="99" text-anchor="middle" class="txt">0<5@0</text>
+
+  <line x1="450" y1="130" x2="450" y2="152" class="ln"/>
+
+  <rect x="60" y="158" width="780" height="88" class="layer l2"/>
+  <text x="80" y="182" class="lbl">59<?;59=K5 A8AB5<K</text>
+  <rect x="100" y="192" width="100" height="40" class="mod"/><text x="150" y="217" text-anchor="middle" class="txt">3@>:</text>
+  <rect x="220" y="192" width="100" height="40" class="mod"/><text x="270" y="217" text-anchor="middle" class="txt">@C685</text>
+  <rect x="340" y="192" width="100" height="40" class="mod"/><text x="390" y="217" text-anchor="middle" class="txt">>9</text>
+  <rect x="460" y="192" width="100" height="40" class="mod"/><text x="510" y="217" text-anchor="middle" class="txt">@C??0</text>
+  <rect x="580" y="192" width="100" height="40" class="mod"/><text x="630" y="217" text-anchor="middle" class="txt">@038</text>
+  <rect x="700" y="192" width="120" height="40" class="mod"/><text x="760" y="217" text-anchor="middle" class="txt">NavMesh</text>
+
+  <line x1="450" y1="246" x2="450" y2="268" class="ln"/>
+
+  <rect x="60" y="274" width="780" height="88" class="layer l3"/>
+  <text x="80" y="298" class="lbl"> NPC</text>
+  <rect x="120" y="308" width="130" height="40" class="mod"/><text x="185" y="325" text-anchor="middle" class="txt">Unity Behavior</text>
+  <text x="185" y="340" text-anchor="middle" class="txt" font-size="11">(A>N7=8:)</text>
+  <rect x="280" y="308" width="130" height="40" class="mod"/><text x="345" y="333" text-anchor="middle" class="txt">Utility AI</text>
+  <rect x="440" y="308" width="130" height="40" class="mod"/><text x="505" y="333" text-anchor="middle" class="txt">ML-Agents</text>
+  <rect x="600" y="308" width="130" height="40" class="mod"/><text x="665" y="325" text-anchor="middle" class="txt">HFSM</text>
+  <text x="665" y="340" text-anchor="middle" class="txt" font-size="11">(?@>B82=8:8)</text>
+
+  <line x1="450" y1="362" x2="450" y2="384" class="ln"/>
+
+  <rect x="60" y="390" width="780" height="72" class="layer l4"/>
+  <text x="80" y="414" class="lbl">0==K5 (ScriptableObject)</text>
+  <rect x="150" y="424" width="140" height="28" class="mod"/><text x="220" y="443" text-anchor="middle" class="txt">@C685 / A?>A>1=>AB8</text>
+  <rect x="310" y="424" width="120" height="28" class="mod"/><text x="370" y="443" text-anchor="middle" class="txt">@038 / ?@54<5BK</text>
+  <rect x="450" y="424" width="150" height="28" class="mod"/><text x="525" y="443" text-anchor="middle" class="txt">@>D8;8 ?>2545=8O</text>
+  <rect x="620" y="424" width="180" height="28" class="mod"/><text x="710" y="443" text-anchor="middle" class="txt">ICharacterEntity</text>
+
+  <text x="450" y="492" text-anchor="middle" class="txt" font-size="12">><?>=5=B=K9 ?>4E>4: ACI=>ABL = =01>@ =57028A8<KE MonoBehaviour-:><?>=5=B>2</text>
+</svg>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: bold 20px Arial, sans-serif; fill: #0f172a; }
+      .box { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 12; }
+      .box-g { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 12; }
+      .box-y { fill: #fef9c3; stroke: #ca8a04; stroke-width: 2; rx: 12; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .ln { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arr); }
+      .loop { stroke: #64748b; stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" class="title">040G0 3. 1CG5=85 ML-:><?>=5=B0 AllyPosition</text>
+
+  <rect x="40" y="60" width="200" height="90" class="box"/>
+  <text x="140" y="88" text-anchor="middle" class="lbl">ML_Training_Arena</text>
+  <text x="140" y="108" text-anchor="middle" class="txt">M?87>4 4> 90 A5:</text>
+  <text x="140" y="126" text-anchor="middle" class="txt">2>;=K 2@03>2</text>
+  <text x="140" y="144" text-anchor="middle" class="txt">CG51=0O ?@>3@0<<0</text>
+
+  <line x1="240" y1="105" x2="288" y2="105" class="ln"/>
+
+  <rect x="290" y="60" width="180" height="90" class="box-y"/>
+  <text x="380" y="88" text-anchor="middle" class="lbl">01;N45=8O (17)</text>
+  <text x="380" y="108" text-anchor="middle" class="txt">HP, <0=0, 48AB0=F8O</text>
+  <text x="380" y="126" text-anchor="middle" class="txt">C3@>7K, A=0@O4K</text>
+  <text x="380" y="144" text-anchor="middle" class="txt">?>78F8O ;845@0</text>
+
+  <line x1="470" y1="105" x2="518" y2="105" class="ln"/>
+
+  <rect x="520" y="60" width="160" height="90" class="box"/>
+  <text x="600" y="92" text-anchor="middle" class="lbl">PPO</text>
+  <text x="600" y="112" text-anchor="middle" class="txt">PyTorch 2.2.2</text>
+  <text x="600" y="130" text-anchor="middle" class="txt">1 000 054 H030</text>
+  <text x="600" y="148" text-anchor="middle" class="txt">batch 1024</text>
+
+  <line x1="680" y1="105" x2="728" y2="105" class="ln"/>
+
+  <rect x="730" y="60" width="130" height="90" class="box-g"/>
+  <text x="795" y="92" text-anchor="middle" class="lbl">ONNX</text>
+  <text x="795" y="112" text-anchor="middle" class="txt">ally_headless_v1</text>
+  <text x="795" y="130" text-anchor="middle" class="txt">Inference</text>
+  <text x="795" y="148" text-anchor="middle" class="txt">2 83@5</text>
+
+  <path d="M 795 150 Q 795 220 600 220 Q 380 220 140 150" class="loop"/>
+  <text x="450" y="238" text-anchor="middle" class="txt" fill="#64748b">F8:; >1CG5=8O: =03@040 � >1=>2;5=85 ?>;8B8:8</text>
+
+  <rect x="60" y="270" width="380" height="110" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" rx="10"/>
+  <text x="250" y="296" text-anchor="middle" class="lbl">4 459AB28O (=5?@5@K2=K5)</text>
+  <text x="80" y="322" class="txt">1. ?B8<0;L=0O 48AB0=F8O 4> F5;8</text>
+  <text x="80" y="342" class="txt">2. @8=C48B5;L=>5 >BABC?;5=85 (=87:>5 HP)</text>
+  <text x="80" y="362" class="txt">3. 0?@02;5=85 AB@59D0</text>
+  <text x="280" y="362" class="txt">4. =B5=A82=>ABL AB@59D0</text>
+
+  <rect x="460" y="270" width="380" height="110" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5" rx="10"/>
+  <text x="650" y="296" text-anchor="middle" class="lbl">$C=:F8O 2>7=03@0645=8O</text>
+  <text x="480" y="322" class="txt">+ C45@60=85 48AB0=F88, C:;>=5=85, 70G8AB:0 2>;=K</text>
+  <text x="480" y="342" class="txt"> C@>=, A<5@BL, >B40;5=85 >B ;845@0</text>
+  <text x="480" y="362" class="txt">157 HB@0D0 70 2@5<O M?87>40 (CAB>9G82>5 ?>2545=85)</text>
+
+  <rect x="60" y="400" width="260" height="88" class="box"/>
+  <text x="190" y="426" text-anchor="middle" class="lbl"> 568<K ML</text>
+  <text x="80" y="452" class="txt">Disabled � Heuristic � Training � Inference</text>
+  <text x="80" y="472" class="txt">548=K9 ?@5D01 A>N7=8:0 2 83@5 8 =0 0@5=5</text>
+
+  <rect x="340" y="400" width="500" height="88" class="box-g"/>
+  <text x="590" y="426" text-anchor="middle" class="lbl"> 57C;LB0B >1CG5=8O</text>
+  <text x="360" y="452" class="txt">#AB>9G820O ?>;8B8:0 ~600 000 H03>2; A 900 000 H030  157 A<5@B59</text>
+  <text x="360" y="472" class="txt">Value Loss A=8605BAO; <>45;L M:A?>@B8@>20=0 8 8=B53@8@>20=0 2 1>52CN 25B:C</text>
+</svg>

@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>ВКР Шаповалов М.А. - презентация к защите</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #0d182a; color: #f5f8ff; }
+    .slide { box-sizing: border-box; width: 1280px; height: 720px; padding: 44px 58px; page-break-after: always; position: relative; background: #0d182a; }
+    h1 { font-size: 40px; margin: 0 0 28px; }
+    h2 { font-size: 34px; margin: 0 0 26px; }
+    p, li { font-size: 25px; line-height: 1.28; }
+    ul { width: 720px; margin: 0; padding-left: 30px; }
+    li { margin-bottom: 14px; }
+    .center { text-align: center; }
+    .title { margin-top: 70px; }
+    .subtitle { margin-top: 52px; color: #dce6f5; white-space: pre-line; }
+    .visual { position: absolute; right: 58px; top: 140px; width: 390px; height: 430px; border: 3px solid #608ad1; border-radius: 20px; background: #f8fafc; overflow: hidden; box-sizing: border-box; }
+    .visual-title { position: absolute; right: 58px; top: 280px; width: 520px; height: 300px; border: 3px solid #608ad1; border-radius: 20px; background: #0d182a; overflow: hidden; }
+    .visual svg, .visual-title svg { width: 100%; height: 100%; display: block; }
+    .num { position: absolute; right: 58px; bottom: 26px; color: #91a2be; font-size: 16px; }
+    .small { font-size: 20px; color: #dce6f5; max-width: 720px; }
+  </style>
+</head>
+<body>
+
+  <!-- СЛАЙД 1 -->
+  <section class="slide center">
+    <h1 class="title">Реализация группового управления ботами в компьютерной игре</h1>
+    <p class="subtitle">ВКР, 09.03.02 Информационные системы и технологии
+Шаповалов Михаил Андреевич, ИТси-422
+Руководитель: доцент, к.т.н. Дмитриев Н. В.
+УрГУПС, Екатеринбург, 2026</p>
+    <div class="visual-title">
+      <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg">
+        <rect width="520" height="300" fill="#0d182a"/>
+        <text x="260" y="40" text-anchor="middle" fill="#f5f8ff" font-size="28" font-weight="bold">Dungeon Seeker</text>
+        <text x="260" y="68" text-anchor="middle" fill="#93c5fd" font-size="16">2D top-down roguelike RPG</text>
+        <rect x="110" y="90" width="300" height="170" rx="12" fill="#1a2744" stroke="#608ad1" stroke-width="2"/>
+        <rect x="130" y="110" width="55" height="55" fill="#2d4a7a"/><rect x="195" y="110" width="55" height="55" fill="#243b66"/>
+        <rect x="260" y="110" width="55" height="55" fill="#2d4a7a"/><rect x="325" y="110" width="55" height="55" fill="#243b66"/>
+        <rect x="130" y="175" width="55" height="55" fill="#243b66"/><rect x="195" y="175" width="55" height="55" fill="#3b5998"/>
+        <rect x="260" y="175" width="55" height="55" fill="#243b66"/><rect x="325" y="175" width="55" height="55" fill="#2d4a7a"/>
+        <circle cx="222" cy="202" r="12" fill="#fbbf24"/><text x="222" y="206" text-anchor="middle" fill="#000" font-size="9">P</text>
+        <circle cx="290" cy="202" r="10" fill="#22c55e"/><text x="290" y="206" text-anchor="middle" fill="#000" font-size="8">A</text>
+        <circle cx="160" cy="135" r="9" fill="#ef4444"/><circle cx="355" cy="135" r="9" fill="#ef4444"/>
+        <text x="260" y="285" text-anchor="middle" fill="#dce6f5" font-size="13">игрок · союзник · враги · групповой ИИ</text>
+      </svg>
+    </div>
+    <div class="num">1 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 2 -->
+  <section class="slide">
+    <h2>Цель и задачи работы</h2>
+    <ul>
+      <li>Цель: разработать 2D RPG Dungeon Seeker и интегрировать интеллектуальную систему поведения NPC.</li>
+      <li>1. Сравнить игровые движки и фреймворки для сложной ИИ-логики.</li>
+      <li>2. Разработать архитектуру игрового приложения.</li>
+      <li>3. Реализовать ИИ NPC с классическими методами и машинным обучением.</li>
+      <li>4. Провести функциональное и нагрузочное тестирование.</li>
+      <li>5. Оценить перспективы расширения игры.</li>
+      <li>6. Подготовить документацию, экономику и БЖД.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="28" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="bold">Цель и 6 задач</text>
+        <rect x="95" y="40" width="200" height="40" rx="8" fill="#1e40af"/>
+        <text x="195" y="58" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Цель</text>
+        <text x="195" y="72" text-anchor="middle" fill="#fff" font-size="9">Dungeon Seeker + ИИ NPC</text>
+        <line x1="195" y1="80" x2="195" y2="95" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+        <rect x="20" y="100" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="72" y="120" text-anchor="middle" fill="#334155" font-size="9">1. Выбор стека</text>
+        <rect x="135" y="100" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="187" y="120" text-anchor="middle" fill="#334155" font-size="9">2. Архитектура</text>
+        <rect x="250" y="100" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="302" y="120" text-anchor="middle" fill="#334155" font-size="9">3. ИИ NPC</text>
+        <rect x="20" y="142" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="72" y="162" text-anchor="middle" fill="#334155" font-size="9">4. Тестирование</text>
+        <rect x="135" y="142" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="187" y="162" text-anchor="middle" fill="#334155" font-size="9">5. Перспективы</text>
+        <rect x="250" y="142" width="105" height="32" rx="6" fill="#eff6ff" stroke="#2563eb"/><text x="302" y="162" text-anchor="middle" fill="#334155" font-size="9">6. БЖД / эконом.</text>
+        <line x1="195" y1="174" x2="195" y2="195" stroke="#2563eb" stroke-width="2"/>
+        <rect x="70" y="200" width="250" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <text x="195" y="222" text-anchor="middle" fill="#166534" font-size="11" font-weight="bold">Результат</text>
+        <text x="195" y="238" text-anchor="middle" fill="#334155" font-size="9">Прототип + ONNX-модель AllyPosition</text>
+        <rect x="15" y="270" width="360" height="145" rx="8" fill="#e2e8f0"/>
+        <text x="195" y="292" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="bold">Методы</text>
+        <text x="195" y="312" text-anchor="middle" fill="#475569" font-size="9">BT · Utility AI · HFSM · PPO</text>
+        <text x="195" y="332" text-anchor="middle" fill="#475569" font-size="9">Объект: ПО 2D-игры и модели NPC</text>
+        <text x="195" y="352" text-anchor="middle" fill="#475569" font-size="9">Предмет: групповое управление ботами</text>
+        <defs><marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2563eb"/></marker></defs>
+      </svg>
+    </div>
+    <div class="num">2 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 3 -->
+  <section class="slide">
+    <h2>Задача 1. Выбор инструментов и методов</h2>
+    <ul>
+      <li>Сравнены Unity, Godot и Unreal Engine по 2D-разработке, ИИ, навигации, ML и экосистеме.</li>
+      <li>Выбран Unity 6: компонентная модель, 2D-инструменты, Unity Behavior, ML-Agents, NavMesh Plus.</li>
+      <li>Для NPC обоснован гибридный подход: классический каркас + обучаемая микрозадача позиционирования.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="26" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="bold">Сравнение движков</text>
+        <rect x="10" y="38" width="70" height="22" fill="#e2e8f0"/><rect x="80" y="38" width="95" height="22" fill="#dbeafe"/><text x="127" y="53" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="bold">Unity 6</text>
+        <rect x="175" y="38" width="95" height="22" fill="#f1f5f9"/><text x="222" y="53" text-anchor="middle" fill="#334155" font-size="10">Godot</text>
+        <rect x="270" y="38" width="110" height="22" fill="#f1f5f9"/><text x="325" y="53" text-anchor="middle" fill="#334155" font-size="10">Unreal</text>
+        <text x="45" y="78" text-anchor="middle" fill="#64748b" font-size="9">2D</text><rect x="80" y="64" width="95" height="20" fill="#dcfce7"/><rect x="175" y="64" width="95" height="20" fill="#dcfce7"/><rect x="270" y="64" width="110" height="20" fill="#fef9c3"/>
+        <text x="45" y="108" text-anchor="middle" fill="#64748b" font-size="9">ИИ</text><rect x="80" y="94" width="95" height="20" fill="#dcfce7"/><rect x="175" y="94" width="95" height="20" fill="#fef9c3"/><rect x="270" y="94" width="110" height="20" fill="#dcfce7"/>
+        <text x="45" y="138" text-anchor="middle" fill="#64748b" font-size="9">ML</text><rect x="80" y="124" width="95" height="20" fill="#dcfce7"/><rect x="175" y="124" width="95" height="20" fill="#fee2e2"/><rect x="270" y="124" width="110" height="20" fill="#fef9c3"/>
+        <text x="45" y="168" text-anchor="middle" fill="#64748b" font-size="9">Nav</text><rect x="80" y="154" width="95" height="20" fill="#dcfce7"/><rect x="175" y="154" width="95" height="20" fill="#dcfce7"/><rect x="270" y="154" width="110" height="20" fill="#fef9c3"/>
+        <rect x="25" y="190" width="340" height="44" rx="8" fill="#1e40af"/>
+        <text x="195" y="210" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">Выбран: Unity 6 + ML-Agents + Behavior</text>
+        <text x="195" y="226" text-anchor="middle" fill="#bfdbfe" font-size="9">Гибрид: классика + RL-позиционирование</text>
+        <rect x="25" y="250" width="340" height="160" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+        <text x="195" y="272" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">Стек</text>
+        <rect x="45" y="286" width="70" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="80" y="308" text-anchor="middle" fill="#334155" font-size="9">Unity 6</text>
+        <rect x="125" y="286" width="50" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="150" y="308" text-anchor="middle" fill="#334155" font-size="9">C#</text>
+        <rect x="185" y="286" width="80" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="225" y="302" text-anchor="middle" fill="#334155" font-size="8">ML-Agents</text><text x="225" y="314" text-anchor="middle" fill="#334155" font-size="8">Behavior</text>
+        <rect x="275" y="286" width="70" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="310" y="308" text-anchor="middle" fill="#334155" font-size="9">PyTorch</text>
+        <rect x="45" y="332" width="70" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="80" y="354" text-anchor="middle" fill="#334155" font-size="9">NavMesh</text>
+        <rect x="125" y="332" width="50" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="150" y="354" text-anchor="middle" fill="#334155" font-size="9">ONNX</text>
+        <rect x="185" y="332" width="160" height="36" rx="6" fill="#fff" stroke="#94a3b8"/><text x="265" y="354" text-anchor="middle" fill="#334155" font-size="9">ScriptableObject</text>
+      </svg>
+    </div>
+    <div class="num">3 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 4 -->
+  <section class="slide">
+    <h2>Задача 2. Архитектура приложения</h2>
+    <ul>
+      <li>Сформирована компонентная архитектура игрового продукта.</li>
+      <li>Базовые системы: управление, оружие, способности, инвентарь, экипировка, враги, группа, навигация, UI.</li>
+      <li>Данные баланса вынесены в ScriptableObject, что упрощает настройку без изменения кода.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="26" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="bold">Слои архитектуры</text>
+        <rect x="20" y="40" width="350" height="58" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="35" y="62" fill="#1e40af" font-size="11" font-weight="bold">UI и контент</text>
+        <text x="195" y="82" text-anchor="middle" fill="#475569" font-size="9">инвентарь · экипировка · способности · VFX</text>
+        <rect x="20" y="110" width="350" height="72" rx="8" fill="#e0e7ff" stroke="#4f46e5"/><text x="35" y="132" fill="#3730a3" font-size="11" font-weight="bold">Геймплей</text>
+        <text x="195" y="152" text-anchor="middle" fill="#475569" font-size="9">игрок · оружие · бой · группа · враги</text>
+        <text x="195" y="168" text-anchor="middle" fill="#475569" font-size="9">PartyManager · NavMesh</text>
+        <rect x="20" y="194" width="350" height="72" rx="8" fill="#fef3c7" stroke="#d97706"/><text x="35" y="216" fill="#92400e" font-size="11" font-weight="bold">ИИ NPC</text>
+        <text x="195" y="236" text-anchor="middle" fill="#475569" font-size="9">Behavior · Utility AI · ML-Agents</text>
+        <text x="195" y="252" text-anchor="middle" fill="#475569" font-size="9">HFSM (противники)</text>
+        <rect x="20" y="278" width="350" height="58" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="35" y="300" fill="#166534" font-size="11" font-weight="bold">ScriptableObject</text>
+        <text x="195" y="320" text-anchor="middle" fill="#475569" font-size="9">баланс · профили поведения · ICharacterEntity</text>
+        <rect x="20" y="350" width="350" height="65" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="195" y="372" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="bold">Компонентный подход</text>
+        <text x="195" y="392" text-anchor="middle" fill="#64748b" font-size="9">сущность = набор MonoBehaviour-компонентов</text>
+        <text x="195" y="408" text-anchor="middle" fill="#64748b" font-size="9">низкая связанность · локальные изменения</text>
+      </svg>
+    </div>
+    <div class="num">4 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 5 -->
+  <section class="slide">
+    <h2>Задача 3. Интеллектуальная система NPC</h2>
+    <ul>
+      <li>Союзник: Unity Behavior организует действия, Utility AI выбирает цель и способность.</li>
+      <li>ML-Agents управляет боевым позиционированием: дистанция, отступление, направление и интенсивность стрейфа.</li>
+      <li>Противники реализованы через вычислительно дешевый и предсказуемый конечный автомат.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="24" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="bold">Гибридный ИИ союзника</text>
+        <rect x="10" y="38" width="75" height="50" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="47" y="60" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Ввод</text><text x="47" y="76" text-anchor="middle" fill="#475569" font-size="7">игрок</text>
+        <line x1="85" y1="63" x2="108" y2="63" stroke="#2563eb" stroke-width="2"/>
+        <rect x="110" y="38" width="90" height="50" rx="8" fill="#e0e7ff" stroke="#4f46e5"/><text x="155" y="58" text-anchor="middle" fill="#3730a3" font-size="8" font-weight="bold">Behavior</text><text x="155" y="74" text-anchor="middle" fill="#475569" font-size="7">оркестрация</text>
+        <line x1="200" y1="55" x2="223" y2="45" stroke="#2563eb" stroke-width="2"/>
+        <line x1="200" y1="70" x2="223" y2="85" stroke="#2563eb" stroke-width="2"/>
+        <rect x="225" y="30" width="80" height="36" rx="6" fill="#fef3c7" stroke="#d97706"/><text x="265" y="48" text-anchor="middle" fill="#92400e" font-size="8" font-weight="bold">Utility AI</text><text x="265" y="60" text-anchor="middle" fill="#475569" font-size="7">цель / способн.</text>
+        <rect x="225" y="72" width="80" height="36" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="265" y="90" text-anchor="middle" fill="#166534" font-size="8" font-weight="bold">ML-Agents</text><text x="265" y="102" text-anchor="middle" fill="#475569" font-size="7">позиционир.</text>
+        <line x1="305" y1="90" x2="328" y2="90" stroke="#2563eb" stroke-width="2"/>
+        <rect x="330" y="72" width="50" height="36" rx="6" fill="#fce7f3" stroke="#db2777"/><text x="355" y="94" text-anchor="middle" fill="#9d174d" font-size="8" font-weight="bold">NavMesh</text>
+        <rect x="15" y="105" width="360" height="85" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="195" y="125" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="bold">AllyAIBrain</text>
+        <rect x="25" y="135" width="100" height="42" rx="5" fill="#fff" stroke="#94a3b8"/><text x="75" y="152" text-anchor="middle" fill="#334155" font-size="7">CombatPerception</text><text x="75" y="166" text-anchor="middle" fill="#64748b" font-size="6">CombatSnapshot</text>
+        <rect x="135" y="135" width="100" height="42" rx="5" fill="#fff" stroke="#94a3b8"/><text x="185" y="152" text-anchor="middle" fill="#334155" font-size="7">ThreatPerception</text><text x="185" y="166" text-anchor="middle" fill="#64748b" font-size="6">снаряды</text>
+        <rect x="245" y="135" width="120" height="42" rx="5" fill="#fff" stroke="#94a3b8"/><text x="305" y="152" text-anchor="middle" fill="#334155" font-size="7">MLMovementModifier</text><text x="305" y="166" text-anchor="middle" fill="#64748b" font-size="6">3 режима</text>
+        <rect x="15" y="205" width="175" height="100" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+        <text x="102" y="225" text-anchor="middle" fill="#1e40af" font-size="9" font-weight="bold">Разделение</text>
+        <text x="25" y="245" fill="#475569" font-size="8">Behavior — когда</text>
+        <text x="25" y="260" fill="#475569" font-size="8">Utility — что атаковать</text>
+        <text x="25" y="275" fill="#475569" font-size="8">ML — как двигаться</text>
+        <text x="25" y="290" fill="#475569" font-size="8">Эвристика — уклонение</text>
+        <rect x="200" y="205" width="175" height="100" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+        <text x="287" y="225" text-anchor="middle" fill="#92400e" font-size="9" font-weight="bold">Противники HFSM</text>
+        <text x="210" y="245" fill="#475569" font-size="8">блуждание → бой</text>
+        <text x="210" y="260" fill="#475569" font-size="8">преследование / атака</text>
+        <text x="210" y="275" fill="#475569" font-size="8">отступление при низком HP</text>
+        <text x="210" y="290" fill="#475569" font-size="8">дешёвая массовая модель</text>
+        <rect x="15" y="320" width="360" height="95" rx="8" fill="#e2e8f0"/>
+        <text x="195" y="342" text-anchor="middle" fill="#0f172a" font-size="9" font-weight="bold">17 наблюдений → 4 действия</text>
+        <text x="195" y="360" text-anchor="middle" fill="#475569" font-size="8">дистанция · отступление · стрейф</text>
+        <text x="195" y="378" text-anchor="middle" fill="#475569" font-size="8">RL только для микрозадачи позиционирования</text>
+        <text x="195" y="400" text-anchor="middle" fill="#64748b" font-size="8">не end-to-end управление всем NPC</text>
+      </svg>
+    </div>
+    <div class="num">5 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 6 -->
+  <section class="slide">
+    <h2>Задача 3. Обучение ML-компонента</h2>
+    <ul>
+      <li>Создана сцена ML_Training_Arena с эпизодами до 90 секунд и постепенным усложнением волн.</li>
+      <li>Агент AllyPosition использует 17 наблюдений и 4 непрерывных действия.</li>
+      <li>Обучение выполнено алгоритмом PPO до 1 000 054 шагов, результат экспортирован в ONNX.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="24" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="bold">Контур обучения PPO</text>
+        <rect x="10" y="40" width="80" height="55" rx="8" fill="#eff6ff" stroke="#2563eb"/><text x="50" y="62" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Arena</text><text x="50" y="78" text-anchor="middle" fill="#475569" font-size="7">90 сек</text><text x="50" y="88" text-anchor="middle" fill="#475569" font-size="7">волны</text>
+        <line x1="90" y1="67" x2="108" y2="67" stroke="#2563eb" stroke-width="2"/>
+        <rect x="110" y="40" width="75" height="55" rx="8" fill="#fef9c3" stroke="#ca8a04"/><text x="147" y="62" text-anchor="middle" fill="#92400e" font-size="8" font-weight="bold">17 набл.</text><text x="147" y="78" text-anchor="middle" fill="#475569" font-size="7">угрозы</text><text x="147" y="88" text-anchor="middle" fill="#475569" font-size="7">HP / мана</text>
+        <line x1="185" y1="67" x2="203" y2="67" stroke="#2563eb" stroke-width="2"/>
+        <rect x="205" y="40" width="70" height="55" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="240" y="65" text-anchor="middle" fill="#1e40af" font-size="9" font-weight="bold">PPO</text><text x="240" y="82" text-anchor="middle" fill="#475569" font-size="7">1M шагов</text>
+        <line x1="275" y1="67" x2="293" y2="67" stroke="#2563eb" stroke-width="2"/>
+        <rect x="295" y="40" width="85" height="55" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="337" y="62" text-anchor="middle" fill="#166534" font-size="8" font-weight="bold">ONNX</text><text x="337" y="78" text-anchor="middle" fill="#475569" font-size="7">Inference</text><text x="337" y="88" text-anchor="middle" fill="#475569" font-size="7">в игре</text>
+        <path d="M 337 95 Q 337 130 240 130 Q 147 130 50 95" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="195" y="145" text-anchor="middle" fill="#64748b" font-size="8">цикл: награда → обновление политики</text>
+        <rect x="15" y="160" width="175" height="110" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="102" y="180" text-anchor="middle" fill="#0f172a" font-size="9" font-weight="bold">4 действия</text>
+        <text x="25" y="200" fill="#475569" font-size="8">1. дистанция до цели</text>
+        <text x="25" y="216" fill="#475569" font-size="8">2. отступление (низкое HP)</text>
+        <text x="25" y="232" fill="#475569" font-size="8">3. направление стрейфа</text>
+        <text x="25" y="248" fill="#475569" font-size="8">4. интенсивность стрейфа</text>
+        <text x="25" y="264" fill="#64748b" font-size="7">не прямое управление координатами</text>
+        <rect x="200" y="160" width="175" height="110" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+        <text x="287" y="180" text-anchor="middle" fill="#92400e" font-size="9" font-weight="bold">Вознаграждение</text>
+        <text x="210" y="200" fill="#475569" font-size="8">+ дистанция, уклонение</text>
+        <text x="210" y="216" fill="#475569" font-size="8">+ зачистка волны</text>
+        <text x="210" y="232" fill="#475569" font-size="8">− урон, смерть</text>
+        <text x="210" y="248" fill="#475569" font-size="8">− отдаление от лидера</text>
+        <text x="210" y="264" fill="#64748b" font-size="7">без штрафа за время эпизода</text>
+        <rect x="15" y="285" width="360" height="130" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+        <text x="195" y="308" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="bold">Режимы и результат</text>
+        <text x="195" y="328" text-anchor="middle" fill="#475569" font-size="8">Disabled · Heuristic · Training · Inference</text>
+        <text x="195" y="348" text-anchor="middle" fill="#475569" font-size="8">ally_headless_v1 — успешный прогон</text>
+        <text x="195" y="368" text-anchor="middle" fill="#475569" font-size="8">устойчивая политика ~600 000 шагов</text>
+        <text x="195" y="388" text-anchor="middle" fill="#475569" font-size="8">с 900 000 — без смертей агента</text>
+        <text x="195" y="408" text-anchor="middle" fill="#64748b" font-size="8">единый префаб в игре и на арене</text>
+      </svg>
+    </div>
+    <div class="num">6 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 7 -->
+  <section class="slide">
+    <h2>Задача 4. Тестирование и результаты</h2>
+    <ul>
+      <li>Сравнены эвристический и обученный режимы на 30 эпизодах максимальной сложности.</li>
+      <li>Успешность выросла с 90% до 100%; смерти агента снизились с 3 до 0.</li>
+      <li>Средняя награда выросла с 4,01 до 5,49, стандартное отклонение снизилось с 5,34 до 1,28.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="22" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold">30 эпизодов, макс. сложность</text>
+        <text x="195" y="38" text-anchor="middle" fill="#64748b" font-size="8">2 Golem + 3 Dark Mage</text>
+        <text x="60" y="58" fill="#334155" font-size="9" font-weight="bold">Успешность %</text>
+        <line x1="30" y1="170" x2="185" y2="170" stroke="#64748b"/><line x1="30" y1="80" x2="30" y2="170" stroke="#64748b"/>
+        <rect x="55" y="98" width="40" height="72" fill="#fca5a5"/><text x="75" y="90" text-anchor="middle" fill="#991b1b" font-size="10" font-weight="bold">90</text>
+        <text x="75" y="188" text-anchor="middle" fill="#64748b" font-size="8">эврист.</text>
+        <rect x="120" y="80" width="40" height="90" fill="#86efac"/><text x="140" y="72" text-anchor="middle" fill="#166534" font-size="10" font-weight="bold">100</text>
+        <text x="140" y="188" text-anchor="middle" fill="#64748b" font-size="8">обучен.</text>
+        <text x="260" y="58" fill="#334155" font-size="9" font-weight="bold">Средняя награда</text>
+        <line x1="200" y1="170" x2="370" y2="170" stroke="#64748b"/><line x1="200" y1="80" x2="200" y2="170" stroke="#64748b"/>
+        <rect x="225" y="118" width="40" height="52" fill="#fca5a5"/><text x="245" y="110" text-anchor="middle" fill="#991b1b" font-size="9" font-weight="bold">4,01</text>
+        <text x="245" y="188" text-anchor="middle" fill="#64748b" font-size="8">эврист.</text>
+        <rect x="290" y="102" width="40" height="68" fill="#86efac"/><text x="310" y="94" text-anchor="middle" fill="#166534" font-size="9" font-weight="bold">5,49</text>
+        <text x="310" y="188" text-anchor="middle" fill="#64748b" font-size="8">обучен.</text>
+        <rect x="15" y="205" width="360" height="200" rx="6" fill="#fff" stroke="#94a3b8"/>
+        <rect x="15" y="205" width="360" height="22" fill="#dbeafe"/>
+        <text x="90" y="220" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Метрика</text>
+        <text x="195" y="220" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Эвристика</text>
+        <text x="290" y="220" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Обученная</text>
+        <text x="350" y="220" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Δ</text>
+        <text x="90" y="245" text-anchor="middle" fill="#475569" font-size="8">Зачисток</text><text x="195" y="245" text-anchor="middle" fill="#475569" font-size="8">27/30</text><text x="290" y="245" text-anchor="middle" fill="#475569" font-size="8">30/30</text><text x="350" y="245" text-anchor="middle" fill="#16a34a" font-size="8">+3</text>
+        <text x="90" y="268" text-anchor="middle" fill="#475569" font-size="8">Смертей</text><text x="195" y="268" text-anchor="middle" fill="#475569" font-size="8">3</text><text x="290" y="268" text-anchor="middle" fill="#475569" font-size="8">0</text><text x="350" y="268" text-anchor="middle" fill="#16a34a" font-size="8">−3</text>
+        <text x="90" y="291" text-anchor="middle" fill="#475569" font-size="8">Ст. откл.</text><text x="195" y="291" text-anchor="middle" fill="#475569" font-size="8">5,34</text><text x="290" y="291" text-anchor="middle" fill="#475569" font-size="8">1,28</text><text x="350" y="291" text-anchor="middle" fill="#16a34a" font-size="8">−4,06</text>
+        <text x="90" y="314" text-anchor="middle" fill="#475569" font-size="8">Мин. награда</text><text x="195" y="314" text-anchor="middle" fill="#475569" font-size="8">−11,83</text><text x="290" y="314" text-anchor="middle" fill="#475569" font-size="8">1,83</text><text x="350" y="314" text-anchor="middle" fill="#16a34a" font-size="8">+13,66</text>
+        <text x="195" y="395" text-anchor="middle" fill="#166534" font-size="10" font-weight="bold">Обученная политика стабильнее</text>
+      </svg>
+    </div>
+    <div class="num">7 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 8 -->
+  <section class="slide">
+    <h2>Задача 5. Перспективы развития</h2>
+    <ul>
+      <li>Процедурная генерация уровней для повышения реиграбельности и разнообразия тренировочных ситуаций.</li>
+      <li>Расширение контента: новые классы, способности, предметы, враги и профили поведения.</li>
+      <li>Перспектива многопользовательского режима с серверной инфраструктурой.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="26" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="bold">Дорожная карта</text>
+        <line x1="30" y1="120" x2="360" y2="120" stroke="#cbd5e1" stroke-width="4"/>
+        <circle cx="50" cy="120" r="8" fill="#2563eb"/>
+        <rect x="10" y="50" width="80" height="55" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="50" y="72" text-anchor="middle" fill="#1e40af" font-size="8" font-weight="bold">Сейчас</text>
+        <text x="50" y="88" text-anchor="middle" fill="#475569" font-size="7">прототип</text>
+        <text x="50" y="98" text-anchor="middle" fill="#475569" font-size="7">гибридный ИИ</text>
+        <circle cx="150" cy="120" r="8" fill="#2563eb"/>
+        <rect x="105" y="140" width="90" height="55" rx="8" fill="#e0e7ff" stroke="#4f46e5"/>
+        <text x="150" y="162" text-anchor="middle" fill="#3730a3" font-size="8" font-weight="bold">Контент</text>
+        <text x="150" y="178" text-anchor="middle" fill="#475569" font-size="7">классы · враги</text>
+        <text x="150" y="188" text-anchor="middle" fill="#475569" font-size="7">способности</text>
+        <circle cx="250" cy="120" r="8" fill="#2563eb"/>
+        <rect x="200" y="50" width="100" height="55" rx="8" fill="#fef3c7" stroke="#d97706"/>
+        <text x="250" y="72" text-anchor="middle" fill="#92400e" font-size="8" font-weight="bold">PCG</text>
+        <text x="250" y="88" text-anchor="middle" fill="#475569" font-size="7">процедурные</text>
+        <text x="250" y="98" text-anchor="middle" fill="#475569" font-size="7">подземелья</text>
+        <circle cx="340" cy="120" r="8" fill="#2563eb"/>
+        <rect x="295" y="140" width="85" height="55" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="337" y="162" text-anchor="middle" fill="#166534" font-size="8" font-weight="bold">Мультиплеер</text>
+        <text x="337" y="178" text-anchor="middle" fill="#475569" font-size="7">серверная</text>
+        <text x="337" y="188" text-anchor="middle" fill="#475569" font-size="7">кооператив</text>
+        <rect x="15" y="220" width="360" height="190" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="195" y="242" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="bold">SWOT-направления</text>
+        <text x="25" y="264" fill="#475569" font-size="8">SO — ниша качественных roguelike с умными союзниками</text>
+        <text x="25" y="282" fill="#475569" font-size="8">WO — издатель, краудфандинг (Steam, Itch.io)</text>
+        <text x="25" y="300" fill="#475569" font-size="8">ST — сообщество ранних пользователей</text>
+        <text x="25" y="318" fill="#475569" font-size="8">WT — нишевая аудитория, поэтапный релиз</text>
+        <text x="25" y="344" fill="#64748b" font-size="8">Модульность: ScriptableObject-профили</text>
+        <text x="25" y="362" fill="#64748b" font-size="8">ONNX Inference в игровом процессе</text>
+        <text x="25" y="380" fill="#64748b" font-size="8">PCG расширяет тренировочные ситуации для RL</text>
+      </svg>
+    </div>
+    <div class="num">8 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 9 -->
+  <section class="slide">
+    <h2>Задача 6. Безопасность жизнедеятельности</h2>
+    <ul>
+      <li>Рассмотрены риски серверной инфраструктуры: электротравмы, пожарная опасность, шум, микроклимат и статические перегрузки.</li>
+      <li>Предложены меры: УЗО, защитное зануление, газовое пожаротушение, вынос рабочего места оператора и поддержание микроклимата 20-22 °C.</li>
+    </ul>
+    <p class="small">Фраза для доклада: Для безопасной эксплуатации перспективной серверной инфраструктуры предложены меры электробезопасности, пожарной защиты, снижения шума и поддержания нормального микроклимата.</p>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="24" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="bold">Серверная (категория В)</text>
+        <rect x="15" y="38" width="240" height="175" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+        <rect x="25" y="50" width="95" height="150" fill="#dbeafe" stroke="#3b82f6"/><text x="72" y="68" text-anchor="middle" fill="#1d4ed8" font-size="7">холодный</text>
+        <rect x="130" y="50" width="95" height="150" fill="#fee2e2" stroke="#ef4444"/><text x="177" y="68" text-anchor="middle" fill="#b91c1c" font-size="7">горячий</text>
+        <rect x="40" y="75" width="18" height="110" fill="#475569"/><rect x="65" y="75" width="18" height="110" fill="#475569"/>
+        <rect x="145" y="75" width="18" height="110" fill="#475569"/><rect x="170" y="75" width="18" height="110" fill="#475569"/>
+        <rect x="265" y="50" width="110" height="80" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="320" y="72" text-anchor="middle" fill="#166534" font-size="8" font-weight="bold">Диспетчерская</text>
+        <text x="320" y="88" text-anchor="middle" fill="#475569" font-size="7">вне шума</text>
+        <text x="320" y="100" text-anchor="middle" fill="#475569" font-size="7">20–22 °C</text>
+        <text x="320" y="112" text-anchor="middle" fill="#475569" font-size="7">40–60 % влажн.</text>
+        <rect x="265" y="140" width="50" height="24" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="290" y="156" text-anchor="middle" fill="#334155" font-size="7">УЗО</text>
+        <rect x="325" y="140" width="50" height="24" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="350" y="156" text-anchor="middle" fill="#334155" font-size="7">ГПТ</text>
+        <rect x="15" y="225" width="175" height="90" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+        <text x="102" y="245" text-anchor="middle" fill="#9a3412" font-size="9" font-weight="bold">Опасные факторы</text>
+        <text x="25" y="263" fill="#475569" font-size="8">электротравмы · пожар</text>
+        <text x="25" y="279" fill="#475569" font-size="8">шум 70–85 дБА</text>
+        <text x="25" y="295" fill="#475569" font-size="8">ЭМИ · перегрев · статика</text>
+        <rect x="200" y="225" width="175" height="90" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+        <text x="287" y="245" text-anchor="middle" fill="#166534" font-size="9" font-weight="bold">Мероприятия</text>
+        <text x="210" y="263" fill="#475569" font-size="8">зануление · ИБП 15 мин</text>
+        <text x="210" y="279" fill="#475569" font-size="8">группа III · LSZH-кабели</text>
+        <text x="210" y="295" fill="#475569" font-size="8">перерывы · наушники</text>
+        <rect x="15" y="330" width="360" height="85" rx="6" fill="#e2e8f0"/>
+        <text x="195" y="352" text-anchor="middle" fill="#0f172a" font-size="9" font-weight="bold">Нормативная база</text>
+        <text x="195" y="372" text-anchor="middle" fill="#475569" font-size="8">ГОСТ 12.0.003 · ПУЭ · СанПиН 2.2.4.3359-16</text>
+        <text x="195" y="390" text-anchor="middle" fill="#475569" font-size="8">СП 12.13130 · СП 484/485.1311500</text>
+        <text x="195" y="408" text-anchor="middle" fill="#64748b" font-size="8">для перспективного мультиплеера</text>
+      </svg>
+    </div>
+    <div class="num">9 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 10 -->
+  <section class="slide">
+    <h2>Задача 6. Экономическое обоснование</h2>
+    <ul>
+      <li>Трудоемкость проекта: 704 человеко-часа.</li>
+      <li>Общие инвестиции: 816 352,57 руб.</li>
+      <li>Расчетный срок окупаемости: 6 месяцев; чистый дисконтированный доход: 84 212 руб.</li>
+    </ul>
+    <p class="small">Фраза для доклада: Экономический расчет показал, что при инвестициях 816 352,57 рубля проект окупается на шестой месяц и имеет положительный чистый дисконтированный доход 84 212 рубля.</p>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="24" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="bold">Экономика проекта</text>
+        <circle cx="130" cy="150" r="85" fill="none" stroke="#e2e8f0" stroke-width="30"/>
+        <circle cx="130" cy="150" r="85" fill="none" stroke="#2563eb" stroke-width="30" stroke-dasharray="265 534" transform="rotate(-90 130 150)"/>
+        <circle cx="130" cy="150" r="85" fill="none" stroke="#7c3aed" stroke-width="30" stroke-dasharray="196 603" stroke-dashoffset="-265" transform="rotate(-90 130 150)"/>
+        <circle cx="130" cy="150" r="85" fill="none" stroke="#f59e0b" stroke-width="30" stroke-dasharray="60 739" stroke-dashoffset="-461" transform="rotate(-90 130 150)"/>
+        <circle cx="130" cy="150" r="50" fill="#f8fafc"/>
+        <text x="130" y="145" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">816 352</text>
+        <text x="130" y="160" text-anchor="middle" fill="#64748b" font-size="8">руб.</text>
+        <rect x="240" y="55" width="140" height="130" rx="6" fill="#fff" stroke="#94a3b8"/>
+        <rect x="250" y="68" width="10" height="10" fill="#2563eb"/><text x="268" y="77" fill="#334155" font-size="8">Труд 49,6%</text>
+        <rect x="250" y="88" width="10" height="10" fill="#7c3aed"/><text x="268" y="97" fill="#334155" font-size="8">Маркетинг 36,7%</text>
+        <rect x="250" y="108" width="10" height="10" fill="#f59e0b"/><text x="268" y="117" fill="#334155" font-size="8">Материал. 11,2%</text>
+        <rect x="250" y="128" width="10" height="10" fill="#94a3b8"/><text x="268" y="137" fill="#334155" font-size="8">Прочие 2,5%</text>
+        <text x="310" y="170" text-anchor="middle" fill="#64748b" font-size="8">704 чел.-ч</text>
+        <rect x="15" y="250" width="175" height="160" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+        <text x="102" y="272" text-anchor="middle" fill="#1e40af" font-size="9" font-weight="bold">Показатели</text>
+        <text x="25" y="294" fill="#475569" font-size="8">Цена: 500 руб.</text>
+        <text x="25" y="312" fill="#475569" font-size="8">Окупаемость: 6 мес.</text>
+        <text x="25" y="330" fill="#475569" font-size="8">ЧДД: 84 212 руб.</text>
+        <text x="25" y="348" fill="#475569" font-size="8">Ставка: 16,5%</text>
+        <text x="25" y="366" fill="#475569" font-size="8">Пик: 600 копий/мес.</text>
+        <text x="25" y="392" fill="#64748b" font-size="7">реклама 100 000 руб./мес.</text>
+        <rect x="200" y="250" width="175" height="160" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="287" y="272" text-anchor="middle" fill="#166534" font-size="9" font-weight="bold">ЧДД по месяцам</text>
+        <line x1="215" y1="380" x2="360" y2="380" stroke="#64748b"/>
+        <polyline points="215,380 240,350 265,360 290,365 315,370 340,375" fill="none" stroke="#16a34a" stroke-width="2"/>
+        <circle cx="340" cy="375" r="4" fill="#16a34a"/>
+        <text x="287" y="400" text-anchor="middle" fill="#166534" font-size="8" font-weight="bold">окупаемость — мес. 6</text>
+      </svg>
+    </div>
+    <div class="num">10 / 11</div>
+  </section>
+
+  <!-- СЛАЙД 11 -->
+  <section class="slide">
+    <h2>Заключение</h2>
+    <ul>
+      <li>Цель достигнута: разработан игровой прототип Dungeon Seeker с интеллектуальной системой NPC.</li>
+      <li>Решены все задачи: выбран стек, разработана архитектура, реализованы базовые механики и гибридный ИИ.</li>
+      <li>Обученная ONNX-модель повысила устойчивость поведения союзника по сравнению с эвристикой.</li>
+      <li>Проведены тестирование, оценка перспектив, анализ БЖД и экономическое обоснование.</li>
+    </ul>
+    <div class="visual">
+      <svg viewBox="0 0 390 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="390" height="430" fill="#f8fafc"/>
+        <text x="195" y="26" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="bold">Все задачи выполнены</text>
+        <rect x="15" y="42" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="28" y="58" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="45" y="58" fill="#166534" font-size="9" font-weight="bold">1. Выбор Unity 6</text><text x="45" y="72" fill="#475569" font-size="8">гибридный подход</text>
+        <rect x="195" y="42" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="208" y="58" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="225" y="58" fill="#166534" font-size="9" font-weight="bold">2. Архитектура</text><text x="225" y="72" fill="#475569" font-size="8">компонентная модель</text>
+        <rect x="15" y="90" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="28" y="106" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="45" y="106" fill="#166534" font-size="9" font-weight="bold">3. ИИ NPC</text><text x="45" y="120" fill="#475569" font-size="8">Behavior + ML + Utility</text>
+        <rect x="195" y="90" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="208" y="106" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="225" y="106" fill="#166534" font-size="9" font-weight="bold">4. Тестирование</text><text x="225" y="120" fill="#475569" font-size="8">90% → 100%</text>
+        <rect x="15" y="138" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="28" y="154" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="45" y="154" fill="#166534" font-size="9" font-weight="bold">5. Перспективы</text><text x="45" y="168" fill="#475569" font-size="8">PCG · мультиплеер</text>
+        <rect x="195" y="138" width="170" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="208" y="154" fill="#16a34a" font-size="12" font-weight="bold">✓</text><text x="225" y="154" fill="#166534" font-size="9" font-weight="bold">6. БЖД / экономика</text><text x="225" y="168" fill="#475569" font-size="8">6 мес. окупаемость</text>
+        <rect x="40" y="195" width="310" height="55" rx="10" fill="#1e40af"/>
+        <text x="195" y="218" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Цель достигнута</text>
+        <text x="195" y="236" text-anchor="middle" fill="#bfdbfe" font-size="9">Dungeon Seeker + гибридный ИИ союзника</text>
+        <rect x="15" y="265" width="175" height="145" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+        <text x="102" y="285" text-anchor="middle" fill="#1e40af" font-size="9" font-weight="bold">Результат</text>
+        <text x="25" y="305" fill="#475569" font-size="8">рабочий прототип</text>
+        <text x="25" y="321" fill="#475569" font-size="8">ONNX AllyPosition</text>
+        <text x="25" y="337" fill="#475569" font-size="8">модульная архитектура</text>
+        <text x="25" y="353" fill="#475569" font-size="8">подтверждённое преимущество RL</text>
+        <text x="25" y="375" fill="#64748b" font-size="7">научная новизна:</text>
+        <text x="25" y="390" fill="#64748b" font-size="7">асимметричный ИИ + контекстное RL</text>
+        <rect x="200" y="265" width="175" height="145" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+        <text x="287" y="285" text-anchor="middle" fill="#92400e" font-size="9" font-weight="bold">Развитие</text>
+        <text x="210" y="305" fill="#475569" font-size="8">процедурная генерация</text>
+        <text x="210" y="321" fill="#475569" font-size="8">расширение группового ИИ</text>
+        <text x="210" y="337" fill="#475569" font-size="8">коммерциализация (Steam)</text>
+        <text x="210" y="353" fill="#475569" font-size="8">мультипользовательский режим</text>
+      </svg>
+    </div>
+    <div class="num">11 / 11</div>
+  </section>
+
+</body>
+</html>

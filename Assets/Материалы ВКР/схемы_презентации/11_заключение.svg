@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .title { font: bold 22px Arial, sans-serif; fill: #0f172a; }
+      .done { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 10; }
+      .txt { font: 13px Arial, sans-serif; fill: #1e293b; }
+      .lbl { font: bold 14px Arial, sans-serif; fill: #0f172a; }
+      .check { font: bold 18px Arial, sans-serif; fill: #16a34a; }
+      .result { fill: #1e40af; stroke: #1e3a8a; stroke-width: 2; rx: 14; }
+      .result-t { font: bold 16px Arial, sans-serif; fill: #fff; }
+    </style>
+  </defs>
+  <rect width="900" height="520" fill="#f8fafc"/>
+  <text x="450" y="38" text-anchor="middle" class="title">0:;NG5=85: 2A5 7040G8 2K?>;=5=K</text>
+
+  <rect x="60" y="70" width="250" height="56" class="done"/>
+  <text x="78" y="94" class="check"></text>
+  <text x="100" y="94" class="lbl">1. K1@0= Unity 6 + 381@84=K9 ?>4E>4</text>
+  <text x="100" y="114" class="txt">!@02=8B5;L=K9 0=0;87 4286:>2</text>
+
+  <rect x="330" y="70" width="250" height="56" class="done"/>
+  <text x="348" y="94" class="check"></text>
+  <text x="370" y="94" class="lbl">2. @E8B5:BC@0 ?@8;>65=8O</text>
+  <text x="370" y="114" class="txt">59<?;59, UI, ScriptableObject</text>
+
+  <rect x="600" y="70" width="250" height="56" class="done"/>
+  <text x="618" y="94" class="check"></text>
+  <text x="640" y="94" class="lbl">3.  NPC @50;87>20=</text>
+  <text x="640" y="114" class="txt">Behavior + Utility AI + ML-Agents</text>
+
+  <rect x="60" y="145" width="250" height="56" class="done"/>
+  <text x="78" y="169" class="check"></text>
+  <text x="100" y="169" class="lbl">4. "5AB8@>20=85 ?@>2545=></text>
+  <text x="100" y="189" class="txt">90% � 100%, =03@040 4,01 � 5,49</text>
+
+  <rect x="330" y="145" width="250" height="56" class="done"/>
+  <text x="348" y="169" class="check"></text>
+  <text x="370" y="169" class="lbl">5. 5@A?5:B82K >F5=5=K</text>
+  <text x="370" y="189" class="txt">PCG, :>=B5=B, <C;LB8?;55@</text>
+
+  <rect x="600" y="145" width="250" height="56" class="done"/>
+  <text x="618" y="169" class="check"></text>
+  <text x="640" y="169" class="lbl">6.  8 M:>=><8:0</text>
+  <text x="640" y="189" class="txt">816 352 @C1., >:C?05<>ABL 6 <5A.</text>
+
+  <rect x="120" y="240" width="660" height="90" class="result"/>
+  <text x="450" y="272" text-anchor="middle" class="result-t">&5;L 4>AB83=CB0</text>
+  <text x="450" y="298" text-anchor="middle" class="result-t" font-size="14">Dungeon Seeker  ?@>B>B8? 2D roguelike RPG A CAB>9G82K< 381@84=K<  A>N7=8:0</text>
+  <text x="450" y="318" text-anchor="middle" class="result-t" font-size="13">0CG=0O =>287=0: 0A8<<5B@8G=0O -0@E8B5:BC@0 + :>=B5:AB=>5 RL-8A?>;=5=85</text>
+
+  <rect x="80" y="360" width="360" height="120" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5" rx="10"/>
+  <text x="260" y="386" text-anchor="middle" class="lbl">@0:B8G5A:89 @57C;LB0B</text>
+  <text x="100" y="412" class="txt">"  01>G89 83@>2>9 ?@>B>B8?</text>
+  <text x="100" y="432" class="txt">" ONNX-<>45;L AllyPosition</text>
+  <text x="100" y="452" class="txt">" >4C;L=0O @0AH8@O5<0O 0@E8B5:BC@0</text>
+  <text x="100" y="472" class="txt">" -:A?5@8<5=B0;L=> ?>4B25@64Q==>5 ?@58<CI5AB2> RL</text>
+
+  <rect x="460" y="360" width="360" height="120" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5" rx="10"/>
+  <text x="640" y="386" text-anchor="middle" class="lbl">0;L=59H55 @0728B85</text>
+  <text x="480" y="412" class="txt">" @>F54C@=0O 35=5@0F8O C@>2=59</text>
+  <text x="480" y="432" class="txt">"  0AH8@5=85 3@C??>2>3> </text>
+  <text x="480" y="452" class="txt">" ><<5@F80;870F8O (Steam, DLC)</text>
+  <text x="480" y="472" class="txt">" =>3>?>;L7>20B5;LA:89 @568<</text>
+</svg>

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DarkMage
   m_EditorClassIdentifier: 
   EnemyName: Dark Mage
-  EnemyMaxHealth: 100
+  EnemyMaxHealth: 60
   EnemyBaseAttack: 15
   EnableRoam: 1
   EnableChangeStartPos: 1

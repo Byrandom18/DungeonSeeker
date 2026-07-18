@@ -1,0 +1,134 @@
+<mxfile host="app.diagrams.net" modified="2026-06-15T00:00:00.000Z" agent="Cursor" version="22.1.0">
+  <diagram id="fig-3-1" name="Рисунок 3.1 — Структура Dungeon Seeker">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Рисунок 3.1 — Общая структура программного продукта Dungeon Seeker&#xa;и место интеллектуальной системы NPC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="184" y="16" width="800" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="root_box" value="Программный продукт Dungeon Seeker&#xa;(Unity 6, C#, компонентная архитектура)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;verticalAlign=top;spacingTop=8;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="80" y="72" width="1008" height="640" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ui_layer" value="Слой пользовательского интерфейса (UI Layer)&#xa;InventoryController, InventoryPage, PartyEquipmentView, AbilityBarUI,&#xa;EquipmentSlotCell, UpgradeTooltip, описание предметов" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=12;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="120" y="108" width="928" height="56" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="game_layer" value="Геймплейный слой (Gameplay Layer)&#xa;PlayerStats, PlayerMovement, PlayerCombat, ActiveWeapon, AbilitySystem,&#xa;EquipmentComponent, PartyManager, RunSystem, EnemyAI, Projectile, NavMeshAgent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=12;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="928" height="56" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_frame" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;dashed=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="252" width="928" height="280" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_title" value="Интеллектуальная подсистема NPC (ядро исследования)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a3d6d;" vertex="1" parent="1">
+          <mxGeometry x="136" y="258" width="420" height="24" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_brain" value="AllyAIBrain&#xa;(хаб принятия решений)&#xa;&#xa;• CombatSnapshot&#xa;• выбор цели и способности&#xa;• AttackDistance + ML-масштаб" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=#4d6a9a;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="440" y="292" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_behavior" value="Unity Behavior&#xa;(оркестрация)&#xa;&#xa;Граф Ally AI.asset&#xa;Attack / Ability /&#xa;ML Combat Movement" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="148" y="292" width="160" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_utility" value="Utility AI&#xa;(тактический выбор)&#xa;&#xa;WeaponTargetSelector&#xa;UtilityAbilitySelector&#xa;PartyCombatCoordinator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="328" y="292" width="100" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_ml" value="ML-Agents&#xa;(PPO AllyPosition)&#xa;&#xa;AllyPositionAgent&#xa;17 obs / 4 actions&#xa;Heuristic / Training / Inference" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="660" y="292" width="170" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_move" value="Исполнение движения&#xa;&#xa;AllyMLBridge&#xa;AllyMLMovementModifier&#xa;AllyDodgeHeuristic&#xa;NavMesh 2D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="850" y="292" width="170" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_perception" value="Восприятие&#xa;&#xa;CombatPerception&#xa;ThreatPerception&#xa;EnemyProjectileRegistry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="328" y="412" width="180" height="88" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_enemy" value="ИИ противников (HFSM)&#xa;&#xa;EnemyAI&#xa;DarkMageCombat&#xa;типовые враги" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="412" width="160" height="88" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai_training" value="Среда обучения&#xa;&#xa;ML_Training_Arena&#xa;AllyTrainingEnvironment&#xa;Curriculum, ONNX" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="732" y="412" width="170" height="88" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="data_layer" value="Слой данных (Data Layer) — ScriptableObject&#xa;WeaponSO, AbilitySO, EnemySO, ItemSO, InventorySO, AllyAIProfile, DropTableSO, UpgradeRecipeSO" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=12;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="120" y="548" width="928" height="52" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ext_tools" value="Внешние средства обучения&#xa;Python, mlagents, PPO, TensorBoard, ONNX" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="616" width="280" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="scene_game" value="Игровая сцена&#xa;SampleScene&#xa;(забег, бой, UI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="616" width="200" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="scene_train" value="Тренировочная арена&#xa;ML_Training_Arena&#xa;(эпизоды, curriculum)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="720" y="616" width="200" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="leg_box" value="Общий префаб союзника AllyEntity — для игры и обучения" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=2;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="480" y="672" width="440" height="24" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e_beh_brain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="ai_behavior" target="ai_brain">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_util_brain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="ai_utility" target="ai_brain">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_brain_ml" value="параметры&#xa;позиционирования" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=9;" edge="1" parent="1" source="ai_brain" target="ai_ml">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ml_move" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="ai_ml" target="ai_move">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_perc_brain" value="снимки&#xa;боя и угроз" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;dashed=1;fontSize=9;" edge="1" parent="1" source="ai_perception" target="ai_brain">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_perc_ml" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="ai_perception" target="ai_ml">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_game_ai" value="использует" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;dashed=1;fontSize=9;exitX=0.5;exitY=0;entryX=0.25;entryY=1;" edge="1" parent="1" source="scene_game" target="ai_frame">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_train_ai" value="обучает" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;dashed=1;fontSize=9;exitX=0.5;exitY=0;entryX=0.75;entryY=1;" edge="1" parent="1" source="scene_train" target="ai_training">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ext_ml" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="ext_tools" target="ai_ml">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="580"/>
+              <mxPoint x="745" y="580"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ui_game" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeWidth=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="ui_layer" target="game_layer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_game_data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeWidth=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="game_layer" target="data_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="584" y="248"/>
+              <mxPoint x="584" y="248"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ai_game" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeWidth=1;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="ai_frame" target="game_layer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
